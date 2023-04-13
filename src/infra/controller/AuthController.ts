@@ -1,7 +1,7 @@
-import GetUserByEmail from "../../applicaction/usecase/GetUserByEmail";
+import GetUserByEmail from "../../application/usecase/user/GetUserByEmail";
 import HttpServer from "../http/HttpServer";
 
-export default class LoginController {
+export default class AuthController {
 
     constructor (
         private httpServer: HttpServer, 
@@ -11,9 +11,9 @@ export default class LoginController {
     handler () {
         this.httpServer.on('post', '/login', async (params: any, body: any) => {
             const { email } = body;
-            const userAlreadyExists = await this.getUserByEmail.execute(email);
-            if (!userAlreadyExists) throw new Error('User alreads exists');
-            return userAlreadyExists;
+            const userExists = await this.getUserByEmail.execute(email);
+            if (!userExists) throw new Error('Usuário ja cadastrado');
+            return userExists;
         });
     }
 }

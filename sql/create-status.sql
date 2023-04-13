@@ -1,29 +1,27 @@
-drop table status_de_negociacao;
+DROP TABLE IF EXISTS "status" CASCADE;
 
-create table status_de_negociacao (
-    id serial primary key,
-    description text not null unique
+CREATE TABLE IF NOT EXISTS "status" (
+    "id" SERIAL PRIMARY KEY,
+    "description" TEXT NOT NULL UNIQUE
 );
 
-insert into status_de_negociacao (description) values ("Acordo Fechado");
-insert into status_de_negociacao (description) values ("Acordo Quebrado");
-insert into status_de_negociacao (description) values ("Aditivo Enviado e Aguardando Retorno");
-insert into status_de_negociacao (description) values ("Aguardando Pagamento");
-insert into status_de_negociacao (description) values ("Aguardando Retorno da Simulação");
-insert into status_de_negociacao (description) values ("Aguardando Confecção do Aditivo");
-insert into status_de_negociacao (description) values ("Aguardando Confecção do Contrato");
-insert into status_de_negociacao (description) values ("Contrato Enviado e Aguardando Retorno");
-insert into status_de_negociacao (description) values ("Contrato Recebido");
-insert into status_de_negociacao (description) values ("Em Negociação");
-insert into status_de_negociacao (description) values ("E-mail Automático");
-insert into status_de_negociacao (description) values ("Estabelecendo Contato");
-insert into status_de_negociacao (description) values ("Não Localizado");
-insert into status_de_negociacao (description) values ("Promessa de Pagamento");
-insert into status_de_negociacao (description) values ("Promessa de Pagamento \ DR");
-insert into status_de_negociacao (description) values ("Quebra de Programação");
-insert into status_de_negociacao (description) values ("Reunião Agendada");
-insert into status_de_negociacao (description) values ("Sem Contato");
-insert into status_de_negociacao (description) values ("Sem Interesse");
-insert into status_de_negociacao (description) values ("Sem Previsão de Pagamento");
-
-select * from status_de_negociacao;
+INSERT INTO "status" ("description") VALUES ('Acordo Fechado');
+INSERT INTO "status" ("description") VALUES ('Acordo Quebrado');
+INSERT INTO "status" ("description") VALUES ('Aditivo Enviado e Aguardando Retorno');
+INSERT INTO "status" ("description") VALUES ('Aguardando Pagamento');
+INSERT INTO "status" ("description") VALUES ('Aguardando Retorno da Simulação');
+INSERT INTO "status" ("description") VALUES ('Aguardando Confecção do Aditivo');
+INSERT INTO "status" ("description") VALUES ('Aguardando Confecção do Contrato');
+INSERT INTO "status" ("description") VALUES ('Contrato Enviado e Aguardando Retorno');
+INSERT INTO "status" ("description") VALUES ('Contrato Recebido');
+INSERT INTO "status" ("description") VALUES ('Em Negociação');
+INSERT INTO "status" ("description") VALUES ('E-mail Automático');
+INSERT INTO "status" ("description") VALUES ('Estabelecendo Contato');
+INSERT INTO "status" ("description") VALUES ('Não Localizado');
+INSERT INTO "status" ("description") VALUES ('Promessa de Pagamento');
+INSERT INTO "status" ("description") VALUES ('Promessa de Pagamento \ DR');
+INSERT INTO "status" ("description") VALUES ('Quebra de Programação');
+INSERT INTO "status" ("description") VALUES ('Reunião Agendada');
+INSERT INTO "status" ("description") VALUES ('Sem Contato');
+INSERT INTO "status" ("description") VALUES ('Sem Interesse');
+INSERT INTO "status" ("description") VALUES ('Sem Previsão de Pagamento');

@@ -1,22 +1,20 @@
-drop table document;
+DROP TABLE IF EXISTS "document" CASCADE;
 
-create table document (
-	id serial primary key,
-    type text not null unique,
-    description text not null unique
+CREATE TABLE IF NOT EXISTS "document" (
+	"id" SERIAL PRIMARY KEY,
+    "type" TEXT NOT NULL UNIQUE,
+    "description" TEXT NOT NULL UNIQUE
 );
 
-insert into document (type, description) values ('DB', 'Reserva de Área');
-insert into document (type, description) values ('DC', 'Encargos Condominiais');
-insert into document (type, description) values ('DD', 'Fundo de Promoção');
-insert into document (type, description) values ('DE', 'Multa');
-insert into document (type, description) values ('DF', 'Multa Rescisória');
-insert into document (type, description) values ('DH', 'Aluguel Complementar');
-insert into document (type, description) values ('DL', 'Aluguel Mínimo');
-insert into document (type, description) values ('DT', 'Cessão e Transferência');
-insert into document (type, description) values ('DZ', 'Pagamento Manual');
-insert into document (type, description) values ('NC', 'Nota Promissória de Condomínio');
-insert into document (type, description) values ('NP', 'Nota Promissória de Aluguel');
-insert into document (type, description) values ('ZP', 'Lançamento de Pagamento');
-
-select * from document;
+INSERT INTO "document" ("type", "description") VALUES ('DB', 'Reserva de Área');
+INSERT INTO "document" ("type", "description") VALUES ('DC', 'Encargos Condominiais');
+INSERT INTO "document" ("type", "description") VALUES ('DD', 'Fundo de Promoção');
+INSERT INTO "document" ("type", "description") VALUES ('DE', 'Multa');
+INSERT INTO "document" ("type", "description") VALUES ('DF', 'Multa Rescisória');
+INSERT INTO "document" ("type", "description") VALUES ('DH', 'Aluguel Complementar');
+INSERT INTO "document" ("type", "description") VALUES ('DL', 'Aluguel Mínimo');
+INSERT INTO "document" ("type", "description") VALUES ('DT', 'Cessão e Transferência');
+INSERT INTO "document" ("type", "description") VALUES ('DZ', 'Pagamento Manual');
+INSERT INTO "document" ("type", "description") VALUES ('NC', 'Nota Promissória de Condomínio');
+INSERT INTO "document" ("type", "description") VALUES ('NP', 'Nota Promissória de Aluguel');
+INSERT INTO "document" ("type", "description") VALUES ('ZP', 'Lançamento de Pagamento');

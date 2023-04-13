@@ -1,19 +1,17 @@
-drop table warranty;
+DROP TABLE IF EXISTS "warranty" CASCADE;
 
-create table warranty (
-	id serial primary key,
-	description text not null unique
+CREATE TABLE IF NOT EXISTS "warranty" (
+	"id" SERIAL PRIMARY KEY,
+	"description" TEXT NOT NULL UNIQUE
 );
 
-insert into warranty (description) values ('Fiador');
-insert into warranty (description) values ('Carta Fiança');
-insert into warranty (description) values ('Seguro Fiança');
-insert into warranty (description) values ('Caução');
-insert into warranty (description) values ('Benfeitoria\Equipamentos');
-insert into warranty (description) values ('Sem Garantia');
-insert into warranty (description) values ('Pagamento Antecipado');
-insert into warranty (description) values ('Título de Capitalização');
-insert into warranty (description) values ('Hipoteca');
-insert into warranty (description) values ('CredPago');
-
-select * from warranty;
+INSERT INTO "warranty" ("description") VALUES ('Fiador');
+INSERT INTO "warranty" ("description") VALUES ('Carta Fiança');
+INSERT INTO "warranty" ("description") VALUES ('Seguro Fiança');
+INSERT INTO "warranty" ("description") VALUES ('Caução');
+INSERT INTO "warranty" ("description") VALUES ('Benfeitoria\Equipamentos');
+INSERT INTO "warranty" ("description") VALUES ('Sem Garantia');
+INSERT INTO "warranty" ("description") VALUES ('Pagamento Antecipado');
+INSERT INTO "warranty" ("description") VALUES ('Título de Capitalização');
+INSERT INTO "warranty" ("description") VALUES ('Hipoteca');
+INSERT INTO "warranty" ("description") VALUES ('CredPago');

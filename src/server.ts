@@ -1,23 +1,20 @@
-import GetUserById from "./applicaction/usecase/GetUserById";
-import GetUsers from "./applicaction/usecase/GetUsers";
+import GetUserById from "./application/usecase/user/GetUserById";
+import GetUsers from "./application/usecase/user/GetUsers";
 import PgPromiseAdapter from "./infra/database/PgPromiseAdapter";
 import UserRepositoryDatabase from "./infra/repository/UserRepositoryDatabase";
 import UserController from "./infra/controller/UserController";
 import ExpressAdapter from "./infra/http/ExpressAdapter";
+
 import 'dotenv/config';
-import LoginController from "./infra/controller/LoginController";
-import GetUserByEmail from "./applicaction/usecase/GetUserByEmail";
+
+const port = process.env.PORT ? Number(process.env.PORT) : 3000;
+const connectionUrl = process.env.DB_URL;
 
 const httpServer = new ExpressAdapter();
-const connection = new PgPromiseAdapter();
+const connection = new PgPromiseAdapter(connectionUrl);
 const userRepository = new UserRepositoryDatabase(connection);
 const getUsers = new GetUsers(userRepository);
 const getUserById = new GetUserById(userRepository);
-const getUserByEmail = new GetUserByEmail(userRepository);
-const userControlller = new UserController(httpServer, getUsers, getUserById);
-const loginController = new LoginController(httpServer, getUserByEmail);
-const port = 3000;
 
-// userControlller.handler();
-loginController.handler();
+new UserController(httpServer, getUsers, getUserById);
 httpServer.listen(port);

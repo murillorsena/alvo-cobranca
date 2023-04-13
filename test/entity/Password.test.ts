@@ -1,4 +1,4 @@
-import Password from "../../src/domain/entity/Password";
+import Password from "../../src/domain/value-object/user/Password";
 
 describe('Password tests', function () {
     test('Should not accept a password with less than 8 characters', function () {

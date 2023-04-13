@@ -1,6 +1,6 @@
 import HttpServer from "../http/HttpServer";
-import GetUsers from "../../applicaction/usecase/GetUsers";
-import GetUserById from "../../applicaction/usecase/GetUserById";
+import GetUsers from "../../application/usecase/user/GetUsers";
+import GetUserById from "../../application/usecase/user/GetUserById";
 
 export default class UserController {
 
@@ -8,16 +8,14 @@ export default class UserController {
         private httpServer: HttpServer, 
         private getUsers: GetUsers, 
         private getUserById: GetUserById
-    ) {}
-
-    handler () {
+    ) {
         this.httpServer.on('get', '/users', async () => {
             const output = await this.getUsers.execute();
             return output;
         });
 
         this.httpServer.on('get', '/users/:id', async (params: any, body: any) => {
-            const output = await this.getUserById.execute(params.id);
+            const output = await this.getUserById.execute({ id: params.id });
             return output;
         });
     }
