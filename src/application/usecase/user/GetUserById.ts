@@ -6,8 +6,12 @@ export default class GetUserById {
 
     async execute (input: Input): Promise<Output> {
         const user = await this.userRepository.findById(input.id);
-        if (!user) throw new Error('Usuário não encontrado');
-        return user;
+        if (!user) throw new Error("User not found");
+        return {
+            id: user.id,
+            name: user.name,
+            email: user.email
+        };
     }
 }
 

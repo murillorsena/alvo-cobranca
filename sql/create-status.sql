@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS "status" CASCADE;
 
 CREATE TABLE IF NOT EXISTS "status" (
-    "id" SERIAL PRIMARY KEY,
-    "description" TEXT NOT NULL UNIQUE
+    "id" UUID NOT NULL,
+    "description" TEXT NOT NULL UNIQUE,
+	PRIMARY KEY ("id")
 );
 
 INSERT INTO "status" ("description") VALUES ('Acordo Fechado');

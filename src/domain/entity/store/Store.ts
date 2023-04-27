@@ -1,19 +1,13 @@
-export default class Store {
-    representatives: any[];
+import { randomUUID } from "crypto";
 
-    constructor (readonly name: string) {
-        this.representatives = [];
+export default class Store {
+    readonly id: string;
+
+    constructor (
+        readonly code: string,
+        readonly name: string,
+        id?: string
+    ) {
+        this.id = id || randomUUID();
     }
 }
-
-// VESTUARIO
-// MARISA
-// RENNER
-// C&A
-// RIACHUELO
-
-// ALIMENTACAO
-// MC DONALDS
-// BURGER KING
-
-// PANVEL

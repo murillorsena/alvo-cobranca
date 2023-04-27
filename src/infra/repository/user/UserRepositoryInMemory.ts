@@ -1,5 +1,5 @@
-import UserRepository from "../../application/repository/UserRepository";
-import crypto from 'crypto';
+import UserRepository from "../../../application/repository/UserRepository";
+import crypto from "crypto";
 
 export default class UserRepositoryInMemory implements UserRepository {
     users: any[];

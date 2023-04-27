@@ -1,7 +1,9 @@
 export default class Password {
+    readonly value: string;
 
-    constructor (readonly value: string) {
-        if (!this.validate(value)) throw new Error('Senha inválida');
+    constructor (value: string) {
+        if (!this.validate(value)) throw new Error("Invalid password");
+        this.value = value;
     }
 
     validate (value: string) {

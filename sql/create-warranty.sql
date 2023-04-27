@@ -1,8 +1,9 @@
 DROP TABLE IF EXISTS "warranty" CASCADE;
 
 CREATE TABLE IF NOT EXISTS "warranty" (
-	"id" SERIAL PRIMARY KEY,
-	"description" TEXT NOT NULL UNIQUE
+	"id" UUID NOT NULL,
+	"description" TEXT NOT NULL UNIQUE,
+	PRIMARY KEY ("id")
 );
 
 INSERT INTO "warranty" ("description") VALUES ('Fiador');

@@ -5,26 +5,17 @@
 - [ ] Visualizar as informações do débito em aberto
 - [ ] Adicionar ações de cobrança junto a uma loja
 
-contato = {
-    name,
-    phone,
-    email
-};
+Store
 
-contatos = [s
-    {
-        name: 'contato1',
-        phone: 'phonecontato1',
-        email: 'emailcontato'
-    }, {
-        name: 'contato1',
-        phone: 'phonecontato1',
-        email: 'emailcontato'
-    }
-];
+- [] Uma loja deve ter um código, nome
+- [] Uma loja pode ter um ou mais representantes
 
-loja = {
-    código,
-    nome,
-    representates
-}
+Representative
+
+- [] Um representante deve ter um nome, email, telefone, endereço, ocupação (cargo), estado civil
+
+
+/login
+/signup
+/home
+/store/:code

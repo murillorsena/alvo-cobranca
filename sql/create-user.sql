@@ -1,10 +1,11 @@
 DROP TABLE IF EXISTS "user" CASCADE;
 
 CREATE TABLE IF NOT EXISTS "user" (
-	"id" UUID PRIMARY KEY,
+	"id" UUID NOT NULL,
 	"name" TEXT NOT NULL,
 	"email" TEXT NOT NULL UNIQUE,
-	"password" TEXT NOT NULL
+	"password" TEXT NOT NULL,
+	PRIMARY KEY ("id")
 );
 
 INSERT INTO "user" ("id", "name", "email", "password") VALUES ('b3edf713-bffe-4f4a-97eb-7c71e63e4091', 'user1', 'user1@mail.com', 'user1password');

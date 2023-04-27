@@ -1,6 +1,5 @@
-import HttpServer from './HttpServer';
-import { HttpMethod } from './HttpMethod';
-import express, { Express, Request, Response } from 'express';
+import express, { Express, Request, Response } from "express";
+import { HttpServer, HttpMethod } from "./HttpServer";
 
 export default class ExpressAdapter implements HttpServer {
     private app: Express;

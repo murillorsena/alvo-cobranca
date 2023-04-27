@@ -1,13 +1,14 @@
 DROP TABLE IF EXISTS "document" CASCADE;
 
 CREATE TABLE IF NOT EXISTS "document" (
-	"id" SERIAL PRIMARY KEY,
+	"id" UUID NOT NULL,
     "type" TEXT NOT NULL UNIQUE,
-    "description" TEXT NOT NULL UNIQUE
+    "description" TEXT NOT NULL UNIQUE,
+	PRIMARY KEY ("id")
 );
 
 INSERT INTO "document" ("type", "description") VALUES ('DB', 'Reserva de Área');
-INSERT INTO "document" ("type", "description") VALUES ('DC', 'Encargos Condominiais');
+INSERT INTO "document" ("type", "description") VALUES ('DC', 'Encargo Condominial');
 INSERT INTO "document" ("type", "description") VALUES ('DD', 'Fundo de Promoção');
 INSERT INTO "document" ("type", "description") VALUES ('DE', 'Multa');
 INSERT INTO "document" ("type", "description") VALUES ('DF', 'Multa Rescisória');

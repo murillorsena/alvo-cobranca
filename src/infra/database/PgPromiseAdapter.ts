@@ -1,5 +1,5 @@
-import Connection from './Connection';
-import pgp from 'pg-promise';
+import Connection from "./Connection";
+import pgp from "pg-promise";
 
 export default class PgPromiseAdapter implements Connection {
     private connection: any;

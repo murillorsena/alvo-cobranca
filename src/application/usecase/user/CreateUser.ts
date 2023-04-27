@@ -1,20 +1,24 @@
 import User from "../../../domain/entity/user/User";
 import UserRepository from "../../repository/UserRepository";
+import Hasher from "../../../infra/hasher/Hasher";
 
 export default class CreateUser {
 
-    constructor (private userRepository: UserRepository) {}
+    constructor (
+        private userRepository: UserRepository,
+        private hasher: Hasher
+    ) {}
 
     async execute (input: Input): Promise<Output> {
-        const { name, email, password } = input;
-        const userExists = await this.userRepository.findByEmail(email);
-        if (userExists) throw new Error("Usuário já cadastrado");
-        const user = new User(name, email, password);
-        await this.userRepository.create(user.id, user.name.value, user.email.value, user.password.value);
+        const userExists = await this.userRepository.findByEmail(input.email);
+        if (userExists) throw new Error("User already exists");
+        const user = new User(input.name, input.email, input.password);
+        const hashedPassword = await this.hasher.encrypt(user.password.value);
+        await this.userRepository.create(user.id, user.name.value, user.email.value, hashedPassword);
         return {
-            id: '',
-            name: '',
-            email: ''
+            id: user.id,
+            name: user.name.value,
+            email: user.email.value
         };
     }
 }
