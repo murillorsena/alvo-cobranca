@@ -1,13 +1,11 @@
 <script setup lang="ts">
-    import AuthService from "../services/AuthService";
-    import { inject, reactive } from 'vue';
+    import { useAuthStore } from "../stores/AuthStore";
+    import { ref } from 'vue';
 
-    const authService = inject("AuthService") as AuthService;
+    const email = ref("");
+    const password = ref("");
 
-    const user = reactive({
-        email: "mail@mail.com",
-        password: "12345678"
-    });
+    const authStore = useAuthStore();
 </script>
 
 <template>
@@ -16,13 +14,13 @@
         <form>
             <label for="email">Email</label>
             <div>
-                <input type="email" required="true" v-model="user.email"/>
+                <input type="email" required="true" v-model="email"/>
             </div>
             <label for="password">Senha</label>
             <div>
-                <input type="password" required="true" minlength="8" maxlength="20" v-model="user.password"/>
+                <input type="password" required="true" minlength="8" maxlength="20" v-model="password"/>
             </div>
-            <button class="button" type="submit" v-on="authService.login(user.email, user.password)">Entrar</button>
+            <button class="button" @click="authStore.login(email, password)">Entrar</button>
         </form>
     </div>
 </template>

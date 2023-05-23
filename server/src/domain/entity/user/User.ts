@@ -16,7 +16,11 @@ export default class User {
         return new User(new Name(name), new Email(email), await Password.create(password), new UniqueEntityId(id));
     }
     
-    static buildExistingUser (name: string, email: string, password: string, id?: string) {
-        return new User(new Name(name), new Email(email), new Password(password), new UniqueEntityId(id));
+    static buildExistingUser (name: string, email: string, hashedPassword: string, id?: string) {
+        return new User(new Name(name), new Email(email), new Password(hashedPassword), new UniqueEntityId(id));
     }
+
+    // validadePassword (password: string) {
+    //     return this.password.isValid(password);
+    // }
 }

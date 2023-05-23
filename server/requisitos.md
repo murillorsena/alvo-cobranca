@@ -12,10 +12,25 @@ Store
 
 Representative
 
-- [] Um representante deve ter um nome, email, telefone, endereço, ocupação (cargo), estado civil
+- [] Um representante deve ter um nome, email, telefone, endereço
 
 
 /login
 /signup
 /home
 /store/:code
+
+histórico de ações de cobrança
+- data
+- cliente
+- shopping
+- especialista
+- tipo de ação
+
+{
+    data: "16/06/2023",
+    cliente: "LOJA 01",
+    shopping: "BSWA",
+    especialista: "ESPECIALISTA 01",
+    tipo_acao: "Envio de Notificação"
+}

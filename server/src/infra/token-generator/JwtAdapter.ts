@@ -1,15 +1,22 @@
 import TokenGenerator from "./TokenGenerator";
-// import jwt from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 
 export default class JwtAdapter implements TokenGenerator {
 
-    async generate (email: string, expiresIn: number): Promise<any> {
-        // const token = await jwt.
-        // return token;
+    constructor (private secret: any) {}
+
+    async generate (email: string, expiresIn?: string | number): Promise<any> {
+        const payload = {
+            email
+        };
+        const options = { 
+            expiresIn:  expiresIn ?? "6h"
+        };
+        const token = jwt.sign(payload, this.secret, options);
+        return token;
     }
 
     async verify (token: string): Promise<any> {
-        // throw new Error("Method not implemented.");
-        // return jwt.verify();
+        return jwt.verify(token, this.secret);
     }
 }

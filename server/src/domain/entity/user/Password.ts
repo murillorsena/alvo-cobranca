@@ -1,22 +1,35 @@
 import { pbkdf2, randomBytes } from "crypto";
 
 export default class Password {
+    private static ITERATIONS = 100;
+    private static KEY_LENGTH = 64;
+    private static DIGEST = "sha512";
     readonly value: string;
+    // readonly salt: string;
 
-    constructor (value: string) {
+    constructor (value: string, salt?: string) {
         this.value = value;
+        // this.salt = salt;
     }
 
     static create (value: string): Promise<Password> {
         if (!Password.validate(value)) throw new Error("Invalid password");
         const generatedSalt = randomBytes(20).toString("hex");
         const hashedPassword = new Promise<Password>((resolve) => {
-            pbkdf2(value, generatedSalt, 100, 64, "sha512", (error, value) => {
-                resolve(new Password(value.toString("hex")));
+            pbkdf2(value, generatedSalt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST, (error, value) => {
+                resolve(new Password(value.toString("hex"), generatedSalt));
             });
         });
         return hashedPassword;
     }
+
+    // isValid (password: string): Promise<boolean> {
+    //     return new Promise((resolve) => {
+    //         pbkdf2(password, this.salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST, (error, value) => {
+    //             resolve(this.value === value.toString("hex"));
+    //         });
+    //     });
+    // }
 
     private static validate (value: string) {
         if (!value) return false;

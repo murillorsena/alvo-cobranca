@@ -1,0 +1,75 @@
+.image {
+  background-image: url("https://octavia-admin.vercel.app/img/arctic-circle-logo.dc2036dd.svg");
+  background-position: center;
+}
+
+.header {
+  height: 50px;
+  margin-top: 0px;
+  transform: translateY(0px);
+  left: 0px;
+  right: 0px;
+}
+
+.toolbar-content {
+  align-items: center;
+  display: flex;
+  position: relative;
+  z-index: 0;
+}
+
+/* Height */
+
+.h-auto	{
+  height: auto
+}
+
+.h-screen	{
+  height: 100dvh
+}
+
+.h-0	{
+  height: 0
+}
+
+.h-25	{
+  height: 25%
+}
+
+.h-50	{
+  height: 50%
+}
+
+.h-75	{
+  height: 75%
+}
+
+.h-100	{
+  height: 100%
+}
+
+/* Width */
+
+.w-auto	{
+  width: auto
+}
+
+.w-0	{
+  width: 0
+}
+
+.w-25	{
+  width: 25%
+}
+
+.w-50	{
+  width: 50%
+}
+
+.w-75	{
+  width: 75%
+}
+
+.w-100	{
+  width: 100%
+}

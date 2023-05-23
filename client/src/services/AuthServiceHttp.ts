@@ -9,10 +9,11 @@ export default class AuthServiceHttp implements AuthService {
     ) {}
     
     async login (email: string, password: string): Promise<any> {
-        const session = await this.httpClient.post(`${this.baseUrl}/login`, {
+        const data = {
             email,
             password
-        });
+        };
+        const session = await this.httpClient.post(`${this.baseUrl}/login`, data);
         return session;
     }
 }

@@ -5,7 +5,7 @@ export default class GetExpenses implements UseCase {
 
     constructor (private expenseRepository: ExpenseRepository) {}
 
-    async execute (): Promise<Output[]> {
+    async execute (input: Input): Promise<Output[]> {
         const expenses = await this.expenseRepository.findAll();
         const output: Output[] = [];
         for (const expense of expenses) {
@@ -21,6 +21,10 @@ export default class GetExpenses implements UseCase {
         return output;
     }
 }
+
+type Input = {
+    token: string
+};
 
 type Output = {
     id: string,

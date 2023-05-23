@@ -1,5 +1,6 @@
 import express, { Express, NextFunction, Request, Response } from "express";
 import HttpServer, { HttpMethod } from "./HttpServer";
+import cors from "cors";
 
 export default class ExpressAdapter implements HttpServer {
     private app: Express;
@@ -7,6 +8,7 @@ export default class ExpressAdapter implements HttpServer {
     constructor () {
         this.app = express();
         this.app.use(express.json());
+        this.app.use(cors());
         this.app.use(this.auth());
     }
     
@@ -37,11 +39,14 @@ export default class ExpressAdapter implements HttpServer {
             const authorization = req.headers["authorization"];
             if (authorization) {
                 const token = authorization.replace("Bearer ", "");
-                return next();
+                if (token) {
+                    req.body.token = token;
+                    return next();
+                }
             }
             return res.status(401).json({
                 message: "Authentication failure"
             });
-        }
+        };
     }
 }

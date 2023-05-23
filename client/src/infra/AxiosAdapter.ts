@@ -3,9 +3,9 @@ import axios from "axios";
 
 export default class AxiosAdapter implements HttpClient {
 
-    constructor () {
+    constructor (router: any) {
         this.requestInterceptor();
-        this.responseInterceptor();
+        this.responseInterceptor(router);
     }
 
     async get (url: string): Promise<any> {
@@ -50,14 +50,17 @@ export default class AxiosAdapter implements HttpClient {
         });
     }
 
-    private responseInterceptor () {
+    private responseInterceptor (router: any) {
         axios.interceptors.response.use((response: any) => {
             return response;
         }, (error) => {
             if (error.response.status === 401) {
+                localStorage.removeItem("name");
                 localStorage.removeItem("token");
+                router.push("/login");
             }
-            return Promise.reject(error);
+            const message = error.response.data.message;
+            return Promise.reject(message);
         });
     }
 }

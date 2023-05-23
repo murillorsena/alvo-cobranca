@@ -12,9 +12,9 @@ CREATE TABLE IF NOT EXISTS "representative" (
 );
 
 INSERT INTO "representative" ("id", "name", "email", "phone", "address", "store_code") 
-VALUES ('854bd477-49d8-457b-baaf-ae98ebd16edb', 'representative1', 'representative1@mail.com', '(51) 98765-4321', 'rua abc, 100', '10000');
+VALUES ('854bd477-49d8-457b-baaf-ae98ebd16edb', 'REPRESENTANTE 01', 'representative1@mail.com', '(51) 98765-4321', 'rua abc, 100', '10000');
 
 INSERT INTO "representative" ("id", "name", "email", "phone", "address", "store_code") 
-VALUES ('292d02ff-a14b-4bee-b811-13ef865e48cc', 'representative2', 'representative2@mail.com', '(51) 12345-6789', 'rua abc, 101', '10001');
+VALUES ('292d02ff-a14b-4bee-b811-13ef865e48cc', 'REPRESENTANTE 02', 'representative2@mail.com', '(51) 12345-6789', 'rua abc, 101', '10001');
 
 SELECT * FROM "representative";
