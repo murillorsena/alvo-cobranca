@@ -16,10 +16,8 @@
  
 <template>
     <ToolbarComponent></ToolbarComponent>
-    <main>
-        <CardComponent v-model:items="data.items"></CardComponent>
-        <DatatableComponent v-model:items="data.items"></DatatableComponent>
-    </main>
+    <CardComponent v-model:items="data.items"></CardComponent>
+    <DatatableComponent v-model:items="data.items"></DatatableComponent>
 </template>
 
 <style scoped>

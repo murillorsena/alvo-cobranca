@@ -8,13 +8,6 @@ export default class GetExpenses implements UseCase {
     async execute (input: Input): Promise<any[]> {
         const output = [
             {
-                codigo: "teste",
-                lojista: "teste",
-                shopping: "teste",
-                especialista: "teste",
-                montante: "1",
-                maiorAtraso: "1",
-            },{
                 codigo: "10001",
                 lojista: "LOJA01",
                 shopping: "BSWA",
@@ -53,6 +46,12 @@ export default class GetExpenses implements UseCase {
                 especialista: "Bob",
                 montante: "7500",
                 maiorAtraso: "60",
+                representatives: [
+                    {
+                        name: "murillo",
+                        address: "abc, 123"
+                    }
+                ]
             },
             {
                 codigo: "10006",

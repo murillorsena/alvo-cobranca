@@ -1,84 +1,87 @@
 <script setup lang="ts">
     defineProps(["items"]);
+    const headers: any[] = [
+        { key: "codigo", title: "Código", align: "start" },
+        { key: "lojista", title: "Lojista", align: "start" },
+        { key: "shopping", title: "Shopping", align: "start" },
+        { key: "especialista", title: "Especialista", align: "start" },
+        { key: "montante", title: "Montante", align: "start" },
+        { key: "maiorAtraso", title: "Maior Atraso", align: "start" },
+        { key: "actions", title: "Ações", align: "start", sortable: false },
+    ];
+
+    const search = "";
+
+    const page = 1;
+
+    const itemsPerPage = 5;
+
+    const sortBy: any[] = [
+        { key: "maiorAtraso", order: "desc"},
+        { key: "montante", order: "desc"},
+    ];
+
+    let dialog = false;
+
+    const numberOfPages = (itemsLength: number) => {
+        return Math.ceil(itemsLength / itemsPerPage);
+    }
 </script>
 
 <template>
-    <table align="center">
-        <thead>
-            <tr>
-                <th class="text-start sortable" aria-sort="none">Código</th>
-                <th class="text-start sortable" aria-sort="none">Lojista</th>
-                <th class="text-start sortable" aria-sort="none">Shopping</th>
-                <th class="text-start sortable" aria-sort="none">Especialista</th>
-                <th class="text-start sortable" aria-sort="ascending">Montante</th>
-                <th class="text-start sortable" aria-sort="ascending">Maior atraso</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr v-for="item in items">
-                <td class="text-start">{{ item.codigo }}</td>
-                <td class="text-start">{{ item.lojista }}</td>
-                <td class="text-start">{{ item.shopping }}</td>
-                <td class="text-start">{{ item.especialista }}</td>
-                <td class="text-start">{{ item.montante }}</td>
-                <td class="text-start">{{ item.maiorAtraso }}</td>
-            </tr>
-        </tbody>
-    </table>
+    <v-container class="">
+        <v-row>
+            <v-col cols="12">
+                <!-- <v-card class="pa-2 mb-3">
+                    <v-spacer></v-spacer>
+                    <v-text-field label="Buscar" append-inner-icon="mdi-magnify" hide-details single-line v-model="search"></v-text-field>
+                </v-card> -->
+                <v-sheet>
+                    <v-card class="mx-auto">
+                        <v-card-title>
+                            <!-- <v-spacer></v-spacer> -->
+                            <v-responsive max-width="400">
+                                <v-text-field label="Pesquisar" prepend-inner-icon="mdi-magnify" variant="underlined" single-line hide-details></v-text-field>
+                            </v-responsive>
+                        </v-card-title>
+                        <v-card-text>
+                            <v-data-table v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" hide-default-footer multi-sort hover>
+                                <template v-slot:item.actions="{ item }">
+                                    <v-dialog>
+                                        <template v-slot:activator="{ props }">
+                                            <v-btn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" v-on:click="dialog = true"></v-btn>
+                                        </template>
+                                        <v-card>
+                                            <v-card-title>Informações</v-card-title>
+                                            <div>Código: {{ item.raw.codigo }}</div>
+                                            <div>Lojista: {{ item.raw.lojista }}</div>
+                                            <div>Shopping: {{ item.raw.shopping }}</div>
+                                            Dialog: {{ dialog }}
+                                            <v-spacer></v-spacer>
+                                            <v-card-actions>
+                                                <v-btn v-on:click="dialog = false">Fechar</v-btn>
+                                            </v-card-actions>
+                                        </v-card>
+                                    </v-dialog>
+                                </template>
+                                <template v-slot:bottom>
+                                    <div class="text-center pt-2">
+                                        <v-pagination v-model="page" :length="numberOfPages(items?.length)" rounded="circle" total-visible="6">
+                                        </v-pagination>
+                                    </div>
+                                </template>
+                            </v-data-table>
+                        </v-card-text>
+                    </v-card>
+                </v-sheet>
+            </v-col>
+        </v-row>
+    </v-container>
 </template>
 
 <style>
-    /* div {
-        box-sizing: border-box;
+    /* .v-data-table>td {
+        max-width: 100%;
+        box-shadow: rgba(47, 60, 74, 0.01) 0px 8px 32px, rgba(47, 60, 74, 0.02) 0px 8px 16px;
     } */
-    /* .v-data-table>.v-data-table__wrapper>table>tbody>tr>td, .v-data-table>.v-data-table__wrapper>table>tfoot>tr>td, .v-data-table>.v-data-table__wrapper>table>thead>tr>td {
-        font-size: .875rem;
-        height: 48px;
-    } */
-
-    th.sortable {
-        pointer-events: auto;
-        cursor: pointer;
-        outline: 0;
-    }
-
-    th, td {
-        padding: 0 40px;
-    }
-
-    table {
-        /* border-bottom: thin solid rgba(0,0,0,.12); */
-        /* border-top-left-radius: 4px;
-        border-top-right-radius: 4px;
-        border-bottom-right-radius: 4px;
-        border-bottom-left-radius: 4px; */
-        background-color: white;
-        border-radius: 4px;
-        margin-top: 20px;
-    }
-
-    .table-theme {
-        background-color: #fff;
-        border-color: #fff;
-        border-top-color: black;
-        border-right-color: black;
-        border-bottom-color: black;
-        border-left-color: black;
-        color: black;
-    }
-
-    /* td {
-        display: table-cell;
-        vertical-align: inherit;
-    } */
-
-    /* tr {
-        display: table-row;
-        vertical-align: inherit;
-        border-color: black;
-    } */
-
-    .text-start {
-        text-align: start!important;
-    }
 </style>
