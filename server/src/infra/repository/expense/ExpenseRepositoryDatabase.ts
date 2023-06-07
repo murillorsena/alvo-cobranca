@@ -11,12 +11,12 @@ export default class ExpenseRepositoryDatabase implements ExpenseRepository {
         const expenses: Expense[] = [];
         for (const expenseData of expensesData) {
             expenses.push(new Expense(
-                expenseData.shopping_code,
-                expenseData.store_code,
+                expenseData.shopping_id,
+                expenseData.store_id,
                 expenseData.user_id,
                 expenseData.description,
                 expenseData.amount,
-                expenseData.due_date,
+                new Date(expenseData.due_date),
                 expenseData.id
             ));
         }

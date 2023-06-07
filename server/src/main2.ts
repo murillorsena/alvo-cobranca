@@ -10,15 +10,15 @@ const userRepository = new UserRepositoryDatabase(connection);
 const signUp = new SignUp(userRepository);
 
 const user1 = {
-    name: "Murillo",
-    email: "murillo@mail.com",
-    password: "Murill@123"
+    name: "Tim Clarkson",
+    email: "timclarkson@mail.com",
+    password: "Timclarkson@123"
 };
 
 const user2 = {
-    name: "Teste",
-    email: "teste@mail.com",
-    password: "Teste@123"
+    name: "Kane Frost",
+    email: "kanefrost@mail.com",
+    password: "Kanefrost@123"
 };
 
 signUp.execute(user1);

@@ -4,12 +4,14 @@
     import DatatableComponent from "../components/DatatableComponent.vue";
     import ExpenseService from "../services/ExpenseService";
     import { inject, onMounted, reactive } from "vue";
+    import Expense from "../domain/entity/Expense.js";
 
-    let data = reactive({ items: undefined });
+    let data: { items: Expense[] | undefined } = reactive({ items: undefined });
     
     onMounted(async () => {
         const expenseService = inject("expenseService") as ExpenseService;
         const output = await expenseService.getExpenses();
+        console.log("store name: ", output[0]);
         data.items = output;
     });
 </script>

@@ -13,7 +13,12 @@ export default class AuthServiceHttp implements AuthService {
             email,
             password
         };
-        const session = await this.httpClient.post(`${this.baseUrl}/login`, data);
+        const session: Session = await this.httpClient.post(`${this.baseUrl}/login`, data);
         return session;
     }
 }
+
+type Session = {
+    name: string,
+    token: string
+};

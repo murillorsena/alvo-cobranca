@@ -1,24 +1,21 @@
 import UniqueEntityId from "../UniqueEntityId";
-import Amount from "./Amount";
 import DueDate from "./DueDate";
 
 export default class Expense {
     readonly id: UniqueEntityId;
-    readonly amount: Amount;
     readonly dueDate: DueDate;
     readonly delayedDays: number;
     
     constructor (
-        readonly shoppingCode: string,
-        readonly storeCode: string,
+        readonly shoppingId: string,
+        readonly storeId: string,
         readonly userId: string,
         readonly description: string,
-        amount: number,
+        readonly amount: number,
         dueDate: Date,
         id?: string
     ) {
         this.id = new UniqueEntityId(id);
-        this.amount = new Amount(amount);
         this.dueDate = new DueDate(dueDate);
         this.delayedDays = this.calculateDelayedDays(new Date(), dueDate);
     }

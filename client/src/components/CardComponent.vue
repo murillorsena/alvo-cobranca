@@ -1,8 +1,13 @@
 <script setup lang="ts">
+    // import { ref } from "vue";
+    defineProps(["items"]);
+    // const data: any = items;
+    // console.log(data);
 </script>
 
 <template>
     <v-container>
+        <!-- {{ items }} -->
         <v-row class="d-flex justify-center">
             <v-col cols="4">
                 <v-card class="mx-auto" height="80" width="300">
