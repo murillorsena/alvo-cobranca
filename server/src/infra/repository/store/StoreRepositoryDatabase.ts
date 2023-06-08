@@ -1,10 +1,10 @@
 import Store from "../../../domain/entity/store/Store";
 import StoreRepository from "../../../application/repository/StoreRepository";
-import Connection from "../../database/Connection";
+import DatabaseConnection from "../../database/DatabaseConnection";
 
 export default class StoreRepositoryDatabase implements StoreRepository {
 
-    constructor (private connection: Connection) {}
+    constructor (private connection: DatabaseConnection) {}
     
     async findAll (): Promise<Store[]> {
         const storesData = await this.connection.query('SELECT * FROM "store";', []);

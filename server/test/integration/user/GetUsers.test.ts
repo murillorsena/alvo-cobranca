@@ -12,7 +12,8 @@ describe("GetUsers tests", () => {
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        userRepository.users.push(await User.create(userData.name, userData.email, userData.password, userData.id));
+        const salt = "fake-salt";
+        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
         const getUsers = new GetUsers(userRepository);
         const users = await getUsers.execute();
         expect(users).toHaveLength(1);

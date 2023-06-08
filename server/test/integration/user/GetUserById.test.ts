@@ -12,7 +12,8 @@ describe("GetUserById tests", () => {
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        userRepository.users.push(await User.create(userData.name, userData.email, userData.password, userData.id));
+        const salt = "fake-salt";
+        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
         const getUserById = new GetUserById(userRepository);
         const input = {
             id: userData.id
@@ -41,7 +42,8 @@ describe("GetUserById tests", () => {
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        userRepository.users.push(await User.create(userData.name, userData.email, userData.password, userData.id));
+        const salt = "fake-salt";
+        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
         const getUserById = new GetUserById(userRepository);
         const input = {
             id: userData.id

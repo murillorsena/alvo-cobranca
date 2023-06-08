@@ -1,4 +1,5 @@
 import Email from "../../../src/domain/entity/user/Email";
+import InvalidParamError from "../../../src/application/error/InvalidParamError";
 
 describe("Email tests", () => {
 
@@ -8,14 +9,14 @@ describe("Email tests", () => {
     });
 
     test("Should return an error if email is empty", () => {
-        expect(() => new Email("")).toThrow(new Error("Invalid email"));
+        expect(() => new Email("")).toThrow(new InvalidParamError("email"));
     });
 
     test("Should return an error if the email is invalid", () => {
-        expect(() => new Email("username@mail")).toThrow(new Error("Invalid email"));
+        expect(() => new Email("username@mail")).toThrow(new InvalidParamError("email"));
     });
 
-    test("Should return an error if name length is invalid", () => {
-        expect(() => new Email("email")).toThrow(new Error("Invalid email"));
+    test("Should return an error if email length is invalid", () => {
+        expect(() => new Email("email")).toThrow(new InvalidParamError("email"));
     });
 });

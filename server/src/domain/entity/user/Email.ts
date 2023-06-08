@@ -1,8 +1,10 @@
+import InvalidParamError from "../../../application/error/InvalidParamError";
+
 export default class Email {
     readonly value: string;
 
     constructor (value: string) {
-        if (!this.validate(value)) throw new Error("Invalid email");
+        if (!this.validate(value)) throw new InvalidParamError("email");
         this.value = value;
     }
 

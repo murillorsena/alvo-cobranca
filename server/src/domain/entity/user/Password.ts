@@ -1,35 +1,30 @@
-import { pbkdf2, randomBytes } from "crypto";
+import InvalidParamError from "../../../application/error/InvalidParamError";
+import { pbkdf2Sync } from "crypto";
 
 export default class Password {
     private static ITERATIONS = 100;
     private static KEY_LENGTH = 64;
     private static DIGEST = "sha512";
     readonly value: string;
-    // readonly salt: string;
 
-    constructor (value: string, salt?: string) {
+    private constructor (value: string) {
         this.value = value;
-        // this.salt = salt;
     }
 
-    static create (value: string): Promise<Password> {
-        if (!Password.validate(value)) throw new Error("Invalid password");
-        const generatedSalt = randomBytes(20).toString("hex");
-        const hashedPassword = new Promise<Password>((resolve) => {
-            pbkdf2(value, generatedSalt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST, (error, value) => {
-                resolve(new Password(value.toString("hex"), generatedSalt));
-            });
-        });
-        return hashedPassword;
+    static create (value: string, salt: string) {
+        if (!Password.validate(value)) throw new InvalidParamError("password");
+        const hashedPassword = pbkdf2Sync(value, salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
+        return new Password(hashedPassword);
     }
 
-    // isValid (password: string): Promise<boolean> {
-    //     return new Promise((resolve) => {
-    //         pbkdf2(password, this.salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST, (error, value) => {
-    //             resolve(this.value === value.toString("hex"));
-    //         });
-    //     });
-    // }
+    static restore (value: string) {
+        return new Password(value);
+    }
+
+    isValid (password: string, salt: string) {
+        const hashedPassword = pbkdf2Sync(password, salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
+        return hashedPassword === this.value;
+    }
 
     private static validate (value: string) {
         if (!value) return false;

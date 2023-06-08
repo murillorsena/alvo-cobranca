@@ -12,7 +12,8 @@ describe("GetUserByEmail tests", () => {
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        userRepository.users.push(await User.create(userData.name, userData.email, userData.password, userData.id));
+        const salt = "fake-salt";
+        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
         const getUserByEmail = new GetUserByEmail(userRepository);
         const input = {
             email: "user1@mail.com"
@@ -41,7 +42,8 @@ describe("GetUserByEmail tests", () => {
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        userRepository.users.push(await User.create(userData.name, userData.email, userData.password, userData.id));
+        const salt = "fake-salt";
+        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
         const getUserByEmail = new GetUserByEmail(userRepository);
         const input = {
             email: "user1@mail.com"

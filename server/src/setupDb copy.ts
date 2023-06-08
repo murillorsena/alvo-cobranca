@@ -1,12 +1,11 @@
-import Connection from "./infra/database/Connection";
+import DatabaseConnection from "./infra/database/DatabaseConnection";
 
 export default class SetupDb {
 
-    constructor (private connection: Connection) {
-    }
+    constructor (private connection: DatabaseConnection) {}
 
     async up () {
-        await this.connection.query('CREATE DATABASE alvo_cobranca', []);
+        await this.connection.connect();
         await this.connection.query(`
             DROP TABLE IF EXISTS "shopping" CASCADE;
 

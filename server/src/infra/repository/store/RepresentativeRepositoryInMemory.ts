@@ -12,10 +12,4 @@ export default class RepresentativeRepositoryInMemory implements RepresentativeR
         const representatives = this.representatives.filter(value => value.storeId === storeId);
         return representatives;
     }
-
-    async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
-        // const representatives = this.representatives.filter(value => value.storeCode === storeCode);
-        const representatives: Representative[] = [];
-        return representatives;
-    }
 }

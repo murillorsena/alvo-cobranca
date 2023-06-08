@@ -1,10 +1,10 @@
 import Expense from "../../../domain/entity/expense/Expense";
 import ExpenseRepository from "../../../application/repository/ExpenseRepository";
-import Connection from "../../database/Connection";
+import DatabaseConnection from "../../database/DatabaseConnection";
 
 export default class ExpenseRepositoryDatabase implements ExpenseRepository {
 
-    constructor (private connection: Connection) {}
+    constructor (private connection: DatabaseConnection) {}
 
     async findAll (): Promise<Expense[]> {
         const expensesData = await this.connection.query('SELECT * FROM "expense";', []);

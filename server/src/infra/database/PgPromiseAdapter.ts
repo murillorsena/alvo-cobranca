@@ -1,11 +1,13 @@
-import Connection from "./Connection";
+import DatabaseConnection from "./DatabaseConnection";
 import pgp from "pg-promise";
 
-export default class PgPromiseAdapter implements Connection {
+export default class PgPromiseAdapter implements DatabaseConnection {
     private connection: any;
 
-    constructor (private connectionUrl: any) {
-        this.connection = pgp()(connectionUrl);
+    constructor (private connectionUrl: any) {}
+
+    async connect (): Promise<void> {
+        this.connection = pgp()(this.connectionUrl);
     }
 
     async query (statement: string, params: any): Promise<any> {

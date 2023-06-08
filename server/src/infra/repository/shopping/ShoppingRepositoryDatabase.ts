@@ -1,10 +1,10 @@
 import Shopping from "../../../domain/entity/shopping/Shopping";
 import ShoppingRepository from "../../../application/repository/ShoppingRepository";
-import Connection from "../../database/Connection";
+import DatabaseConnection from "../../database/DatabaseConnection";
 
 export default class ShoppingRepositoryDatabase implements ShoppingRepository {
 
-    constructor (private connection: Connection) {}
+    constructor (private connection: DatabaseConnection) {}
 
     async findById(id: string): Promise<Shopping | null> {
         const [ shoppingData ] = await this.connection.query('SELECT * FROM "shopping" WHERE "id" = $1;', [ id ]);

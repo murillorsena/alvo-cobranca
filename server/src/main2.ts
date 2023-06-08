@@ -5,9 +5,11 @@ import "dotenv/config";
 
 const connectionUrl = process.env.DB_URL;
 const connection = new PgPromiseAdapter(connectionUrl);
+connection.connect();
 
+const salt = String(process.env.SALT);
 const userRepository = new UserRepositoryDatabase(connection);
-const signUp = new SignUp(userRepository);
+const signUp = new SignUp(userRepository, salt);
 
 const user1 = {
     name: "Tim Clarkson",

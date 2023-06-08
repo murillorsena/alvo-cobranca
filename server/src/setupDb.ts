@@ -1,9 +1,10 @@
-import Connection from "./infra/database/Connection";
+import DatabaseConnection from "./infra/database/DatabaseConnection";
 import PgPromiseAdapter from "./infra/database/PgPromiseAdapter";
 
-const connection = new PgPromiseAdapter(process.env.DB_URL);
+const connectionUrl = process.env.DB_URL;
+const connection = new PgPromiseAdapter(connectionUrl);
 
-(async function up (connection: Connection) {
+(async function up (connection: DatabaseConnection) {
 
     await connection.query(`
         CREATE TABLE IF NOT EXISTS "shopping" (

@@ -12,15 +12,15 @@ export default class User {
         readonly id: UniqueEntityId
     ) {}
 
-    static async create (name: string, email: string, password: string, id?: string) {
-        return new User(new Name(name), new Email(email), await Password.create(password), new UniqueEntityId(id));
+    static create (name: string, email: string, password: string, salt: string, id?: string) {
+        return new User(new Name(name), new Email(email), Password.create(password, salt), new UniqueEntityId(id));
     }
     
-    static buildExistingUser (name: string, email: string, hashedPassword: string, id?: string) {
-        return new User(new Name(name), new Email(email), new Password(hashedPassword), new UniqueEntityId(id));
+    static restore (name: string, email: string, hashedPassword: string, id?: string) {
+        return new User(new Name(name), new Email(email), Password.restore(hashedPassword), new UniqueEntityId(id));
     }
 
-    // validadePassword (password: string) {
-    //     return this.password.isValid(password);
-    // }
+    validadePassword (password: string, salt: string) {
+        return this.password.isValid(password, salt);
+    }
 }

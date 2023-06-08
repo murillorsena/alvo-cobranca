@@ -1,10 +1,10 @@
 import Representative from "../../../domain/entity/store/Representative";
 import RepresentativeRepository from "../../../application/repository/RepresentativeRepository";
-import Connection from "../../database/Connection";
+import DatabaseConnection from "../../database/DatabaseConnection";
 
 export default class RepresentativeRepositoryDatabase implements RepresentativeRepository {
     
-    constructor (private connection: Connection) {}
+    constructor (private connection: DatabaseConnection) {}
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
         const representativesData = await this.connection.query('SELECT * FROM "representative" WHERE "store_id" = $1;', [ storeId ]);

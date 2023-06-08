@@ -1,4 +1,5 @@
 import Name from "../../../src/domain/entity/user/Name";
+import InvalidParamError from "../../../src/application/error/InvalidParamError";
 
 describe("Name tests", () => {
 
@@ -8,10 +9,10 @@ describe("Name tests", () => {
     });
 
     test("Should return an error if name is empty", () => {
-        expect(() => new Name("")).toThrow(new Error("Invalid name"));
+        expect(() => new Name("")).toThrow(new InvalidParamError("name"));
     });
 
     test("Should return an error if name length is invalid", () => {
-        expect(() => new Name("us")).toThrow(new Error("Invalid name"));
+        expect(() => new Name("us")).toThrow(new InvalidParamError("name"));
     });
 });

@@ -8,8 +8,8 @@ export default class UserRepositoryInMemory implements UserRepository {
         this.users = [];
     }
 
-    async create (name: string, email: string, password: string): Promise<void> {
-        this.users.push(await User.create(name, email, password));
+    async create (name: string, email: string, password: string, salt: string): Promise<void> {
+        this.users.push(await User.create(name, email, password, salt));
     }
 
     async findAll (): Promise<any> {
