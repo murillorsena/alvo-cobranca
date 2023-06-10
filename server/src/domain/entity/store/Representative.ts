@@ -1,7 +1,7 @@
-import UniqueEntityId from "../UniqueEntityId";
+import EntityId from "../EntityId";
 
 export default class Representative {
-    readonly id: UniqueEntityId;
+    readonly id: EntityId;
 
     constructor (
         readonly name: string,
@@ -11,6 +11,6 @@ export default class Representative {
         readonly storeId: string,
         id?: string
     ) {
-        this.id = new UniqueEntityId(id);
+        this.id = new EntityId(id);
     }
 }

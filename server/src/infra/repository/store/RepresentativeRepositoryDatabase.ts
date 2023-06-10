@@ -7,7 +7,11 @@ export default class RepresentativeRepositoryDatabase implements RepresentativeR
     constructor (private connection: DatabaseConnection) {}
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
-        const representativesData = await this.connection.query('SELECT * FROM "representative" WHERE "store_id" = $1;', [ storeId ]);
+        const representativesData = await this.connection.query(`
+            SELECT "id", "name", "email", "phone", "address", "store_id"
+            FROM "representative"
+            WHERE "store_id" = $1;
+        `, [ storeId ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
             representatives.push(new Representative(
@@ -23,7 +27,11 @@ export default class RepresentativeRepositoryDatabase implements RepresentativeR
     }
     
     async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
-        const representativesData = await this.connection.query('SELECT * FROM "representative" WHERE "store_code" = $1;', [ storeCode ]);
+        const representativesData = await this.connection.query(`
+            SELECT "id", "name", "email", "phone", "address", "store_id"
+            FROM "representative"
+            WHERE "store_code" = $1;
+        `, [ storeCode ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
             representatives.push(new Representative(

@@ -1,13 +1,13 @@
-import UniqueEntityId from "../UniqueEntityId";
+import EntityId from "../EntityId";
 
 export default class Store {
-    readonly id: UniqueEntityId;
+    readonly id: EntityId;
 
     constructor (
         readonly code: string,
         readonly name: string,
         id?: string
     ) {
-        this.id = new UniqueEntityId(id);
+        this.id = new EntityId(id);
     }
 }

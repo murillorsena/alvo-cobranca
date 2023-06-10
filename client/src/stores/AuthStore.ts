@@ -11,13 +11,13 @@ export const useAuthStore = defineStore("authStore", {
             this.session = await this.authService.login(email, password);
             localStorage.setItem("name", this.session.name);
             localStorage.setItem("token", this.session.token);
-            this.$router.push("/");
+            this.router.push("/");
         },
         logout () {
             this.session = {};
             localStorage.removeItem("token");
             localStorage.removeItem("name");
-            this.$router.push("/login");
+            this.router.push("/login");
         },
         init () {
             const name = localStorage.getItem("name");

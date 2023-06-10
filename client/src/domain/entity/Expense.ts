@@ -9,8 +9,4 @@ export default class Expense {
         readonly amount: number,
         readonly delayedDays: string
     ) {}
-
-    getValue (): string {
-        return `${this.storeCode}-${this.storeName}`;
-    }
 }

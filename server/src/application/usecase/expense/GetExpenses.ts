@@ -30,7 +30,7 @@ export default class GetExpenses implements UseCase {
                 userName: user?.name.value,
                 description: expense.description,
                 amount: Number(expense.amount),
-                dueDate: expense.dueDate.value,
+                dueDate: expense.dueDate,
                 delayedDays: expense.delayedDays,
                 storeRepresentatives: representatives
             });

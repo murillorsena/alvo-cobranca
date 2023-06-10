@@ -1,7 +1,7 @@
-import UniqueEntityId from "../UniqueEntityId";
+import EntityId from "../EntityId";
 
 export default class Shopping {
-    readonly id: UniqueEntityId;
+    readonly id: EntityId;
 
     constructor (
         readonly code: string,
@@ -9,6 +9,6 @@ export default class Shopping {
         readonly description: string, 
         id?: string
     ) {
-        this.id = new UniqueEntityId(id);
+        this.id = new EntityId(id);
     }
 }

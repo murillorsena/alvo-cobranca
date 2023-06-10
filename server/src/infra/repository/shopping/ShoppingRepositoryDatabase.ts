@@ -7,7 +7,11 @@ export default class ShoppingRepositoryDatabase implements ShoppingRepository {
     constructor (private connection: DatabaseConnection) {}
 
     async findById(id: string): Promise<Shopping | null> {
-        const [ shoppingData ] = await this.connection.query('SELECT * FROM "shopping" WHERE "id" = $1;', [ id ]);
+        const [ shoppingData ] = await this.connection.query(`
+            SELECT "id", "code", "name", "description"
+            FROM "shopping"
+            WHERE "id" = $1;
+        `, [ id ]);
         const shopping = new Shopping(shoppingData.code, shoppingData.name, shoppingData.description, shoppingData.id);
         return shopping;
     }

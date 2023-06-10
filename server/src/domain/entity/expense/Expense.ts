@@ -1,10 +1,7 @@
-import UniqueEntityId from "../UniqueEntityId";
-import DueDate from "./DueDate";
+import EntityId from "../EntityId";
 
 export default class Expense {
-    readonly id: UniqueEntityId;
-    readonly dueDate: DueDate;
-    readonly delayedDays: number;
+    readonly id: EntityId;
     
     constructor (
         readonly shoppingId: string,
@@ -12,18 +9,10 @@ export default class Expense {
         readonly userId: string,
         readonly description: string,
         readonly amount: number,
-        dueDate: Date,
+        readonly dueDate: string,
+        readonly delayedDays: number,
         id?: string
     ) {
-        this.id = new UniqueEntityId(id);
-        this.dueDate = new DueDate(dueDate);
-        this.delayedDays = this.calculateDelayedDays(new Date(), dueDate);
-    }
-
-    private calculateDelayedDays (todayDate: Date, dueDate: Date) {
-        const diff = todayDate.getTime() - dueDate.getTime();
-        const dayInMillisecond = (1000 * 60 * 60 * 24);
-        const days = Math.floor(diff / dayInMillisecond);
-        return days;
+        this.id = new EntityId(id);
     }
 }
