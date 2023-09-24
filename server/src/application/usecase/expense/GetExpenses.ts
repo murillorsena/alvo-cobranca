@@ -1,19 +1,25 @@
 import UseCase from "../UseCase";
-import ExpenseRepository from "../../repository/ExpenseRepository";
+import UserRepository from "../../repository/UserRepository";
 import StoreRepository from "../../repository/StoreRepository";
 import RepresentativeRepository from "../../repository/RepresentativeRepository";
 import ShoppingRepository from "../../repository/ShoppingRepository";
-import UserRepository from "../../repository/UserRepository";
+import ExpenseRepository from "../../repository/ExpenseRepository";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 
 export default class GetExpenses implements UseCase {
+    private userRepository: UserRepository;
+    private storeRepository: StoreRepository;
+    private representativeRepository: RepresentativeRepository;
+    private shoppingRepository: ShoppingRepository;
+    private expenseRepository: ExpenseRepository;
 
-    constructor (
-        private expenseRepository: ExpenseRepository,
-        private storeRepository: StoreRepository,
-        private representativeRepository: RepresentativeRepository,
-        private shoppingRepository: ShoppingRepository,
-        private userRepository: UserRepository
-    ) {}
+    constructor (repositoryFactory: RepositoryFactory) {
+        this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
+        this.storeRepository = repositoryFactory.create("StoreRepository") as StoreRepository;
+        this.representativeRepository = repositoryFactory.create("RepresentativeRepository") as RepresentativeRepository;
+        this.shoppingRepository = repositoryFactory.create("ShoppingRepository") as ShoppingRepository;
+        this.expenseRepository = repositoryFactory.create("ExpenseRepository") as ExpenseRepository;
+    }
 
     async execute (): Promise<Output[]> {
         const expenses = await this.expenseRepository.findAll();

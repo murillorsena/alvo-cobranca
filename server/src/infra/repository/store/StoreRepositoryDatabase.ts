@@ -7,36 +7,52 @@ export default class StoreRepositoryDatabase implements StoreRepository {
     constructor (private connection: DatabaseConnection) {}
     
     async findAll (): Promise<Store[]> {
-        const storesData = await this.connection.query(`
+        const query = `
             SELECT "id", "code", "name"
             FROM "store";
-        `, []);
+        `;
+        const storesData = await this.connection.query(query, []);
         const stores: Store[] = [];
         for (const storeData of storesData) {
-            stores.push(new Store(storeData.code, storeData.name, storeData.id));
+            const store = Store.restore(
+                storeData.id, 
+                storeData.code, 
+                storeData.name
+            );
+            stores.push(store);
         }
         return stores;
     }
     
     async findById (id: string): Promise<Store | null> {
-        const [ storeData ] = await this.connection.query(`
+        const query = `
             SELECT "id", "code", "name"
             FROM "store"
-            WHERE "id" = $1;
-        `, [ id ]);
+            WHERE "id" = ?;
+        `;
+        const [ storeData ] = await this.connection.query(query, [ id ]);
         if (!storeData) return null;
-        const store = new Store(storeData.code, storeData.name, storeData.id);
+        const store = Store.restore(
+            storeData.id, 
+            storeData.code, 
+            storeData.name
+        );
         return store;
     }
     
     async findByCode (code: string): Promise<Store | null> {
-        const [ storeData ] = await this.connection.query(`
+        const query = `
             SELECT "id", "code", "name"
             FROM "store"
-            WHERE "code" = $1;
-        `, [ code ]);
+            WHERE "code" = ?;
+        `;
+        const [ storeData ] = await this.connection.query(query, [ code ]);
         if (!storeData) return null;
-        const store = new Store(storeData.code, storeData.name, storeData.id);
+        const store = Store.restore(
+            storeData.id, 
+            storeData.code, 
+            storeData.name
+        );
         return store;
     }
 }

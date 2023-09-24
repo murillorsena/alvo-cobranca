@@ -7,7 +7,7 @@ export default class Password {
     private static DIGEST = "sha512";
     readonly value: string;
 
-    private constructor (value: string) {
+    constructor (value: string) {
         this.value = value;
     }
 
@@ -15,10 +15,6 @@ export default class Password {
         if (!Password.validate(value)) throw new InvalidParamError("password");
         const hashedPassword = pbkdf2Sync(value, salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
         return new Password(hashedPassword);
-    }
-
-    static restore (value: string) {
-        return new Password(value);
     }
 
     isValid (password: string, salt: string) {

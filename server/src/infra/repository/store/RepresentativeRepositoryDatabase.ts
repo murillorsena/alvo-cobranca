@@ -7,41 +7,45 @@ export default class RepresentativeRepositoryDatabase implements RepresentativeR
     constructor (private connection: DatabaseConnection) {}
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
-        const representativesData = await this.connection.query(`
+        const query = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
-            WHERE "store_id" = $1;
-        `, [ storeId ]);
+            WHERE "store_id" = ?;
+        `;
+        const representativesData = await this.connection.query(query, [ storeId ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
-            representatives.push(new Representative(
+            const representative = Representative.restore(
+                representativeData.id, 
                 representativeData.name, 
-                representativeData.email,
-                representativeData.phone,
-                representativeData.address,
-                representativeData.store_id,
-                representativeData.id
-            ));
+                representativeData.email, 
+                representativeData.phone, 
+                representativeData.address, 
+                representativeData.store_id
+            );
+            representatives.push(representative);
         }
         return representatives;
     }
     
     async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
-        const representativesData = await this.connection.query(`
+        const query = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
-            WHERE "store_code" = $1;
-        `, [ storeCode ]);
+            WHERE "store_code" = ?;
+        `;
+        const representativesData = await this.connection.query(query, [ storeCode ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
-            representatives.push(new Representative(
+            const representative = Representative.restore(
+                representativeData.id, 
                 representativeData.name, 
-                representativeData.email,
-                representativeData.phone,
-                representativeData.address,
-                representativeData.store_id,
-                representativeData.id
-            ));
+                representativeData.email, 
+                representativeData.phone, 
+                representativeData.address, 
+                representativeData.store_id
+            );
+            representatives.push(representative);
         }
         return representatives;
     }

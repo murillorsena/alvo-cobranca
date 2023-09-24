@@ -1,15 +1,19 @@
 import UseCase from "../UseCase";
 import UserRepository from "../../repository/UserRepository";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 import TokenGenerator from "../../../infra/token-generator/TokenGenerator";
 import BadRequestError from "../../error/BadRequestError";
 
 export default class Login implements UseCase {
+    private userRepository: UserRepository;
 
     constructor (
-        private userRepository: UserRepository,
+        repositoryFactory: RepositoryFactory,
         private tokenGenerator: TokenGenerator,
         private salt: string
-    ) {}
+    ) {
+        this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
+    }
 
     async execute (input: Input): Promise<Output> {
         const user = await this.userRepository.findByEmail(input.email);

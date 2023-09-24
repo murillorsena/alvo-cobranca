@@ -1,7 +1,7 @@
 import User from "../../../src/domain/entity/user/User";
 import InvalidParamError from "../../../src/application/error/InvalidParamError";
 
-describe("User tests", () => {
+describe("User unit tests", () => {
 
     test("Should create a new user", async () => {
         const salt = "fake-salt";

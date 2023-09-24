@@ -1,13 +1,16 @@
 import UseCase from "../UseCase";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 import StoreRepository from "../../repository/StoreRepository";
 import RepresentativeRepository from "../../repository/RepresentativeRepository";
 
 export default class GetStores implements UseCase {
+    private storeRepository: StoreRepository;
+    private representativeRepository: RepresentativeRepository;
 
-    constructor (
-        private storeRepository: StoreRepository,
-        private representativeRepository: RepresentativeRepository
-    ) {}
+    constructor (repositoryFactory: RepositoryFactory) {
+        this.storeRepository = repositoryFactory.create("StoreRepository") as StoreRepository;
+        this.representativeRepository = repositoryFactory.create("RepresentativeRepository") as RepresentativeRepository;
+    }
 
     async execute (): Promise<Output[]> {
         const stores = await this.storeRepository.findAll();
@@ -16,8 +19,8 @@ export default class GetStores implements UseCase {
             const representatives = await this.representativeRepository.findAllByStoreId(store.id.value);
             const data: Representatives[] = [];
             for (const representative of representatives) {
-                const {name, email, phone, address} = representative;
-                data.push({name, email, phone, address});
+                const { name, email, phone, address } = representative;
+                data.push({ name, email, phone, address });
             }
             output.push({
                 code: store.code,

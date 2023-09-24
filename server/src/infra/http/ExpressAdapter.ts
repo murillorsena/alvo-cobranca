@@ -1,5 +1,6 @@
-import express, { Express, NextFunction, Request, Response } from "express";
+import express, { Express, Request, Response } from "express";
 import HttpServer, { HttpMethod } from "./HttpServer";
+import AuthMiddleware from "../middleware/AuthMiddleware";
 import cors from "cors";
 
 export default class ExpressAdapter implements HttpServer {
@@ -9,7 +10,7 @@ export default class ExpressAdapter implements HttpServer {
         this.app = express();
         this.app.use(express.json());
         this.app.use(cors());
-        this.app.use(this.auth());
+        this.app.use(AuthMiddleware.execute);
     }
     
     on (method: HttpMethod, url: string, callback: Function): void {
@@ -31,22 +32,5 @@ export default class ExpressAdapter implements HttpServer {
         this.app.listen(port, () => {
             console.log(`Server is running on port ${port}`)
         });
-    }
-
-    private auth () {
-        return function (req: Request, res: Response, next: NextFunction) {
-            if (req.url === "/login") return next();
-            const authorization = req.headers["authorization"];
-            if (authorization) {
-                const token = authorization.replace("Bearer ", "");
-                if (token) {
-                    req.body.token = token;
-                    return next();
-                }
-            }
-            return res.status(401).json({
-                message: "Authentication failure"
-            });
-        };
     }
 }

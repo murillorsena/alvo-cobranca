@@ -1,10 +1,14 @@
 import UseCase from "../UseCase";
 import UserRepository from "../../repository/UserRepository";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 import BadRequestError from "../../error/BadRequestError";
 
 export default class GetUserByName implements UseCase {
+    private userRepository: UserRepository;
 
-    constructor (private userRepository: UserRepository) {}
+    constructor (repositoryFactory: RepositoryFactory) {
+        this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
+    }
 
     async execute (input: Input): Promise<Output> {
         const user = await this.userRepository.findByName(input.name);

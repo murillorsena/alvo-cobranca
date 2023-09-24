@@ -1,8 +1,9 @@
 export default abstract class HttpError extends Error {
-    readonly statusCode: number;
 
-    constructor (message: string, statusCode: number) {
+    constructor (
+        readonly message: string, 
+        readonly statusCode: number
+    ) {
         super(message);
-        this.statusCode = statusCode;
     }
 }

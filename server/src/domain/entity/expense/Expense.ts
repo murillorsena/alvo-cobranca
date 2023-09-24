@@ -1,9 +1,10 @@
-import EntityId from "../EntityId";
+import Entity from "../Entity";
+import crypto from "crypto";
 
-export default class Expense {
-    readonly id: EntityId;
+export default class Expense implements Entity {
     
     constructor (
+        readonly id: string,
         readonly shoppingId: string,
         readonly storeId: string,
         readonly userId: string,
@@ -11,8 +12,14 @@ export default class Expense {
         readonly amount: number,
         readonly dueDate: string,
         readonly delayedDays: number,
-        id?: string
-    ) {
-        this.id = new EntityId(id);
+    ) {}
+
+    static create (shoppingId: string, storeId: string, userId: string, description: string, amount: number, dueDate: string, delayedDays: number) {
+        const expenseId = crypto.randomUUID();
+        return new Expense(expenseId, shoppingId, storeId, userId, description, amount, dueDate, delayedDays);
+    }
+
+    static restore (id: string, shoppingId: string, storeId: string, userId: string, description: string, amount: number, dueDate: string, delayedDays: number) {
+        return new Expense(id, shoppingId, storeId, userId, description, amount, dueDate, delayedDays);
     }
 }

@@ -2,33 +2,42 @@ import User from "../../../domain/entity/user/User";
 import UserRepository from "../../../application/repository/UserRepository";
 
 export default class UserRepositoryInMemory implements UserRepository {
-    users: User[];
+    public users: User[];
 
     constructor () {
         this.users = [];
     }
-
-    async create (name: string, email: string, password: string, salt: string): Promise<void> {
-        this.users.push(await User.create(name, email, password, salt));
+    
+    async save (name: string, email: string, password: string): Promise<void> {
+        const salt = "";
+        const user = User.create(name, email, password, salt);
+        this.users.push(user);
     }
 
-    async findAll (): Promise<any> {
+    async findAll (): Promise<User[]> {
         const users = this.users;
         return users;
     }
-
-    async findById (id: string): Promise<any> {
-        const user = this.users.find(value => value.id.value === id);
+    
+    async findById (id: string): Promise<User | null> {
+        const user = this.users.find(user => user.id === id);
+        if (!user) return null;
+        return user;
+    }
+    
+    async findByName (name: string): Promise<User | null> {
+        const user = this.users.find(user => user.name === name);
+        if (!user) return null;
+        return user;
+    }
+    
+    async findByEmail (email: string): Promise<User | null> {
+        const user = this.users.find(user => user.email.value === email);
+        if (!user) return null;
         return user;
     }
 
-    async findByName (name: string): Promise<any> {
-        const user = this.users.find(value => value.name.value === name);
-        return user;
-    }
-
-    async findByEmail (email: string): Promise<any> {
-        const user = this.users.find(value => value.email.value === email);
-        return user;
-    }
+    // async save (name: string, email: string, password: string, salt: string): Promise<void> {
+    //     this.users.push(User.create(name, email, password, salt));
+    // }
 }

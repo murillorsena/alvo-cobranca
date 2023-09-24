@@ -20,6 +20,7 @@ export default class Email {
     }
 
     private isValidFormat (value: string) {
-        return /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{3,}$/.test(value);
+        const emailRegex = /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{3,}$/;
+        return emailRegex.test(value);
     }
 }

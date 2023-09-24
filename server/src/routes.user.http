@@ -1,0 +1,5 @@
+GET http://localhost:3000/users
+
+###
+
+GET http://localhost:3000/users/5a75adb8-2095-479d-8344-4fbf7d986045

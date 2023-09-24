@@ -1,4 +1,4 @@
-import User from "../../../src/domain/entity/user/User";
+import User from "../../../src/domain/entity/user/UserOK";
 import GetUserById from "../../../src/application/usecase/user/GetUserById";
 import UserRepositoryInMemory from "../../../src/infra/repository/user/UserRepositoryInMemory";
 

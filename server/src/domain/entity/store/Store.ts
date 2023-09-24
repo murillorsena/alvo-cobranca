@@ -1,13 +1,20 @@
-import EntityId from "../EntityId";
+import Entity from "../Entity";
+import crypto from "crypto";
 
-export default class Store {
-    readonly id: EntityId;
+export default class Store implements Entity {
 
-    constructor (
+    private constructor (
+        readonly id: string,
         readonly code: string,
         readonly name: string,
-        id?: string
-    ) {
-        this.id = new EntityId(id);
+    ) {}
+
+    static create (code: string, name: string) {
+        const storeId = crypto.randomUUID();
+        return new Store(storeId, code, name);
+    }
+
+    static restore (id: string, code: string, name: string) {
+        return new Store(id, code, name);
     }
 }

@@ -6,23 +6,26 @@ CREATE TABLE IF NOT EXISTS "status" (
 	PRIMARY KEY ("id")
 );
 
-INSERT INTO "status" ("description") VALUES ('Acordo Fechado');
-INSERT INTO "status" ("description") VALUES ('Acordo Quebrado');
-INSERT INTO "status" ("description") VALUES ('Aditivo Enviado e Aguardando Retorno');
-INSERT INTO "status" ("description") VALUES ('Aguardando Pagamento');
-INSERT INTO "status" ("description") VALUES ('Aguardando Retorno da Simulação');
-INSERT INTO "status" ("description") VALUES ('Aguardando Confecção do Aditivo');
-INSERT INTO "status" ("description") VALUES ('Aguardando Confecção do Contrato');
-INSERT INTO "status" ("description") VALUES ('Contrato Enviado e Aguardando Retorno');
-INSERT INTO "status" ("description") VALUES ('Contrato Recebido');
-INSERT INTO "status" ("description") VALUES ('Em Negociação');
-INSERT INTO "status" ("description") VALUES ('E-mail Automático');
-INSERT INTO "status" ("description") VALUES ('Estabelecendo Contato');
-INSERT INTO "status" ("description") VALUES ('Não Localizado');
-INSERT INTO "status" ("description") VALUES ('Promessa de Pagamento');
-INSERT INTO "status" ("description") VALUES ('Promessa de Pagamento \ DR');
-INSERT INTO "status" ("description") VALUES ('Quebra de Programação');
-INSERT INTO "status" ("description") VALUES ('Reunião Agendada');
-INSERT INTO "status" ("description") VALUES ('Sem Contato');
-INSERT INTO "status" ("description") VALUES ('Sem Interesse');
-INSERT INTO "status" ("description") VALUES ('Sem Previsão de Pagamento');
+INSERT INTO "status"
+    ("description")
+VALUES
+    ('Acordo Fechado'),
+    ('Acordo Quebrado'),
+    ('Aditivo Enviado e Aguardando Retorno'),
+    ('Aguardando Pagamento'),
+    ('Aguardando Retorno da Simulação'),
+    ('Aguardando Confecção do Aditivo'),
+    ('Aguardando Confecção do Contrato'),
+    ('Contrato Enviado e Aguardando Retorno'),
+    ('Contrato Recebido'),
+    ('Em Negociação'),
+    ('E-mail Automático'),
+    ('Estabelecendo Contato'),
+    ('Não Localizado'),
+    ('Promessa de Pagamento'),
+    ('Promessa de Pagamento \ DR'),
+    ('Quebra de Programação'),
+    ('Reunião Agendada'),
+    ('Sem Contato'),
+    ('Sem Interesse'),
+    ('Sem Previsão de Pagamento');

@@ -1,14 +1,17 @@
 import Store from "../../../domain/entity/store/Store";
 import UseCase from "../UseCase";
-import ExpenseRepository from "../../repository/ExpenseRepository";
 import StoreRepository from "../../repository/StoreRepository";
+import ExpenseRepository from "../../repository/ExpenseRepository";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 
 export default class GetExpensesByStore implements UseCase {
+    private storeRepository: StoreRepository;
+    private expenseRepository: ExpenseRepository;
 
-    constructor (
-        private expenseRepository: ExpenseRepository,
-        private storeRepository: StoreRepository
-    ) {}
+    constructor (repositoryFactory: RepositoryFactory) {
+        this.storeRepository = repositoryFactory.create("StoreRepository") as StoreRepository;
+        this.expenseRepository = repositoryFactory.create("ExpenseRepository") as ExpenseRepository;
+    }
 
     async execute (): Promise<any> {
         const storesData = await this.expenseRepository.findStoreId();

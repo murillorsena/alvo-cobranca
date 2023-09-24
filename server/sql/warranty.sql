@@ -6,13 +6,16 @@ CREATE TABLE IF NOT EXISTS "warranty" (
 	PRIMARY KEY ("id")
 );
 
-INSERT INTO "warranty" ("description") VALUES ('Fiador');
-INSERT INTO "warranty" ("description") VALUES ('Carta Fiança');
-INSERT INTO "warranty" ("description") VALUES ('Seguro Fiança');
-INSERT INTO "warranty" ("description") VALUES ('Caução');
-INSERT INTO "warranty" ("description") VALUES ('Benfeitoria\Equipamentos');
-INSERT INTO "warranty" ("description") VALUES ('Sem Garantia');
-INSERT INTO "warranty" ("description") VALUES ('Pagamento Antecipado');
-INSERT INTO "warranty" ("description") VALUES ('Título de Capitalização');
-INSERT INTO "warranty" ("description") VALUES ('Hipoteca');
-INSERT INTO "warranty" ("description") VALUES ('CredPago');
+INSERT INTO "warranty"
+	("description")
+VALUES
+	('Fiador'),
+	('Carta Fiança'),
+	('Seguro Fiança'),
+	('Caução'),
+	('Benfeitoria\Equipamentos'),
+	('Sem Garantia'),
+	('Pagamento Antecipado'),
+	('Título de Capitalização'),
+	('Hipoteca'),
+	('CredPago');

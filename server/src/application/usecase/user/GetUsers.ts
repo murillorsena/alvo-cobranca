@@ -1,9 +1,13 @@
 import UseCase from "../UseCase";
 import UserRepository from "../../repository/UserRepository";
+import RepositoryFactory from "../../factory/RepositoryFactory";
 
 export default class GetUsers implements UseCase {
+    private userRepository: UserRepository;
 
-    constructor (private userRepository: UserRepository) {}
+    constructor (repositoryFactory: RepositoryFactory) {
+        this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
+    }
 
     async execute(): Promise<Output[]> {
         const users = await this.userRepository.findAll();

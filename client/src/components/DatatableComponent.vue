@@ -1,207 +1,9 @@
 <script setup lang="ts">
     // import DatatablePaginationComponent from "../components/DatatablePaginationComponent.vue";
-    import DatatableDetailComponent from "../components/DatatableDetailComponent.vue";
+    import DetailDatatableComponent from "./DetailDatatableComponent.vue";
     import { ref } from "vue";
-    // defineProps(["items"]);
 
-    const items = [
-        {
-            storeCode: "10001",
-            storeName: "LOJA 01",
-            shoppingName: "BSWA",
-            userName: "Tim Clarkson",
-            amount: "R$ 46.000,00",
-            delayedDays: 65,
-            expenses: [
-                {
-                    description: "Aluguel Mínimo",
-                    amount: "R$ 10.000,00",
-                    dueDate: "05/04/2023",
-                    delayedDays: 65
-                }, {
-                    description: "Encargo Condominial",
-                    amount: "R$ 1.500,00",
-                    dueDate: "10/04/2023",
-                    delayedDays: 60
-                }, {
-                    description: "Aluguel Mínimo",
-                    amount: "R$ 10.000,00",
-                    dueDate: "05/05/2023",
-                    delayedDays: 35
-                }, {
-                    description: "Encargo Condominial",
-                    amount: "R$ 1.500,00",
-                    dueDate: "10/05/2023",
-                    delayedDays: 30
-                }, {
-                    description: "Aluguel Mínimo",
-                    amount: "R$ 10.000,00",
-                    dueDate: "05/06/2023",
-                    delayedDays: 4
-                }, {
-                    description: "Encargo Condominial",
-                    amount: "R$ 1.500,00",
-                    dueDate: "10/06/2023",
-                    delayedDays: -1
-                }, {
-                    description: "Aluguel Mínimo",
-                    amount: "R$ 10.000,00",
-                    dueDate: "05/07/2023",
-                    delayedDays: -26
-                }, {
-                    description: "Encargo Condominial",
-                    amount: "R$ 1.500,00",
-                    dueDate: "10/07/2023",
-                    delayedDays: -31
-                }
-            ]
-        }, {
-            storeCode: "10002",
-            storeName: "LOJA 02",
-            shoppingName: "BSAB",
-            userName: "Kane Frost",
-            amount: "R$ 2.900,00",
-            delayedDays: 96,
-            expenses: [
-                {
-                    description: "Aluguel Mínimo",
-                    amount: "R$ 2.000,00",
-                    dueDate: "05/03/2023",
-                    delayedDays: 96
-                }, {
-                    description: "Encargo Condominial",
-                    amount: "R$ 700,00",
-                    dueDate: "10/06/2023",
-                    delayedDays: 1
-                }, {
-                    description: "Aluguel Complementar",
-                    amount: "R$ 200,00",
-                    dueDate: "15/06/2023",
-                    delayedDays: 6
-                }
-            ]    
-        }, {
-            storeCode: "10003",
-            storeName: "LOJA 03",
-            shoppingName: "BSCA",
-            userName: "Kane Frost",
-            amount: "R$ 800,00",
-            delayedDays: 1,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 800,00",
-                    dueDate: "10/06/2023",
-                    delayedDays: 1
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "BSIP",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "BSCT",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "BSSL",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "BSNH",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "BSSP",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "PACL",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }, {
-            storeCode: "10004",
-            storeName: "LOJA 04",
-            shoppingName: "MOSH",
-            userName: "Kane Frost",
-            amount: "R$ 100.000,00",
-            delayedDays: 10,
-            expenses: [
-                {
-                    description: "Encargo Condominial",
-                    amount: "R$ 100.000,00",
-                    dueDate: "30/05/2023",
-                    delayedDays: 10
-                }
-            ]    
-        }
-    ];
+    defineProps(["items"]);
 
     const headers: any[] = [
         { key: "storeCode", title: "Código", align: "start" },
@@ -215,7 +17,7 @@
 
     let search = ref("");
 
-    let page = ref(1);
+    let page = ref();
 
     const itemsPerPage = 8;
 
@@ -247,13 +49,13 @@
     <v-card>
         <v-card-title>
             Débitos em Aberto
-            <v-spacer></v-spacer>
+            <!-- <v-spacer></v-spacer> -->
             <v-responsive max-width="400">
-                <v-text-field v-model="search" label="Pesquisar" prepend-inner-icon="mdi-magnify" variant="outlined" single-line hide-details></v-text-field>
+                <v-text-field v-model="search" label="Pesquisar" type="text" density="compact" prepend-inner-icon="mdi-magnify" variant="filled" clearable single-line hide-details></v-text-field>
             </v-responsive>
         </v-card-title>
         <v-card-text>
-            <v-data-table height="400" v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" no-data-text="Não há dados disponíveis" hide-default-footer hover density="compact">
+            <v-data-table height="370" v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" no-data-text="Não há dados disponíveis" hide-default-footer hover density="compact">
                 <template v-slot:item.actions="{ item }">
                     <v-dialog>
                         <template v-slot:activator="{ props }">
@@ -267,10 +69,12 @@
                                         <v-row>
                                             <div class="col-12 col-lg-3">
                                                 <v-card>
-                                                    <v-card-title>Informações</v-card-title>
-                                                    <hr role="separator">
+                                                    <v-card-title>
+                                                        Informações
+                                                    </v-card-title>
+                                                    <!-- <hr role="separator"> -->
                                                     <v-card-text>
-                                                        <DatatableDetailComponent v-model:items="item.raw.expenses"></DatatableDetailComponent>
+                                                        <DetailDatatableComponent v-model:items="item.raw.expenses"></DetailDatatableComponent>
                                                     </v-card-text>
                                                 </v-card>
                                             </div>
@@ -330,7 +134,7 @@
                 <template v-slot:bottom>
                     <!-- <DatatablePaginationComponent v-bind:items="items" v-bind:page="page" v-bind:itemsPerPage="itemsPerPage"></DatatablePaginationComponent> -->
                     <div class="text-center pt-2">
-                        <v-pagination v-model="page" :length="numberOfPages(items?.length)" rounded="circle" total-visible="4">
+                        <v-pagination v-model="page" :length="numberOfPages(items?.length)" rounded="circle" total-visible="4" density="compact">
                         </v-pagination>
                     </div>
                 </template>

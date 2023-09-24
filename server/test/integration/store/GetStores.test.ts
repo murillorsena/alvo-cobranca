@@ -2,17 +2,19 @@ import Store from "../../../src/domain/entity/store/Store";
 import GetStores from "../../../src/application/usecase/store/GetStores";
 import StoreRepositoryInMemory from "../../../src/infra/repository/store/StoreRepositoryInMemory";
 import RepresentativeRepositoryInMemory from "../../../src/infra/repository/store/RepresentativeRepositoryInMemory";
+import StoreRepository from "../../../src/application/repository/StoreRepository";
 
 describe("GetStores tests", () => {
+    const storeData = {
+        id: "ae990c93-192c-4d8c-bc16-cf2dd93161cd",
+        code: "10001",
+        name: "LOJA 01"
+    };
 
     test("Should return a list of stores", async () => {
         const storeRepository = new StoreRepositoryInMemory();
         const representativeRepository = new RepresentativeRepositoryInMemory();
-        const storeData = {
-            code: "code",
-            name: "name"
-        };
-        storeRepository.stores.push(new Store(storeData.code, storeData.name));
+        storeRepository.stores.push(Store.create(storeData.code, storeData.name));
         const getStores = new GetStores(storeRepository, representativeRepository);
         const stores = await getStores.execute();
         expect(stores).toHaveLength(1);
@@ -42,13 +44,11 @@ describe("GetStores tests", () => {
         const storeRepository = new StoreRepositoryInMemory();
         const representativeRepository = new RepresentativeRepositoryInMemory();
         const representativeRepositorySpy = jest.spyOn(representativeRepository, "findAllByStoreId");
-        const storeData = {
-            code: "code",
-            name: "name"
-        };
-        storeRepository.stores.push(new Store(storeData.code, storeData.name));
+        const store = Store.create(storeData.code, storeData.name);
+        storeRepository.stores.push(store);
         const getStores = new GetStores(storeRepository, representativeRepository);
         await getStores.execute();
         expect(representativeRepositorySpy).toHaveBeenCalled();
+        expect(representativeRepositorySpy).toHaveBeenCalledWith(store.id);
     });
 });

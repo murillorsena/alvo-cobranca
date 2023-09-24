@@ -6,55 +6,81 @@ export default class UserRepositoryDatabase implements UserRepository {
 
     constructor (private connection: DatabaseConnection) {}
 
-    async create (id: string, name: string, email: string, password: string): Promise<void> {
-        await this.connection.query(`
+    async save (id: string, name: string, email: string, password: string): Promise<void> {
+        const query = `
             INSERT INTO "user" ("id", "name", "email", "password")
-            VALUES ($1, $2, $3, $4);
-        `, [ id, name, email, password ]);
+            VALUES (?, ?, ?, ?);
+        `;
+        await this.connection.query(query, [ id, name, email, password ]);
     }
     
     async findAll (): Promise<User[]> {
-        const usersData = await this.connection.query(`
+        const query = `
             SELECT "id", "name", "email", "password"
             FROM "user";
-        `, []);
+        `;
+        const usersData = await this.connection.query(query, []);
         const users: User[] = [];
         for (const userData of usersData) {
-            users.push(User.restore(userData.name, userData.email, userData.password, userData.id));
+            const user = User.restore(
+                userData.id, 
+                userData.name, 
+                userData.email, 
+                userData.password
+            );
+            users.push(user);
         }
         return users;
     }
     
     async findById (id: string): Promise<User | null> {
-        const [ userData ] = await this.connection.query(`
+        const query = `
             SELECT "id", "name", "email", "password"
             FROM "user"
-            WHERE "id" = $1;
-        `, [ id ]);
+            WHERE "id" = ?;
+        `;
+        const [ userData ] = await this.connection.query(query, [ id ]);
         if (!userData) return null;
-        const user = User.restore(userData.name, userData.email, userData.password, userData.id);
+        const user = User.restore(
+            userData.id, 
+            userData.name, 
+            userData.email, 
+            userData.password
+        );
         return user;
     }
     
     async findByName (name: string): Promise<User | null> {
-        const [ userData ] = await this.connection.query(`
+        const query = `
             SELECT "id", "name", "email", "password"
             FROM "user"
-            WHERE "name" = $1;
-        `, [ name ]);
+            WHERE "name" = ?;
+        `;
+        const [ userData ] = await this.connection.query(query, [ name ]);
         if (!userData) return null;
-        const user = User.restore(userData.name, userData.email, userData.password, userData.id);
+        const user = User.restore(
+            userData.id, 
+            userData.name, 
+            userData.email, 
+            userData.password
+        );
         return user;
     }
 
     async findByEmail (email: string): Promise<User | null> {
-        const [ userData ] = await this.connection.query(`
-            SELECT "id", "name", "email", "password"
-            FROM "user"
-            WHERE "email" = $1;
-        `, [ email ]);
+        const query = `
+            SELECT "id", "name", "email", "password" 
+            FROM "user" 
+            WHERE "email" = ?;
+        `;
+        const [ userData ] = await this.connection.query(query, [ email ]);
         if (!userData) return null;
-        const user = User.restore(userData.name, userData.email, userData.password, userData.id);
+        const user = User.restore(
+            userData.id, 
+            userData.name, 
+            userData.email, 
+            userData.password
+        );
         return user;
     }    
 }
