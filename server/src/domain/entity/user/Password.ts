@@ -5,9 +5,8 @@ export default class Password {
     private static ITERATIONS = 100;
     private static KEY_LENGTH = 64;
     private static DIGEST = "sha512";
-    readonly value: string;
 
-    constructor (value: string) {
+    constructor (readonly value: string) {
         this.value = value;
     }
 

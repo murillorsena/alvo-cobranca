@@ -10,12 +10,21 @@ export default class Shopping implements Entity {
         readonly description: string, 
     ) {}
 
-    static create (code: string, name: string, description: string) {
+    static create (props: Omit<ShoppingProps, "id">): Shopping {
+        const { code, name, description } = props;
         const shoppingId = crypto.randomUUID();
         return new Shopping(shoppingId, code, name, description);
     }
 
-    static restore (id: string, code: string, name: string, description: string) {
+    static restore (props: ShoppingProps): Shopping {
+        const { id, code, name, description } = props;
         return new Shopping(id, code, name, description);
     }
 }
+
+type ShoppingProps = {
+    id: string,
+    code: string,
+    name: string,
+    description: string
+};

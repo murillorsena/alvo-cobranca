@@ -1,5 +1,5 @@
-import Repository from "./Repository";
 import Store from "../../domain/entity/store/Store";
+import Repository from "./Repository";
 
 export default interface StoreRepository extends Repository {
     findAll (): Promise<Store[]>;

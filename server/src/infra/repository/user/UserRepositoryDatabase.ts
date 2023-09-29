@@ -6,7 +6,18 @@ export default class UserRepositoryDatabase implements UserRepository {
 
     constructor (private connection: DatabaseConnection) {}
 
-    async save (id: string, name: string, email: string, password: string): Promise<void> {
+    private restore (userData: any): User {
+        const props = {
+            id: userData["id"],
+            name: userData["name"],
+            email: userData["email"],
+            password: userData["password"]
+        };
+        return User.restore(props);
+    }
+
+    async save (user: User): Promise<void> {
+        const { id, name, email, password } = user;
         const query = `
             INSERT INTO "user" ("id", "name", "email", "password")
             VALUES (?, ?, ?, ?);
@@ -22,12 +33,7 @@ export default class UserRepositoryDatabase implements UserRepository {
         const usersData = await this.connection.query(query, []);
         const users: User[] = [];
         for (const userData of usersData) {
-            const user = User.restore(
-                userData.id, 
-                userData.name, 
-                userData.email, 
-                userData.password
-            );
+            const user = this.restore(userData);
             users.push(user);
         }
         return users;
@@ -41,12 +47,7 @@ export default class UserRepositoryDatabase implements UserRepository {
         `;
         const [ userData ] = await this.connection.query(query, [ id ]);
         if (!userData) return null;
-        const user = User.restore(
-            userData.id, 
-            userData.name, 
-            userData.email, 
-            userData.password
-        );
+        const user = this.restore(userData);
         return user;
     }
     
@@ -58,12 +59,7 @@ export default class UserRepositoryDatabase implements UserRepository {
         `;
         const [ userData ] = await this.connection.query(query, [ name ]);
         if (!userData) return null;
-        const user = User.restore(
-            userData.id, 
-            userData.name, 
-            userData.email, 
-            userData.password
-        );
+        const user = User.restore(userData);
         return user;
     }
 
@@ -75,12 +71,7 @@ export default class UserRepositoryDatabase implements UserRepository {
         `;
         const [ userData ] = await this.connection.query(query, [ email ]);
         if (!userData) return null;
-        const user = User.restore(
-            userData.id, 
-            userData.name, 
-            userData.email, 
-            userData.password
-        );
+        const user = this.restore(userData);
         return user;
     }    
 }

@@ -1,9 +1,10 @@
-import { randomUUID } from "crypto";
-
 export default class EntityId {
-    readonly value: string;
 
-    constructor (value?: string) {
-        this.value = value ?? randomUUID();
+    constructor (readonly value: string) {
+        this.value = value;
+    }
+
+    static generate (): string {
+        return crypto.randomUUID();
     }
 }

@@ -12,12 +12,23 @@ export default class Representative implements Entity {
         readonly storeId: string
     ) {}
 
-    static create (name: string, email: string, phone: string, address: string, storeId: string) {
+    static create (props: Omit<RepresentativeProps, "id">): Representative {
+        const { name, email, phone, address, storeId } = props;
         const representativeId = crypto.randomUUID();
         return new Representative(representativeId, name, email, phone, address, storeId);
     }
 
-    static restore (id: string, name: string, email: string, phone: string, address: string, storeId: string) {
+    static restore (props: RepresentativeProps): Representative {
+        const { id, name, email, phone, address, storeId } = props;
         return new Representative(id, name, email, phone, address, storeId);
     }
 }
+
+type RepresentativeProps = {
+    id: string,
+    name: string,
+    email: string,
+    phone: string,
+    address: string,
+    storeId: string
+};

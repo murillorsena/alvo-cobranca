@@ -18,12 +18,7 @@ export default class SignUp implements UseCase {
         const userExists = await this.userRepository.findByEmail(input.email);
         if (userExists) throw new BadRequestError("User already exists");
         const user = User.create(input.name, input.email, input.password, this.salt);
-        await this.userRepository.save(
-            user.id.value, 
-            user.name.value, 
-            user.email.value, 
-            user.password.value
-        );
+        await this.userRepository.save(user);
         return {
             name: user.name.value,
         };

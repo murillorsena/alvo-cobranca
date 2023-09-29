@@ -8,21 +8,30 @@ export default class User implements Entity {
 
     private constructor (
         readonly id: string,
-        readonly name: Name, 
-        readonly email: Email, 
-        readonly password: Password 
+        readonly name: Name,
+        readonly email: Email,
+        readonly password: Password
     ) {}
 
-    static create (name: string, email: string, password: string, salt: string) {
+    static create (props: Omit<UserProps, "id">, salt: string): User {
+        const { name, email, password } = props;
         const userId = crypto.randomUUID();
         return new User(userId, new Name(name), new Email(email), Password.create(password, salt));
     }
 
-    static restore (id: string, name: string, email: string, password: string) {
-        return new User(id, new Name(name), new Email(email), new Password(password))
+    static restore (props: UserProps): User {
+        const { id, name, email, password } = props;
+        return new User(id, new Name(name), new Email(email), new Password(password));
     }
     
-    validadePassword (password: string, salt: string) {
+    validadePassword (password: string, salt: string): boolean {
         return this.password.isValid(password, salt);
     }
 }
+
+type UserProps = {
+    id: string,
+    name: string,
+    email: string,
+    password: string
+};

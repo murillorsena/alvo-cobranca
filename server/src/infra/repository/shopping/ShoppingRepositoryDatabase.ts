@@ -6,6 +6,16 @@ export default class ShoppingRepositoryDatabase implements ShoppingRepository {
 
     constructor (private connection: DatabaseConnection) {}
 
+    private restore (shoppingData: any): Shopping {
+        const props = {
+            id: shoppingData["id"],
+            code: shoppingData["code"],
+            name: shoppingData["name"],
+            description: shoppingData["description"]
+        };
+        return Shopping.restore(props);
+    }
+
     async findAll (): Promise<Shopping[]> {
         const query = `
             SELECT "id", "code", "name", "description"
@@ -14,12 +24,7 @@ export default class ShoppingRepositoryDatabase implements ShoppingRepository {
         const shoppingsData = await this.connection.query(query, []);
         const shoppings: Shopping[] = [];
         for (const shoppingData of shoppingsData) {
-            const shopping = Shopping.restore(
-                shoppingData.id, 
-                shoppingData.code, 
-                shoppingData.name, 
-                shoppingData.description
-            );
+            const shopping = this.restore(shoppingData);
             shoppings.push(shopping);
         }
         return shoppings;
@@ -32,12 +37,7 @@ export default class ShoppingRepositoryDatabase implements ShoppingRepository {
             WHERE "id" = ?;
         `;
         const [ shoppingData ] = await this.connection.query(query, [ id ]);
-        const shopping = Shopping.restore(
-            shoppingData.id, 
-            shoppingData.code, 
-            shoppingData.name, 
-            shoppingData.description
-        );
+        const shopping = this.restore(shoppingData);
         return shopping;
     }
 }
