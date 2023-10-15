@@ -1,27 +1,32 @@
-import InvalidParamError from "../../../application/error/InvalidParamError";
+import { InvalidParamError } from "../../../application/error";
 import { pbkdf2Sync } from "crypto";
 
-export default class Password {
+export class Password {
+    private static SALT = "12";
     private static ITERATIONS = 100;
     private static KEY_LENGTH = 64;
     private static DIGEST = "sha512";
 
-    constructor (readonly value: string) {
+    private constructor (readonly value: string) {
         this.value = value;
     }
 
-    static create (value: string, salt: string) {
+    static create (value: string): Password {
         if (!Password.validate(value)) throw new InvalidParamError("password");
-        const hashedPassword = pbkdf2Sync(value, salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
+        const hashedPassword = pbkdf2Sync(value, Password.SALT, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
         return new Password(hashedPassword);
     }
 
-    isValid (password: string, salt: string) {
-        const hashedPassword = pbkdf2Sync(password, salt, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
+    static restore (value: string): Password {
+        return new Password(value);
+    }
+
+    isValid (password: string): boolean {
+        const hashedPassword = pbkdf2Sync(password, Password.SALT, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
         return hashedPassword === this.value;
     }
 
-    private static validate (value: string) {
+    private static validate (value: string): boolean {
         if (!value) return false;
         if (!Password.isValidLength(value)) return false;
         if (!Password.hasLowerCase(value)) return false;
@@ -31,23 +36,23 @@ export default class Password {
         return true;
     }
 
-    private static isValidLength (value: string) {
+    private static isValidLength (value: string): boolean {
         return value.length >= 8 && value.length <= 20;
     }
 
-    private static hasLowerCase (value: string) {
+    private static hasLowerCase (value: string): boolean {
         return /^(?=.*[a-z])/g.test(value);
     }
 
-    private static hasUpperCase (value: string) {
+    private static hasUpperCase (value: string): boolean {
         return /^(?=.*[A-Z])/g.test(value);
     }
 
-    private static hasSpecialChar (value: string) {
+    private static hasSpecialChar (value: string): boolean {
         return /^(?=.*[!@#$%^&*])/g.test(value);
     }
 
-    private static hasDigits (value: string) {
+    private static hasDigits (value: string): boolean {
         return /^(?=.*[0-9])/g.test(value);
     }
 }

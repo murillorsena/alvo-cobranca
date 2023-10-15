@@ -1,39 +1,35 @@
-import UseCase from "../UseCase";
-import UserRepository from "../../repository/UserRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import TokenGenerator from "../../../infra/token-generator/TokenGenerator";
-import BadRequestError from "../../error/BadRequestError";
+import { UseCase } from "../../usecase";
+import { UserNotFoundError, BadRequestError } from "../../error";
+import { UserRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { TokenGenerator } from "../../../infra/token-generator";
 
-export default class Login implements UseCase {
+export class Login implements UseCase {
     private userRepository: UserRepository;
 
-    constructor (
-        repositoryFactory: RepositoryFactory,
-        private tokenGenerator: TokenGenerator,
-        private salt: string
-    ) {
+    constructor (repositoryFactory: RepositoryFactory, private tokenGenerator: TokenGenerator) {
         this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
     }
 
-    async execute (input: Input): Promise<Output> {
+    async execute (input: LoginInput): Promise<LoginOutput> {
         const user = await this.userRepository.findByEmail(input.email);
-        if (!user) throw new BadRequestError("Authentication failure");
-        const isValidPassword = user.validadePassword(input.password, this.salt);
+        if (!user) throw new UserNotFoundError();
+        const isValidPassword = user.validadePassword(input.password);
         if (!isValidPassword) throw new BadRequestError("Authentication failure");
-        const token = await this.tokenGenerator.generate(user.email.value);
+        const token = await this.tokenGenerator.generate(user.email);
         return {
-            name: user.name.value,
+            name: user.name,
             token
         };
     }
 }
 
-type Input = {
+export type LoginInput = {
     email: string,
     password: string
 };
 
-type Output = {
+export type LoginOutput = {
     name: string,
     token: string
 };

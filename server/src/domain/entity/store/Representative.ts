@@ -1,7 +1,6 @@
-import Entity from "../Entity";
-import crypto from "crypto";
+import { Entity, EntityId } from "../index";
 
-export default class Representative implements Entity {
+export class Representative implements Entity {
 
     private constructor (
         readonly id: string,
@@ -14,7 +13,7 @@ export default class Representative implements Entity {
 
     static create (props: Omit<RepresentativeProps, "id">): Representative {
         const { name, email, phone, address, storeId } = props;
-        const representativeId = crypto.randomUUID();
+        const representativeId = EntityId.generate();
         return new Representative(representativeId, name, email, phone, address, storeId);
     }
 
@@ -24,7 +23,7 @@ export default class Representative implements Entity {
     }
 }
 
-type RepresentativeProps = {
+export type RepresentativeProps = {
     id: string,
     name: string,
     email: string,

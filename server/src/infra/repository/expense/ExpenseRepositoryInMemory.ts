@@ -1,7 +1,7 @@
-import Expense from "../../../domain/entity/expense/Expense";
-import ExpenseRepository from "../../../application/repository/ExpenseRepository";
+import { Expense } from "../../../domain/entity";
+import { ExpenseRepository } from "../../../application/repository";
 
-export default class ExpenseRepositoryInMemory implements ExpenseRepository {
+export class ExpenseRepositoryInMemory implements ExpenseRepository {
     public expenses: Expense[];
 
     constructor () {

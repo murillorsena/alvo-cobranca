@@ -1,36 +1,38 @@
-import User from "../../../domain/entity/user/User";
-import UseCase from "../UseCase";
-import UserRepository from "../../repository/UserRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import BadRequestError from "../../error/BadRequestError";
+import { User } from "../../../domain/entity";
+import { UseCase } from "../../usecase";
+import { UserRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory";
+import { BadRequestError } from "../../error";
 
-export default class SignUp implements UseCase {
+export class SignUp implements UseCase {
     private userRepository: UserRepository;
 
-    constructor (
-        repositoryFactory: RepositoryFactory,
-        private salt: string
-    ) {
+    constructor (repositoryFactory: RepositoryFactory) {
         this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
     }
 
-    async execute (input: Input): Promise<Output> {
+    async execute (input: SignUpInput): Promise<SignUpOutput> {
         const userExists = await this.userRepository.findByEmail(input.email);
         if (userExists) throw new BadRequestError("User already exists");
-        const user = User.create(input.name, input.email, input.password, this.salt);
+        const props = {
+            name: input.name,
+            email: input.email,
+            password: input.password
+        };
+        const user = User.create(props);
         await this.userRepository.save(user);
         return {
-            name: user.name.value,
+            name: user.name
         };
     }
 }
 
-type Input = {
+export type SignUpInput = {
     name: string,
     email: string,
     password: string
 };
 
-type Output = {
+export type SignUpOutput = {
     name: string
 };

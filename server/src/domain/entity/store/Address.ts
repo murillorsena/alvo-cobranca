@@ -1,4 +1,4 @@
-export default class Address {
+export class Address {
 
     constructor (
         readonly street: string,

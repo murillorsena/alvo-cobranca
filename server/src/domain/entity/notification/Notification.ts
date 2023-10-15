@@ -1,21 +1,21 @@
-import Entity from "./Entity";
+import { Entity, EntityId } from "../index";
 
-export default class Notification implements Entity {
+export class Notification implements Entity {
 
     private constructor (
         readonly id: string,
-        readonly type: string,
-        readonly content: string,
+        public type: string,
+        public content: string,
         readonly userId: string,
         readonly storeId: string,
         readonly shoppingId: string,
-        readonly createdAt: Date,
-        readonly updatedAt?: Date | null
+        readonly createdAt?: Date | null,
+        public updatedAt?: Date | null
     ) {}
 
-    static create (props: NotificationProps): Notification {
+    static create (props: Omit<Notification, "id">): Notification {
         const { type, content, userId, storeId, shoppingId } = props;
-        const notificationId = crypto.randomUUID();
+        const notificationId = EntityId.generate();
         const createdAt = new Date();
         return new Notification(notificationId, type, content, userId, storeId, shoppingId, createdAt);
     }
@@ -26,13 +26,13 @@ export default class Notification implements Entity {
     }
 }
 
-type NotificationProps = {
+export type NotificationProps = {
     id: string,
     type: string,
     content: string,
     userId: string,
     storeId: string,
     shoppingId: string,
-    createdAt: Date,
+    createdAt?: Date | null,
     updatedAt?: Date | null
 };

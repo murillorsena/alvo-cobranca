@@ -1,30 +1,30 @@
-import Representative from "../../../domain/entity/store/Representative";
-import RepresentativeRepository from "../../../application/repository/RepresentativeRepository";
-import DatabaseConnection from "../../database/DatabaseConnection";
+import { Representative } from "../../../domain/entity";
+import { RepresentativeRepository } from "../../../application/repository";
+import { DatabaseConnection } from "../../database/DatabaseConnection";
 
-export default class RepresentativeRepositoryDatabase implements RepresentativeRepository {
+export class RepresentativeRepositoryPostgre implements RepresentativeRepository {
     
     constructor (private connection: DatabaseConnection) {}
 
     private restore (representativeData: any): Representative {
         const props = {
-            id: representativeData["id"],
-            name: representativeData["name"],
-            email: representativeData["email"],
-            prone: representativeData["phone"],
-            address: representativeData["address"],
-            storeId: representativeData["store_id"]
+            id: representativeData.id,
+            name: representativeData.name,
+            email: representativeData.email,
+            phone: representativeData.phone,
+            address: representativeData.address,
+            storeId: representativeData.store_id
         };
         return Representative.restore(props);
     }
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
-        const query = `
+        const statement = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
             WHERE "store_id" = ?;
         `;
-        const representativesData = await this.connection.query(query, [ storeId ]);
+        const representativesData = await this.connection.query(statement, [ storeId ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
             const representative = this.restore(representativeData);
@@ -34,12 +34,12 @@ export default class RepresentativeRepositoryDatabase implements RepresentativeR
     }
     
     async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
-        const query = `
+        const statement = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
             WHERE "store_code" = ?;
         `;
-        const representativesData = await this.connection.query(query, [ storeCode ]);
+        const representativesData = await this.connection.query(statement, [ storeCode ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
             const representative = this.restore(representativeData);

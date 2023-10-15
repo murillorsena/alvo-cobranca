@@ -1,10 +1,9 @@
-import Store from "../../../domain/entity/store/Store";
-import UseCase from "../UseCase";
-import StoreRepository from "../../repository/StoreRepository";
-import ExpenseRepository from "../../repository/ExpenseRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
+import { Store } from "../../../domain/entity";
+import { UseCase } from "../../usecase";
+import { StoreRepository, ExpenseRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class GetExpensesByStore implements UseCase {
+export class GetExpensesByStore implements UseCase {
     private storeRepository: StoreRepository;
     private expenseRepository: ExpenseRepository;
 
@@ -13,19 +12,19 @@ export default class GetExpensesByStore implements UseCase {
         this.expenseRepository = repositoryFactory.create("ExpenseRepository") as ExpenseRepository;
     }
 
-    async execute (): Promise<any> {
+    async execute (): Promise<GetExpensesByStoreOutput[]> {
         const storesData = await this.expenseRepository.findStoreId();
         const stores: Store[] = [];
         for (const storeData of storesData) {
-            const store = await this.storeRepository.findById(storeData.store_id);
+            const store = await this.storeRepository.findById(storeData.storeId);
             if (store) stores.push(store);
         }
-        const output: Output[] = [];
+        const output: GetExpensesByStoreOutput[] = [];
         for (const store of stores) {
             const expenses: any[] = [];
-            const amount = await this.expenseRepository.sumAmount(store.id.value);
-            const delay = await this.expenseRepository.minDueDate(store.id.value);
-            const expensesData = await this.expenseRepository.findAllByStoreId(store.id.value);
+            const amount = await this.expenseRepository.sumAmount(store.id);
+            const delay = await this.expenseRepository.minDueDate(store.id);
+            const expensesData = await this.expenseRepository.findAllByStoreId(store.id);
             for (const expenseData of expensesData) {
                 expenses.push({
                     description: expenseData.description,
@@ -46,7 +45,7 @@ export default class GetExpensesByStore implements UseCase {
     }
 }
 
-type Output = {
+export type GetExpensesByStoreOutput = {
     storeCode: string,
     storeName: string,
     amount: number,

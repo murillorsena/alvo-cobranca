@@ -1,6 +1,6 @@
-import HttpError from "./HttpError";
+import { HttpError } from "./HttpError";
 
-export default class InvalidParamError extends HttpError {
+export class InvalidParamError extends HttpError {
 
     constructor (param: string) {
         super(`Invalid param: ${param}`, 400);

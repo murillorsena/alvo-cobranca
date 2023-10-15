@@ -1,9 +1,10 @@
-import express, { Express, Request, Response } from "express";
-import HttpServer, { HttpMethod } from "./HttpServer";
-import AuthMiddleware from "../middleware/AuthMiddleware";
+import { HttpServer, HttpMethod } from "../http";
+import { AuthMiddleware } from "../middleware";
+import { Express, Request, Response } from "express";
+import express from "express";
 import cors from "cors";
 
-export default class ExpressAdapter implements HttpServer {
+export class ExpressAdapter implements HttpServer {
     private app: Express;
 
     constructor () {
@@ -30,7 +31,7 @@ export default class ExpressAdapter implements HttpServer {
     
     listen (port: number): void {
         this.app.listen(port, () => {
-            console.log(`Server is running on port ${port}`)
+            console.log(`Server is running on port ${port}`);
         });
     }
 }

@@ -1,3 +1,3 @@
-export default interface Entity {
-    readonly id: String;
+export interface Entity {
+    readonly id: string;
 }

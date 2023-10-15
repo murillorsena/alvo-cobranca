@@ -1,7 +1,7 @@
-import TokenGenerator from "./TokenGenerator";
+import { TokenGenerator } from "../token-generator";
 import jwt from "jsonwebtoken";
 
-export default class JwtAdapter implements TokenGenerator {
+export class JwtAdapter implements TokenGenerator {
 
     constructor (private secret: any) {}
 

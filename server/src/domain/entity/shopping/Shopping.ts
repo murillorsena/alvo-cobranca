@@ -1,18 +1,17 @@
-import Entity from "../Entity";
-import crypto from "crypto";
+import { Entity, EntityId } from "../index";
 
-export default class Shopping implements Entity {
+export class Shopping implements Entity {
     
     private constructor (
         readonly id: string,
         readonly code: string,
         readonly name: string, 
-        readonly description: string, 
+        readonly description: string
     ) {}
 
     static create (props: Omit<ShoppingProps, "id">): Shopping {
         const { code, name, description } = props;
-        const shoppingId = crypto.randomUUID();
+        const shoppingId = EntityId.generate();
         return new Shopping(shoppingId, code, name, description);
     }
 
@@ -22,7 +21,7 @@ export default class Shopping implements Entity {
     }
 }
 
-type ShoppingProps = {
+export type ShoppingProps = {
     id: string,
     code: string,
     name: string,

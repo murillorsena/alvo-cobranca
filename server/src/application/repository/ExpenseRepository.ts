@@ -1,7 +1,7 @@
-import Repository from "./Repository";
-import Expense from "../../domain/entity/expense/Expense";
+import { Expense } from "../../domain/entity";
+import { Repository } from "../repository";
 
-export default interface ExpenseRepository extends Repository {
+export interface ExpenseRepository extends Repository {
     findAll (): Promise<Expense[]>;
     findAllByStoreId (storeId: string): Promise<Expense[]>;
     findStoreId (): Promise<any>;

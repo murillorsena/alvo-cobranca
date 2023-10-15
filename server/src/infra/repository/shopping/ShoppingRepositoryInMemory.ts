@@ -1,15 +1,20 @@
-import ShoppingRepository from "../../../application/repository/ShoppingRepository";
-import Shopping from "../../../domain/entity/shopping/Shopping";
+import { Shopping } from "../../../domain/entity";
+import { ShoppingRepository } from "../../../application/repository";
 
-export default class ShoppingRepositoryInMemory implements ShoppingRepository {
+export class ShoppingRepositoryInMemory implements ShoppingRepository {
     public shoppings: Shopping[];
 
     constructor () {
         this.shoppings = [];
     }
 
+    async findAll (): Promise<Shopping[]> {
+        const shoppings = this.shoppings;
+        return shoppings;
+    }
+
     async findById (id: string): Promise<Shopping | null> {
-        const shopping = this.shoppings.find(shopping => shopping.id.value === id);
+        const shopping = this.shoppings.find(shopping => shopping.id === id);
         if (!shopping) return null;
         return shopping;
     }

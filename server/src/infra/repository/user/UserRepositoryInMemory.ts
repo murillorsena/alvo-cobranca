@@ -1,16 +1,14 @@
-import User from "../../../domain/entity/user/User";
-import UserRepository from "../../../application/repository/UserRepository";
+import { User } from "../../../domain/entity";
+import { UserRepository } from "../../../application/repository";
 
-export default class UserRepositoryInMemory implements UserRepository {
-    public users: User[];
+export class UserRepositoryInMemory implements UserRepository {
+    private users: User[];
 
     constructor () {
         this.users = [];
     }
-    
-    async save (name: string, email: string, password: string): Promise<void> {
-        const salt = "";
-        const user = User.create(name, email, password, salt);
+
+    async save (user: User): Promise<void> {
         this.users.push(user);
     }
 
@@ -32,12 +30,8 @@ export default class UserRepositoryInMemory implements UserRepository {
     }
     
     async findByEmail (email: string): Promise<User | null> {
-        const user = this.users.find(user => user.email.value === email);
+        const user = this.users.find(user => user.email === email);
         if (!user) return null;
         return user;
     }
-
-    // async save (name: string, email: string, password: string, salt: string): Promise<void> {
-    //     this.users.push(User.create(name, email, password, salt));
-    // }
 }

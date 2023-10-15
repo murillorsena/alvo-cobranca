@@ -1,7 +1,7 @@
-import DatabaseConnection from "./DatabaseConnection";
+import { DatabaseConnection } from "../database";
 import pgp from "pg-promise";
 
-export default class PgPromiseAdapter implements DatabaseConnection {
+export class PgPromiseAdapter implements DatabaseConnection {
     private connection: any;
 
     constructor (private connectionUrl: any) {}

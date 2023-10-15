@@ -1,36 +1,38 @@
-import Notification from "../../../domain/entity/Notification";
-import UseCase from "../UseCase";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import NotificationRepository from "../../repository/NotificationRepository";
+import { Notification } from "../../../domain/entity";
+import { UseCase } from "../../usecase";
+import { NotificationNotFoundError } from "../../error";
+import { NotificationRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class UpdateNotification implements UseCase {
+export class UpdateNotification implements UseCase {
     private notificationRepository: NotificationRepository;
 
     constructor (repositoryFactory: RepositoryFactory) {
         this.notificationRepository = repositoryFactory.create("NotificationRepository") as NotificationRepository;
     }
 
-    async execute (input: Input): Promise<void> {
-        const notification = await this.notificationRepository.findById(input.notificationId)
-        if (!notification) throw new Error("Notification not found.");
+    async execute (input: UpdateNotificationInput): Promise<void> {
+        const notification = await this.notificationRepository.findById(input.notificationId);
+        if (!notification) throw new NotificationNotFoundError();
         const type = input.type ? input.type : notification.type;
         const content = input.content ? input.content : notification.content;
         const updatedAt = new Date();
-        const updatedNotification = Notification.restore(
-            notification.id,
-            type,
-            content,
-            notification.userId,
-            notification.storeId,
-            notification.shoppingId,
-            notification.createdAt,
-            updatedAt
-        );
+        const props = {
+            id: notification.id,
+            type: type,
+            content: content,
+            userId: notification.userId,
+            storeId: notification.storeId,
+            shoppingId: notification.shoppingId,
+            createdAt: notification.createdAt,
+            updatedAt: updatedAt
+        };
+        const updatedNotification = Notification.restore(props);
         await this.notificationRepository.update(updatedNotification);
     }
 }
 
-type Input = {
+export type UpdateNotificationInput = {
     notificationId: string,
     type?: string,
     content?: string

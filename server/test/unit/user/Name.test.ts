@@ -1,18 +1,18 @@
-import Name from "../../../src/domain/entity/user/Name";
-import InvalidParamError from "../../../src/application/error/InvalidParamError";
+import { Name } from "../../../src/domain/entity";
+import { InvalidParamError } from "../../../src/application/error";
 
 describe("Name tests", () => {
 
     test("Should create a name", () => {
-        const name = new Name("username");
+        const name = Name.create("username");
         expect(name.value).toBe("username");
     });
 
     test("Should return an error if name is empty", () => {
-        expect(() => new Name("")).toThrow(new InvalidParamError("name"));
+        expect(() => Name.create("")).toThrow(new InvalidParamError("name"));
     });
 
     test("Should return an error if name length is invalid", () => {
-        expect(() => new Name("us")).toThrow(new InvalidParamError("name"));
+        expect(() => Name.create("us")).toThrow(new InvalidParamError("name"));
     });
 });

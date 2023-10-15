@@ -1,25 +1,29 @@
-import Store from "../../../src/domain/entity/store/Store";
-import Representative from "../../../src/domain/entity/store/Representative";
+import { Representative, StoreProps, RepresentativeProps } from "../../../src/domain/entity";
 
-describe("Representative unit tests", function () {
-    const store = Store.create("10001", "LOJA 01");
-        const representativeData = {
+describe("Representative unit tests", () => {
+    let storeData: StoreProps;
+    let representativeData: RepresentativeProps;
+
+    beforeEach(() => {
+        storeData = {
+            id: "ae990c93-192c-4d8c-bc16-cf2dd93161cd",
+            code: "10001",
+            name: "LOJA 01"
+        };
+        representativeData = {
             id: "bf8f4a8f-d245-475f-9a3d-7f2768c3cff5",
             name: "representative1", 
             email: "representative1@mail.com", 
             phone: "(51) 98765-4321", 
             address: "address", 
-            storeId: store.id
+            storeId: storeData.id
         };
+    });
+    
 
-    test("Should create a representative", function () {
-        const representative = Representative.create(
-            representativeData.name,
-            representativeData.email,
-            representativeData.phone,
-            representativeData.address,
-            representativeData.storeId,
-        );
+    test("Should create a representative", () => {
+        const representative = Representative.create(representativeData);
+        expect(representative.id).toBeDefined();
         expect(representative.name).toBe(representativeData.name);
         expect(representative.email).toBe(representativeData.email);
         expect(representative.phone).toBe(representativeData.phone);
@@ -27,15 +31,8 @@ describe("Representative unit tests", function () {
         expect(representative.storeId).toBe(representativeData.storeId);
     });
     
-    test("Should restore a database representative", function () {
-        const representative = Representative.restore(
-            representativeData.id,            
-            representativeData.name,            
-            representativeData.email,            
-            representativeData.phone,            
-            representativeData.address,            
-            representativeData.storeId,            
-        );
+    test("Should restore a database representative", () => {
+        const representative = Representative.restore(representativeData);
         expect(representative.id).toBe(representativeData.id);
         expect(representative.name).toBe(representativeData.name);
         expect(representative.email).toBe(representativeData.email);

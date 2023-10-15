@@ -1,22 +1,29 @@
-import User from "../../../src/domain/entity/user/UserOK";
-import GetUserByEmail from "../../../src/application/usecase/user/GetUserByEmail";
-import UserRepositoryInMemory from "../../../src/infra/repository/user/UserRepositoryInMemory";
+import { User, UserProps } from "../../../src/domain/entity";
+import { GetUserByEmail } from "../../../src/application/usecase";
+import { UserNotFoundError } from "../../../src/application/error";
+import { UserRepositoryInMemory } from "../../../src/infra/repository";
+import { RepositoryFactoryInMemory } from "../../../src/infra/factory";
 
 describe("GetUserByEmail tests", () => {
+    let userData: UserProps;
 
-    test("Should return a user by email", async () => {
-        const userRepository = new UserRepositoryInMemory();
-        const userData = {
+    beforeEach(() => {
+        userData = {
             id: "f2b31254-f4bb-48c5-ba64-e6393819ceeb",
             name: "user1",
             email: "user1@mail.com",
             password: "User1p@ssword"
         };
-        const salt = "fake-salt";
-        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
-        const getUserByEmail = new GetUserByEmail(userRepository);
+    });
+
+    test("Should return a user by email", async () => {
+        const userRepository = new UserRepositoryInMemory();
+        await userRepository.save(User.restore(userData));
+        const repositoryFactory = new RepositoryFactoryInMemory();
+        jest.spyOn(repositoryFactory, "create").mockReturnValue(userRepository);
+        const getUserByEmail = new GetUserByEmail(repositoryFactory);
         const input = {
-            email: "user1@mail.com"
+            email: userData.email
         };
         const user = await getUserByEmail.execute(input);
         expect(user.id).toBe(userData.id);
@@ -25,28 +32,23 @@ describe("GetUserByEmail tests", () => {
     });
 
     test("Should return an error if user is not found by email", async () => {
-        const userRepository = new UserRepositoryInMemory();
-        const getUserByEmail = new GetUserByEmail(userRepository);
+        const repositoryFactory = new RepositoryFactoryInMemory();
+        const getUserByEmail = new GetUserByEmail(repositoryFactory);
         const input = {
             email: "user@mail.com"
         };
-        expect(() => getUserByEmail.execute(input)).rejects.toThrow(new Error("User not found"));
+        expect(() => getUserByEmail.execute(input)).rejects.toThrow(new UserNotFoundError());
     });
 
     test("Should check if UserRepository.findByEmail was called", async () => {
         const userRepository = new UserRepositoryInMemory();
+        await userRepository.save(User.restore(userData));
+        const repositoryFactory = new RepositoryFactoryInMemory();
+        jest.spyOn(repositoryFactory, "create").mockReturnValue(userRepository);
         const userRepositorySpy = jest.spyOn(userRepository, "findByEmail");
-        const userData = {
-            id: "f2b31254-f4bb-48c5-ba64-e6393819ceeb",
-            name: "user1",
-            email: "user1@mail.com",
-            password: "User1p@ssword"
-        };
-        const salt = "fake-salt";
-        userRepository.users.push(User.create(userData.name, userData.email, userData.password, salt, userData.id));
-        const getUserByEmail = new GetUserByEmail(userRepository);
+        const getUserByEmail = new GetUserByEmail(repositoryFactory);
         const input = {
-            email: "user1@mail.com"
+            email: userData.email
         };
         await getUserByEmail.execute(input);
         expect(userRepositorySpy).toHaveBeenCalled();

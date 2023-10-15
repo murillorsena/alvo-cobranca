@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from "express";
 
-export default class AuthMiddleware {
+export class AuthMiddleware {
 
     static execute (req: Request, res: Response, next: NextFunction) {
         if (req.url === "/login") return next();

@@ -1,35 +1,31 @@
-import Entity from "../Entity";
-import Name from "./Name";
-import Email from "./Email";
-import Password from "./Password";
-import crypto from "crypto";
+import { Entity, EntityId, Name, Email, Password } from "../../entity";
 
-export default class User implements Entity {
+export class User implements Entity {
 
     private constructor (
         readonly id: string,
-        readonly name: Name,
-        readonly email: Email,
-        readonly password: Password
+        readonly name: string,
+        readonly email: string,
+        readonly password: string
     ) {}
 
-    static create (props: Omit<UserProps, "id">, salt: string): User {
+    static create (props: Omit<UserProps, "id">): User {
         const { name, email, password } = props;
-        const userId = crypto.randomUUID();
-        return new User(userId, new Name(name), new Email(email), Password.create(password, salt));
+        const userId = EntityId.generate();
+        return new User(userId, Name.create(name).value, Email.create(email).value, Password.create(password).value);
     }
 
     static restore (props: UserProps): User {
         const { id, name, email, password } = props;
-        return new User(id, new Name(name), new Email(email), new Password(password));
+        return new User(id, Name.restore(name).value, Email.restore(email).value, Password.restore(password).value);
     }
     
-    validadePassword (password: string, salt: string): boolean {
-        return this.password.isValid(password, salt);
+    validadePassword (password: string): boolean {
+        return Password.restore(this.password).isValid(password);
     }
 }
 
-type UserProps = {
+export type UserProps = {
     id: string,
     name: string,
     email: string,

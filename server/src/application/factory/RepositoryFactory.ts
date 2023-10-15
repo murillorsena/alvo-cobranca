@@ -1,5 +1,5 @@
-import Repository from "../repository/Repository";
+import { Repository } from "../repository";
 
-export default interface RepositoryFactory {
+export interface RepositoryFactory {
     create (repository: string): Repository;
 }

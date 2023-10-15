@@ -1,39 +1,42 @@
-import Notification from "../../../domain/entity/Notification";
-import UseCase from "../UseCase";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import NotificationRepository from "../../repository/NotificationRepository";
-import UserRepository from "../../repository/UserRepository";
-import StoreRepository from "../../repository/StoreRepository";
-import ShoppingRepository from "../../repository/ShoppingRepository";
+import { Notification } from "../../../domain/entity";
+import { UseCase } from "../../usecase";
+import { UserNotFoundError, StoreNotFoundError, ShoppingNotFoundError } from "../../error";
+import { NotificationRepository, UserRepository, StoreRepository, ShoppingRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class CreateNotification implements UseCase {
+export class CreateNotification implements UseCase {
     private notificationRepository: NotificationRepository;
     private userRepository: UserRepository;
     private storeRepository: StoreRepository;
     private shoppingRepository: ShoppingRepository;
 
-    constructor (
-        repositoryFactory: RepositoryFactory
-    ) {
+    constructor (repositoryFactory: RepositoryFactory) {
         this.notificationRepository = repositoryFactory.create("NotificationRepository") as NotificationRepository;
         this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
         this.storeRepository = repositoryFactory.create("StoreRepository") as StoreRepository;
         this.shoppingRepository = repositoryFactory.create("ShoppingRepository") as ShoppingRepository;
     }
 
-    async execute (input: Input): Promise<void> {
+    async execute (input: CreateNotificationInput): Promise<void> {
         const user = await this.userRepository.findById(input.userId);
-        if (!user) throw new Error("User not found.");
+        if (!user) throw new UserNotFoundError();
         const store = await this.storeRepository.findById(input.storeId);
-        if (!store) throw new Error("Store not found.");
+        if (!store) throw new StoreNotFoundError();
         const shopping = await this.shoppingRepository.findById(input.shoppingId);
-        if (!shopping) throw new Error("Shopping not found.");
-        const notification = Notification.create(input.type, input.content, user.id, store.id, shopping.id);
+        if (!shopping) throw new ShoppingNotFoundError();
+        const props = {
+            type: input.type,
+            content: input.content,
+            userId: user.id,
+            storeId: store.id,
+            shoppingId: shopping.id
+        };
+        const notification = Notification.create(props);
         await this.notificationRepository.save(notification);
     }
 }
 
-type Input = {
+export type CreateNotificationInput = {
     type: string,
     content: string,
     userId: string,

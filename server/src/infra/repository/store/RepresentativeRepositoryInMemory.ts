@@ -1,7 +1,7 @@
-import Representative from "../../../domain/entity/store/Representative";
-import RepresentativeRepository from "../../../application/repository/RepresentativeRepository";
+import { Representative } from "../../../domain/entity";
+import { RepresentativeRepository } from "../../../application/repository";
 
-export default class RepresentativeRepositoryInMemory implements RepresentativeRepository {
+export class RepresentativeRepositoryInMemory implements RepresentativeRepository {
     public representatives: Representative[];
 
     constructor () {
@@ -9,7 +9,7 @@ export default class RepresentativeRepositoryInMemory implements RepresentativeR
     }
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
-        const representatives = this.representatives.filter(representative => representative.storeId.value === storeId);
+        const representatives = this.representatives.filter(representative => representative.storeId === storeId);
         return representatives;
     }
 }

@@ -1,31 +1,31 @@
-import UseCase from "../UseCase";
-import UserRepository from "../../repository/UserRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import BadRequestError from "../../error/BadRequestError";
+import { UseCase } from "../../usecase";
+import { UserRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { UserNotFoundError } from "../../error";
 
-export default class GetUserByName implements UseCase {
+export class GetUserByName implements UseCase {
     private userRepository: UserRepository;
 
     constructor (repositoryFactory: RepositoryFactory) {
         this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
     }
 
-    async execute (input: Input): Promise<Output> {
+    async execute (input: GetUserByNameInput): Promise<GetUserByNameOutput> {
         const user = await this.userRepository.findByName(input.name);
-        if (!user) throw new BadRequestError("User not found");
+        if (!user) throw new UserNotFoundError();
         return {
-            id: user.id.value,
-            name: user.name.value,
-            email: user.email.value
+            id: user.id,
+            name: user.name,
+            email: user.email
         };
     }
 }
 
-type Input = {
+export type GetUserByNameInput = {
     name: string
 };
 
-type Output = {
+export type GetUserByNameOutput = {
     id: string,
     name: string,
     email: string

@@ -1,7 +1,7 @@
-import Store from "../../domain/entity/store/Store";
-import Repository from "./Repository";
+import { Store } from "../../domain/entity";
+import { Repository } from "../repository";
 
-export default interface StoreRepository extends Repository {
+export interface StoreRepository extends Repository {
     findAll (): Promise<Store[]>;
     findById (id: string): Promise<Store | null>;
     findByCode (code: string): Promise<Store | null>;

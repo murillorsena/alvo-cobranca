@@ -1,19 +1,27 @@
-import InvalidParamError from "../../../application/error/InvalidParamError";
+import { InvalidParamError } from "../../../application/error";
 
-export default class Name {
+export class Name {
 
-    constructor (readonly value: string) {
-        if (!this.validate(value)) throw new InvalidParamError("name");
+    private constructor (readonly value: string) {
         this.value = value;
     }
 
-    validate (value: string) {
+    static create (value: string): Name {
+        if (!Name.validate(value)) throw new InvalidParamError("name");
+        return new Name(value);
+    }
+
+    static restore (value: string): Name {
+        return new Name(value);
+    }
+
+    static validate (value: string): boolean {
         if (!value) return false;
-        if (!this.isValidLength(value)) return false;
+        if (!Name.isValidLength(value)) return false;
         return true;
     }
 
-    private isValidLength (value: string) {
+    private static isValidLength (value: string): boolean {
         return value.length >= 3 && value.length <= 256;
     }
 }

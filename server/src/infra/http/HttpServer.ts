@@ -1,4 +1,4 @@
-export default interface HttpServer {
+export interface HttpServer {
     on (method: HttpMethod, url: string, callback: Function): void;
     listen (port: number): void;
 }

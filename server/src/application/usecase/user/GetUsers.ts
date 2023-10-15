@@ -1,29 +1,29 @@
-import UseCase from "../UseCase";
-import UserRepository from "../../repository/UserRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
+import { UseCase } from "../../usecase";
+import { UserRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class GetUsers implements UseCase {
+export class GetUsers implements UseCase {
     private userRepository: UserRepository;
 
     constructor (repositoryFactory: RepositoryFactory) {
         this.userRepository = repositoryFactory.create("UserRepository") as UserRepository;
     }
 
-    async execute(): Promise<Output[]> {
+    async execute (): Promise<GetUsersOutput[]> {
         const users = await this.userRepository.findAll();
-        const output: Output[] = [];
+        const output: GetUsersOutput[] = [];
         for (const user of users) {
             output.push({
-                id: user.id.value,
-                name: user.name.value,
-                email: user.email.value
+                id: user.id,
+                name: user.name,
+                email: user.email
             });
         }
         return output;
     }
 }
 
-type Output = {
+export type GetUsersOutput = {
     id: string,
     name: string,
     email: string

@@ -1,29 +1,28 @@
-import ExpressAdapter from "./infra/http/ExpressAdapter";
-import PgPromiseAdapter from "./infra/database/PgPromiseAdapter";
-import JwtAdapter from "./infra/token-generator/JwtAdapter";
-import HttpController from "./infra/controller/HttpController";
-import Login from "./application/usecase/login/Login";
-import GetExpenses from "./application/usecase/expense/GetExpenses";
-import AuthDecorator from "./application/decorator/AuthDecorator";
-import "dotenv/config";
-import RepositoryFactoryDatabase from "./infra/factory/RepositoryFactoryDatabase";
-
-
-const port = Number(process.env.PORT);
-const connectionUrl = String(process.env.DB_URL);
-const secret = String(process.env.SECRET);
-const salt = String(process.env.SALT);
+import { Login, GetExpenses, GetNotifications } from "./application/usecase";
+import { AuthDecorator } from "./application/decorator";
+import { ExpressAdapter } from "./infra/http";
+import { PgPromiseAdapter } from "./infra/database";
+import { JwtAdapter } from "./infra/token-generator";
+import { HttpController } from "./infra/controller";
+import { RepositoryFactoryDatabase } from "./infra/factory";
+import { config } from "./config";
 
 const httpServer = new ExpressAdapter();
-const connection = new PgPromiseAdapter(connectionUrl);
+const connection = new PgPromiseAdapter(config.database.url);
 connection.connect();
 
 const repositoryFactory = new RepositoryFactoryDatabase(connection);
-const tokenGenerator = new JwtAdapter(secret);
+const tokenGenerator = new JwtAdapter(config.auth.secret);
 
-const login = new Login(repositoryFactory, tokenGenerator, salt);
+const login = new Login(repositoryFactory, tokenGenerator);
 const getExpenses = new GetExpenses(repositoryFactory);
+const getNotifications = new GetNotifications(repositoryFactory);
 
-new HttpController(httpServer, login, new AuthDecorator(getExpenses, tokenGenerator));
+new HttpController(
+    httpServer, 
+    login, 
+    new AuthDecorator(getExpenses, tokenGenerator), 
+    new AuthDecorator(getNotifications, tokenGenerator)
+);
 
-httpServer.listen(port);
+httpServer.listen(config.server.port);

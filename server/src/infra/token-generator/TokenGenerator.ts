@@ -1,4 +1,4 @@
-export default interface TokenGenerator {
+export interface TokenGenerator {
     generate (email: string, expiresIn?: string | number): Promise<any>;
     verify (token: string): Promise<any>;
 }

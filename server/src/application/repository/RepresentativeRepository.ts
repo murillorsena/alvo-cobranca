@@ -1,6 +1,6 @@
-import Representative from "../../domain/entity/store/Representative";
-import Repository from "./Repository";
+import { Representative } from "../../domain/entity";
+import { Repository } from "../repository";
 
-export default interface RepresentativeRepository extends Repository {
+export interface RepresentativeRepository extends Repository {
     findAllByStoreId (storeId: string): Promise<Representative[]>;
 }

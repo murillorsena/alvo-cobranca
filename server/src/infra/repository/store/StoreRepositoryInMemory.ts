@@ -1,7 +1,7 @@
-import Store from "../../../domain/entity/store/Store";
-import StoreRepository from "../../../application/repository/StoreRepository";
+import { Store } from "../../../domain/entity";
+import { StoreRepository } from "../../../application/repository";
 
-export default class StoreRepositoryInMemery implements StoreRepository {
+export class StoreRepositoryInMemory implements StoreRepository {
     public stores: Store[];
 
     constructor () {
@@ -14,7 +14,7 @@ export default class StoreRepositoryInMemery implements StoreRepository {
     }
     
     async findById (id: string): Promise<Store | null> {
-        const store = this.stores.find(store => store.id.value === id);
+        const store = this.stores.find(store => store.id === id);
         if (!store) return null;
         return store;
     }

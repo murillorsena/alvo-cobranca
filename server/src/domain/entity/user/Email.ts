@@ -1,24 +1,32 @@
-import InvalidParamError from "../../../application/error/InvalidParamError";
+import { InvalidParamError } from "../../../application/error";
 
-export default class Email {
+export class Email {
 
-    constructor (readonly value: string) {
-        if (!this.validate(value)) throw new InvalidParamError("email");
+    private constructor (readonly value: string) {
         this.value = value;
     }
 
-    validate (value: string) {
+    static create (value: string): Email {
+        if (!Email.validate(value)) throw new InvalidParamError("email");
+        return new Email(value);
+    }
+
+    static restore (value: string): Email {
+        return new Email(value);
+    }
+
+    static validate (value: string): boolean {
         if (!value) return false;
-        if (!this.isValidLength(value)) return false;
-        if (!this.isValidFormat(value)) return false;
+        if (!Email.isValidLength(value)) return false;
+        if (!Email.isValidFormat(value)) return false;
         return true;
     }
 
-    private isValidLength (value: string) {
+    private static isValidLength (value: string): boolean {
         return value.length >= 8 && value.length <= 256;
     }
 
-    private isValidFormat (value: string) {
+    private static isValidFormat (value: string): boolean {
         const emailRegex = /^[\w-]+(\.[\w-]+)*@([a-zA-Z0-9-]+\.)+[a-zA-Z]{3,}$/;
         return emailRegex.test(value);
     }

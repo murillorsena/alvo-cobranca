@@ -1,9 +1,8 @@
-import Entity from "../Entity";
-import crypto from "crypto";
+import { Entity, EntityId } from "../../entity";
 
-export default class Expense implements Entity {
+export class Expense implements Entity {
     
-    constructor (
+    private constructor (
         readonly id: string,
         readonly shoppingId: string,
         readonly storeId: string,
@@ -11,15 +10,28 @@ export default class Expense implements Entity {
         readonly description: string,
         readonly amount: number,
         readonly dueDate: string,
-        readonly delayedDays: number,
+        readonly delayedDays: number
     ) {}
 
-    static create (shoppingId: string, storeId: string, userId: string, description: string, amount: number, dueDate: string, delayedDays: number) {
-        const expenseId = crypto.randomUUID();
+    static create (props: Omit<ExpenseProps, "id">): Expense {
+        const { shoppingId, storeId, userId, description, amount, dueDate, delayedDays } = props;
+        const expenseId = EntityId.generate();
         return new Expense(expenseId, shoppingId, storeId, userId, description, amount, dueDate, delayedDays);
     }
 
-    static restore (id: string, shoppingId: string, storeId: string, userId: string, description: string, amount: number, dueDate: string, delayedDays: number) {
+    static restore (props: ExpenseProps): Expense {
+        const { id, shoppingId, storeId, userId, description, amount, dueDate, delayedDays } = props;
         return new Expense(id, shoppingId, storeId, userId, description, amount, dueDate, delayedDays);
     }
 }
+
+export type ExpenseProps = {
+    id: string,
+    shoppingId: string,
+    storeId: string,
+    userId: string,
+    description: string,
+    amount: number,
+    dueDate: string,
+    delayedDays: number
+};

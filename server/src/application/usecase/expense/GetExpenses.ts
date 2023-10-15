@@ -1,12 +1,8 @@
-import UseCase from "../UseCase";
-import UserRepository from "../../repository/UserRepository";
-import StoreRepository from "../../repository/StoreRepository";
-import RepresentativeRepository from "../../repository/RepresentativeRepository";
-import ShoppingRepository from "../../repository/ShoppingRepository";
-import ExpenseRepository from "../../repository/ExpenseRepository";
-import RepositoryFactory from "../../factory/RepositoryFactory";
+import { UseCase } from "../../usecase";
+import { UserRepository, StoreRepository, RepresentativeRepository, ShoppingRepository, ExpenseRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class GetExpenses implements UseCase {
+export class GetExpenses implements UseCase {
     private userRepository: UserRepository;
     private storeRepository: StoreRepository;
     private representativeRepository: RepresentativeRepository;
@@ -21,9 +17,9 @@ export default class GetExpenses implements UseCase {
         this.expenseRepository = repositoryFactory.create("ExpenseRepository") as ExpenseRepository;
     }
 
-    async execute (): Promise<Output[]> {
+    async execute (): Promise<GetExpensesOutput[]> {
         const expenses = await this.expenseRepository.findAll();
-        const output: Output[] = [];
+        const output: GetExpensesOutput[] = [];
         for (const expense of expenses) {
             const user = await this.userRepository.findById(expense.userId);
             const store = await this.storeRepository.findById(expense.storeId);
@@ -33,7 +29,7 @@ export default class GetExpenses implements UseCase {
                 storeCode: store?.code,
                 storeName: store?.name,
                 shoppingName: shopping?.name,
-                userName: user?.name.value,
+                userName: user?.name,
                 description: expense.description,
                 amount: Number(expense.amount),
                 dueDate: expense.dueDate,
@@ -45,7 +41,7 @@ export default class GetExpenses implements UseCase {
     }
 }
 
-type Output = {
+export type GetExpensesOutput = {
     storeCode: string | undefined,
     storeName: string | undefined,
     shoppingName: string | undefined,

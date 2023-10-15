@@ -1,10 +1,9 @@
-import UseCase from "../UseCase";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import StoreRepository from "../../repository/StoreRepository";
-import RepresentativeRepository from "../../repository/RepresentativeRepository";
-import BadRequestError from "../../error/BadRequestError";
+import { UseCase } from "../UseCase";
+import { StoreRepository, RepresentativeRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { StoreNotFoundError } from "../../error";
 
-export default class GetStoreById implements UseCase {
+export class GetStoreById implements UseCase {
     private storeRepository: StoreRepository;
     private representativeRepository: RepresentativeRepository;
 
@@ -13,16 +12,16 @@ export default class GetStoreById implements UseCase {
         this.representativeRepository = repositoryFactory.create("RepresentativeRepository") as RepresentativeRepository;
     }
 
-    async execute (input: Input): Promise<Output> {
+    async execute (input: GetStoreByIdInput): Promise<GetStoreByIdOutput> {
         const store = await this.storeRepository.findById(input.storeId);
-        if (!store) throw new BadRequestError("Store not found");
+        if (!store) throw new StoreNotFoundError();
         const representatives = await this.representativeRepository.findAllByStoreId(input.storeId);
         const data: Representatives[] = [];
         for (const representative of representatives) {
             const { name, email, phone, address } = representative;
             data.push({ name, email, phone, address });
         }
-        const output: Output = {
+        const output: GetStoreByIdOutput = {
             code: store.code,
             name: store.name,
             representatives: data
@@ -31,13 +30,13 @@ export default class GetStoreById implements UseCase {
     }
 }
 
-type Input = {
+export type GetStoreByIdInput = {
     storeId: string
 };
 
-type Output = {
+export type GetStoreByIdOutput = {
     code: string,
-    name: string
+    name: string,
     representatives: Representatives[]
 };
 

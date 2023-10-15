@@ -1,9 +1,8 @@
-import UseCase from "../UseCase";
-import RepositoryFactory from "../../factory/RepositoryFactory";
-import StoreRepository from "../../repository/StoreRepository";
-import RepresentativeRepository from "../../repository/RepresentativeRepository";
+import { UseCase } from "../UseCase";
+import { StoreRepository, RepresentativeRepository } from "../../repository";
+import { RepositoryFactory } from "../../factory/RepositoryFactory";
 
-export default class GetStores implements UseCase {
+export class GetStores implements UseCase {
     private storeRepository: StoreRepository;
     private representativeRepository: RepresentativeRepository;
 
@@ -12,11 +11,11 @@ export default class GetStores implements UseCase {
         this.representativeRepository = repositoryFactory.create("RepresentativeRepository") as RepresentativeRepository;
     }
 
-    async execute (): Promise<Output[]> {
+    async execute (): Promise<GetStoresOutput[]> {
         const stores = await this.storeRepository.findAll();
-        const output: Output[] = [];
+        const output: GetStoresOutput[] = [];
         for (const store of stores) {
-            const representatives = await this.representativeRepository.findAllByStoreId(store.id.value);
+            const representatives = await this.representativeRepository.findAllByStoreId(store.id);
             const data: Representatives[] = [];
             for (const representative of representatives) {
                 const { name, email, phone, address } = representative;
@@ -32,7 +31,7 @@ export default class GetStores implements UseCase {
     }
 }
 
-type Output = {
+export type GetStoresOutput = {
     code: string,
     name: string,
     representatives: Representatives[]

@@ -1,7 +1,7 @@
-import User from "../../domain/entity/user/User";
-import Repository from "./Repository";
+import { User } from "../../domain/entity";
+import { Repository } from "../repository";
 
-export default interface UserRepository extends Repository {
+export interface UserRepository extends Repository {
     save (user: User): Promise<void>;
     findAll (): Promise<User[]>;
     findById (id: string): Promise<User | null>;

@@ -1,8 +1,6 @@
-export default class EntityId {
+import crypto from "crypto";
 
-    constructor (readonly value: string) {
-        this.value = value;
-    }
+export class EntityId {
 
     static generate (): string {
         return crypto.randomUUID();

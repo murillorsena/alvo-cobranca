@@ -1,3 +1,3 @@
-export default interface UseCase {
+export interface UseCase {
     execute (input?: any): Promise<any>;
 }
