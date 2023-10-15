@@ -1,5 +1,6 @@
 import { Store, StoreProps, Representative, RepresentativeProps } from "../../../src/domain/entity";
 import { GetStores } from "../../../src/application/usecase";
+import { RepositoryNotFoundError } from "../../../src/application/error";
 import { StoreRepositoryInMemory, RepresentativeRepositoryInMemory } from "../../../src/infra/repository";
 import { RepositoryFactory } from "../../../src/application/factory";
 import { Repository } from "../../../src/application/repository";
@@ -11,10 +12,10 @@ describe("GetStores tests", () => {
     let representativeRepository: RepresentativeRepositoryInMemory;
 
     const repositoryFactoryMock: RepositoryFactory = {
-        create (repositoryName: string): Repository {
-            if (repositoryName === "StoreRepository") return storeRepository;
-            if (repositoryName === "RepresentativeRepository") return representativeRepository;
-            throw new Error("Repository not implemented.");
+        create (repository: string): Repository {
+            if (repository === "StoreRepository") return storeRepository;
+            if (repository === "RepresentativeRepository") return representativeRepository;
+            throw new RepositoryNotFoundError();
         }
     };
 
@@ -63,9 +64,9 @@ describe("GetStores tests", () => {
         const repositoryFactorySpy = jest.spyOn(repositoryFactoryMock, "create");
         const getStores = new GetStores(repositoryFactoryMock);
         await getStores.execute();
-        expect(repositoryFactorySpy).toBeCalledTimes(2);
-        expect(repositoryFactorySpy).toBeCalledWith("StoreRepository");
-        expect(repositoryFactorySpy).toBeCalledWith("RepresentativeRepository");
+        expect(repositoryFactorySpy).toHaveBeenCalledTimes(2);
+        expect(repositoryFactorySpy).toHaveBeenCalledWith("StoreRepository");
+        expect(repositoryFactorySpy).toHaveBeenCalledWith("RepresentativeRepository");
     });
 
     test("Should check if storeRepository.findAll was called", async () => {

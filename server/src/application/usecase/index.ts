@@ -1,7 +1,6 @@
 export * from "./UseCase";
 export * from "./user/GetUsers";
 export * from "./user/GetUserById";
-export * from "./user/GetUserByName";
 export * from "./user/GetUserByEmail";
 export * from "./store/GetStores";
 export * from "./store/GetStoreById";

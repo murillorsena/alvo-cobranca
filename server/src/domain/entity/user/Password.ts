@@ -22,6 +22,8 @@ export class Password {
     }
 
     isValid (password: string): boolean {
+        // console.log("isValid password: ", password);
+        // console.log("isValid hashedPassword: ", hashedPassword);
         const hashedPassword = pbkdf2Sync(password, Password.SALT, Password.ITERATIONS, Password.KEY_LENGTH, Password.DIGEST).toString("hex");
         return hashedPassword === this.value;
     }

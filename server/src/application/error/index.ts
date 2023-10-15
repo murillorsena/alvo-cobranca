@@ -7,3 +7,5 @@ export * from "./StoreNotFoundError";
 export * from "./ShoppingNotFoundError";
 export * from "./NotificationNotFoundError";
 export * from "./RepositoryNotFoundError";
+export * from "./UserAlreadyExistsError";
+export * from "./AuthenticationFailureError";

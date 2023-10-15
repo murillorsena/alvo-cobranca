@@ -1,8 +1,8 @@
 import { User } from "../../../domain/entity";
 import { UseCase } from "../../usecase";
+import { UserAlreadyExistsError } from "../../error/UserAlreadyExistsError";
 import { UserRepository } from "../../repository";
 import { RepositoryFactory } from "../../factory";
-import { BadRequestError } from "../../error";
 
 export class SignUp implements UseCase {
     private userRepository: UserRepository;
@@ -13,7 +13,7 @@ export class SignUp implements UseCase {
 
     async execute (input: SignUpInput): Promise<SignUpOutput> {
         const userExists = await this.userRepository.findByEmail(input.email);
-        if (userExists) throw new BadRequestError("User already exists");
+        if (userExists) throw new UserAlreadyExistsError();
         const props = {
             name: input.name,
             email: input.email,

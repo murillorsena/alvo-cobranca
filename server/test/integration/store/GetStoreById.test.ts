@@ -1,6 +1,6 @@
 import { Store, StoreProps, Representative, RepresentativeProps } from "../../../src/domain/entity";
 import { GetStoreById } from "../../../src/application/usecase";
-import { StoreNotFoundError } from "../../../src/application/error";
+import { StoreNotFoundError, RepositoryNotFoundError } from "../../../src/application/error";
 import { StoreRepositoryInMemory, RepresentativeRepositoryInMemory } from "../../../src/infra/repository";
 import { RepositoryFactory } from "../../../src/application/factory";
 import { Repository } from "../../../src/application/repository";
@@ -12,10 +12,10 @@ describe("GetStoreById tests", () => {
     let representativeRepository: RepresentativeRepositoryInMemory;
 
     const repositoryFactoryMock: RepositoryFactory = {
-        create (repositoryName: string): Repository {
-            if (repositoryName === "StoreRepository") return storeRepository;
-            if (repositoryName === "RepresentativeRepository") return representativeRepository;
-            throw new Error("Repository not implemented.");
+        create (repository: string): Repository {
+            if (repository === "StoreRepository") return storeRepository;
+            if (repository === "RepresentativeRepository") return representativeRepository;
+            throw new RepositoryNotFoundError();
         }
     };
 
@@ -41,10 +41,10 @@ describe("GetStoreById tests", () => {
         storeRepository.stores.push(Store.restore(storeData));
         representativeRepository.representatives.push(Representative.restore(representativeData));
         const getStoreById = new GetStoreById(repositoryFactoryMock);
-        const input = {
+        const getStoreByIdInput = {
             storeId: storeData.id
         };
-        const store = await getStoreById.execute(input);
+        const store = await getStoreById.execute(getStoreByIdInput);
         const representative = store.representatives[0];
         expect(store.code).toBe(storeData.code);
         expect(store.name).toBe(storeData.name);
@@ -57,33 +57,46 @@ describe("GetStoreById tests", () => {
 
     test("Should return an error if no store is found by id", async () => {
         const getStoreById = new GetStoreById(repositoryFactoryMock);
-        const input = {
+        const getStoreByIdInput = {
             storeId: storeData.id
         };
-        expect(() => getStoreById.execute(input)).rejects.toThrow(new StoreNotFoundError());
+        expect(() => getStoreById.execute(getStoreByIdInput)).rejects.toThrow(new StoreNotFoundError());
+    });
+
+    test("Should check if repositoryFactory.create was called", async () => {
+        storeRepository.stores.push(Store.restore(storeData));
+        const repositoryFactorySpy = jest.spyOn(repositoryFactoryMock, "create");
+        const getStoreById = new GetStoreById(repositoryFactoryMock);
+        const getStoreByIdInput = {
+            storeId: storeData.id
+        };
+        await getStoreById.execute(getStoreByIdInput);
+        expect(repositoryFactorySpy).toHaveBeenCalledTimes(2);
+        expect(repositoryFactorySpy).toHaveBeenCalledWith("StoreRepository");
+        expect(repositoryFactorySpy).toHaveBeenCalledWith("RepresentativeRepository");
     });
 
     test("Should check if storeRepository.findById was called", async () => {
         storeRepository.stores.push(Store.restore(storeData));
         const storeRepositorySpy = jest.spyOn(storeRepository, "findById");
         const getStoreById = new GetStoreById(repositoryFactoryMock);
-        const input = {
+        const getStoreByIdInput = {
             storeId: storeData.id
         };
-        await getStoreById.execute(input);
+        await getStoreById.execute(getStoreByIdInput);
         expect(storeRepositorySpy).toHaveBeenCalledTimes(1);
-        expect(storeRepositorySpy).toHaveBeenCalledWith(input.storeId);
+        expect(storeRepositorySpy).toHaveBeenCalledWith(getStoreByIdInput.storeId);
     });
 
     test("Should check if representativeRepository.findAllByStoreId was called", async () => {
         storeRepository.stores.push(Store.restore(storeData));
         const representativeRepositorySpy = jest.spyOn(representativeRepository, "findAllByStoreId")
-        const input = {
+        const getStoreByIdInput = {
             storeId: storeData.id
         };
         const getStoreById = new GetStoreById(repositoryFactoryMock);
-        await getStoreById.execute(input);
+        await getStoreById.execute(getStoreByIdInput);
         expect(representativeRepositorySpy).toHaveBeenCalledTimes(1);
-        expect(representativeRepositorySpy).toHaveBeenCalledWith(input.storeId);
+        expect(representativeRepositorySpy).toHaveBeenCalledWith(getStoreByIdInput.storeId);
     });
 });

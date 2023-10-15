@@ -21,6 +21,8 @@ export class User implements Entity {
     }
     
     validadePassword (password: string): boolean {
+        console.log("password: ", password);
+        console.log("this.password: ", this.password);
         return Password.restore(this.password).isValid(password);
     }
 }

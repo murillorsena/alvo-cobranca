@@ -1,5 +1,5 @@
 import { UseCase } from "../../usecase";
-import { UserNotFoundError, BadRequestError } from "../../error";
+import { UserNotFoundError, AuthenticationFailureError } from "../../error";
 import { UserRepository } from "../../repository";
 import { RepositoryFactory } from "../../factory/RepositoryFactory";
 import { TokenGenerator } from "../../../infra/token-generator";
@@ -15,7 +15,7 @@ export class Login implements UseCase {
         const user = await this.userRepository.findByEmail(input.email);
         if (!user) throw new UserNotFoundError();
         const isValidPassword = user.validadePassword(input.password);
-        if (!isValidPassword) throw new BadRequestError("Authentication failure");
+        if (!isValidPassword) throw new AuthenticationFailureError();
         const token = await this.tokenGenerator.generate(user.email);
         return {
             name: user.name,

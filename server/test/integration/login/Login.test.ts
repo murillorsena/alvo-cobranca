@@ -1,89 +1,92 @@
-import User from "../../../src/domain/entity/user/User";
-import Login from "../../../src/application/usecase/login/Login";
-import BadRequestError from "../../../src/application/error/BadRequestError";
-import DatabaseRepositoryFactory from "../../../src/infra/factory/DatabaseRepositoryFactory copy";
-import UserRepositoryInMemory from "../../../src/infra/repository/user/UserRepositoryInMemory";
-import JwtAdapter from "../../../src/infra/token-generator/JwtAdapter";
+import { User, UserProps } from "../../../src/domain/entity";
+import { Login } from "../../../src/application/usecase";
+import { UserNotFoundError, RepositoryNotFoundError, AuthenticationFailureError } from "../../../src/application/error";
+import { UserRepositoryInMemory } from "../../../src/infra/repository";
+import { RepositoryFactory } from "../../../src/application/factory";
+import { Repository } from "../../../src/application/repository";
+import { JwtAdapter } from "../../../src/infra/token-generator";
 
-describe("Login unit tests", function () {
-    const userData = {
-        name: "",
-        email: "",
-        password: ""
+describe("Login tests", function () {
+    let userData: UserProps;
+    let userRepository: UserRepositoryInMemory;
+    let tokenGenerator: JwtAdapter;
+    let secret: string;
+
+    const repositoryFactoryMock: RepositoryFactory = {
+        create (repository: string): Repository {
+            if (repository === "UserRepository") return userRepository;
+            throw new RepositoryNotFoundError();
+        }
     };
 
-    test("Should login", async function () {
-        const secret = "12345";
-        const salt = "12";
-        const repositoryFactory = new DatabaseRepositoryFactory();
-        const tokenGenerator = new JwtAdapter(secret);
+    beforeEach(() => {
+        userData = {
+            id: "",
+            name: "",
+            email: "user@mail.com",
+            password: "Userp@ssw0rd"
+        };
+        secret = "";
+        userRepository = new UserRepositoryInMemory();
+        tokenGenerator = new JwtAdapter(secret);
+    });
 
-        const user = User.create(userData.name, userData.email, userData.password, salt);
-        const userRepository = new UserRepositoryInMemory();
-        userRepository.users.push(user);
-        const login = new Login(repositoryFactory, tokenGenerator, salt);
-        const input = {
+    test("Should login", async function () {
+        userRepository.users.push(User.restore(userData));
+        const login = new Login(repositoryFactoryMock, tokenGenerator);
+        const loginInput = {
             email: userData.email,
             password: userData.password
         };
-        const output = await login.execute(input);
+        const output = await login.execute(loginInput);
         expect(output.name).toBe(userData.name);
         expect(output.token).toBe("");
     });
 
-    test("Should return an error if user not found by id", async function () {
-        const secret = "12345";
-        const salt = "12";
-        const repositoryFactory = new DatabaseRepositoryFactory();
-        const tokenGenerator = new JwtAdapter(secret);
-        const login = new Login(repositoryFactory, tokenGenerator, salt);
-        const input = {
+    test("Should return an error if user is not found", async function () {
+        const login = new Login(repositoryFactoryMock, tokenGenerator);
+        const loginInput = {
             email: userData.email,
             password: userData.password
         };
-        expect(() => login.execute(input)).rejects.toThrow(new BadRequestError("Authentication failure"));
+        expect(() => login.execute(loginInput)).rejects.toThrow(new UserNotFoundError());
     });
     
-    test("Should return an error if password is incorrect", async function () {
-        const secret = "12345";
-        const salt = "12";
-        const repositoryFactory = new DatabaseRepositoryFactory();
-        const tokenGenerator = new JwtAdapter(secret);
-        const user = User.create(userData.name, userData.email, userData.password, salt);
-        const userRepository = new UserRepositoryInMemory();
-        userRepository.users.push(user);
-        const login = new Login(repositoryFactory, tokenGenerator, salt);
-        const input = {
+    test("Should return an error if password is invalid", async function () {
+        userRepository.users.push(User.restore(userData));
+        const login = new Login(repositoryFactoryMock, tokenGenerator);
+        const loginInput = {
             email: userData.email,
             password: ""
         };
-        expect(() => login.execute(input)).rejects.toThrow(new BadRequestError("Authentication failure"));
+        expect(() => login.execute(loginInput)).rejects.toThrow(new AuthenticationFailureError());
     });
 
     test("Should check if userRepository.findByEmail is called", async function () {
-        const secret = "12345";
-        const salt = "12";
-        const repositoryFactory = new DatabaseRepositoryFactory();
-        const tokenGenerator = new JwtAdapter(secret);
-        const userRepository = new UserRepositoryInMemory();
-    });
-
-    test("Should check if tokenGenerator.generate is called", async function () {
-        const secret = "12345";
-        const salt = "12";
-        const repositoryFactory = new DatabaseRepositoryFactory();
-        const tokenGenerator = new JwtAdapter(secret);
-        const tokenGeneratorSpy = jest.spyOn(tokenGenerator, "generate");
-        const user = User.create(userData.email, userData.name, userData.password, salt);
-        const userRepository = new UserRepositoryInMemory();
-        userRepository.users.push(user);
-        const login = new Login(repositoryFactory, tokenGenerator, salt);
-        const input = {
+        userRepository.users.push(User.restore(userData));
+        const userRepositorySpy = jest.spyOn(userRepository, "findByEmail");
+        const login = new Login(repositoryFactoryMock, tokenGenerator);
+        const loginInput = {
             email: userData.email,
             password: userData.password
         };
-        await login.execute(input);
+        await login.execute(loginInput);
+        expect(userRepositorySpy).toHaveBeenCalledTimes(1);
+        expect(userRepositorySpy).toHaveBeenCalledWith(loginInput.email);
+    });
+
+    test("Should check if tokenGenerator.generate is called", async function () {
+        console.log("user: ", User.restore(userData));
+        console.log("userData: ", userData.password);
+        userRepository.users.push(User.restore(userData));
+        const tokenGeneratorSpy = jest.spyOn(tokenGenerator, "generate");
+        const login = new Login(repositoryFactoryMock, tokenGenerator);
+        const loginInput = {
+            email: userData.email,
+            password: userData.password
+        };
+        await login.execute(loginInput);
         expect(tokenGeneratorSpy).toHaveBeenCalledTimes(1);
-        expect(tokenGeneratorSpy).toHaveBeenCalledWith();
+        expect(tokenGeneratorSpy).toHaveBeenCalledWith(loginInput.email);
     });
 });
