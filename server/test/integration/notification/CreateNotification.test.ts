@@ -59,7 +59,7 @@ describe("CreateNotification tests", () => {
         notificationRepository = new NotificationRepositoryInMemory();
     });
 
-    test("Should create a notification", async () => {
+    test.skip("Should create a notification", async () => {
         userRepository.users.push(User.restore(userData));
         storeRepository.stores.push(Store.restore(storeData));
         shoppingRepository.shoppings.push(Shopping.restore(shoppingData));

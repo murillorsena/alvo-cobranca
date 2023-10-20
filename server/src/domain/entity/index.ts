@@ -6,7 +6,6 @@ export * from "./user/Email";
 export * from "./user/Password";
 export * from "./store/Store";
 export * from "./store/Representative";
-export * from "./store/Address";
 export * from "./shopping/Shopping";
 export * from "./expense/Expense";
 export * from "./notification/Notification";

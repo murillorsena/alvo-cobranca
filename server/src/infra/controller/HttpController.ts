@@ -23,6 +23,7 @@ export class HttpController {
                 password: body["password"]
             };
             const output = await this.login.execute(input);
+            console.log(output);
             return output;
         });
 

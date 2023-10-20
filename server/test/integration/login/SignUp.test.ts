@@ -29,36 +29,36 @@ describe("SignUp tests", () => {
 
     test("Should register a new user", async () => {
         const signUp = new SignUp(repositoryFactoryMock);
-        const signUpInput = {
+        const input = {
             name: userData.name,
             email: userData.email,
             password: userData.password
         };
-        const user = await signUp.execute(signUpInput);
+        const user = await signUp.execute(input);
         expect(user.name).toBe(userData.name);
     });
 
     test("Should return an error if the user already exists", async () => {
-        userRepository.users.push(User.restore(userData))
+        userRepository.users.push(User.create(userData))
         const signUp = new SignUp(repositoryFactoryMock);
-        const signUpInput = {
+        const input = {
             name: userData.name,
             email: userData.email,
             password: userData.password
         };
-        expect(() => signUp.execute(signUpInput)).rejects.toThrow(new UserAlreadyExistsError());
+        expect(() => signUp.execute(input)).rejects.toThrow(new UserAlreadyExistsError());
     });
 
     test("Should check if userRepository.findByEmail was called", async () => {
         const userRepositorySpy = jest.spyOn(userRepository, "findByEmail");
         const signUp = new SignUp(repositoryFactoryMock);
-        const signUpInput = {
+        const input = {
             name: userData.name,
             email: userData.email,
             password: userData.password
         };
-        await signUp.execute(signUpInput);
+        await signUp.execute(input);
         expect(userRepositorySpy).toHaveBeenCalledTimes(1);
-        expect(userRepositorySpy).toHaveBeenCalledWith(signUpInput.email);
+        expect(userRepositorySpy).toHaveBeenCalledWith(input.email);
     });
 });

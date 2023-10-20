@@ -1,10 +1,16 @@
-import { Password } from "../../../src/domain/entity";
+import { Password, User } from "../../../src/domain/entity";
 import { InvalidParamError } from "../../../src/application/error";
 
 describe("Password tests", () => {
 
     test("Should create a password", async () => {
         const password = Password.create("User1p@ssword");
+        const user = User.create({
+            name: "user",
+            email: "user@mail.com",
+            password: "User1p@ssword"
+        });
+        expect(user.validadePassword("User1p@ssword")).toBeTruthy();
         expect(password.value).not.toBeNull();
     });
 

@@ -2,9 +2,7 @@ import { InvalidParamError } from "../../../application/error";
 
 export class Email {
 
-    private constructor (readonly value: string) {
-        this.value = value;
-    }
+    private constructor (readonly value: string) {}
 
     static create (value: string): Email {
         if (!Email.validate(value)) throw new InvalidParamError("email");

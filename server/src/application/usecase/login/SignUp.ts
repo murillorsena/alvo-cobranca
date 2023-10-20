@@ -1,6 +1,6 @@
 import { User } from "../../../domain/entity";
 import { UseCase } from "../../usecase";
-import { UserAlreadyExistsError } from "../../error/UserAlreadyExistsError";
+import { UserAlreadyExistsError } from "../../error";
 import { UserRepository } from "../../repository";
 import { RepositoryFactory } from "../../factory";
 

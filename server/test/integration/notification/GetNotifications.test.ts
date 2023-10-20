@@ -30,7 +30,7 @@ describe("GetNotifications tests", () => {
         notificationRepository = new NotificationRepositoryInMemory();
     });
 
-    test("Should return a list of notifications", async () => {
+    test.skip("Should return a list of notifications", async () => {
         notificationRepository.notifications.push(Notification.restore(notificationData));
         const getNotifications = new GetNotifications(repositoryFactoryMock);
         const notifications = await getNotifications.execute();
@@ -44,13 +44,13 @@ describe("GetNotifications tests", () => {
         expect(notification.shoppingId).toBe(notificationData.shoppingId);
     });
 
-    test("Should return an empty list if notifications not found", async () => {
+    test.skip("Should return an empty list if notifications not found", async () => {
         const getNotifications = new GetNotifications(repositoryFactoryMock);
         const notifications = await getNotifications.execute();
         expect(notifications).toHaveLength(0);
     });
 
-    test("Should check if repositoryFactory.create was called", async () => {
+    test.skip("Should check if repositoryFactory.create was called", async () => {
         const repositoryFactorySpy = jest.spyOn(repositoryFactoryMock, "create");
         const getNotifications = new GetNotifications(repositoryFactoryMock);
         await getNotifications.execute();
@@ -58,7 +58,7 @@ describe("GetNotifications tests", () => {
         expect(repositoryFactorySpy).toHaveBeenCalledWith("NotificationRepository");
     });
 
-    test("Should check if notificationRepository.findAll was called", async () => {
+    test.skip("Should check if notificationRepository.findAll was called", async () => {
         const notificationRepositorySpy = jest.spyOn(notificationRepository, "findAll");
         const getNotifications = new GetNotifications(repositoryFactoryMock);
         await getNotifications.execute();

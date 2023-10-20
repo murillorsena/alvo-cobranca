@@ -20,7 +20,7 @@ export class UserRepositoryPostgre implements UserRepository {
         const { id, name, email, password } = user;
         const statement = `
             INSERT INTO "user" ("id", "name", "email", "password")
-            VALUES (?, ?, ?, ?);
+            VALUES ($1, $2, $3, $4);
         `;
         await this.connection.query(statement, [ id, name, email, password ]);
     }
@@ -43,7 +43,7 @@ export class UserRepositoryPostgre implements UserRepository {
         const statement = `
             SELECT "id", "name", "email", "password"
             FROM "user"
-            WHERE "id" = ?;
+            WHERE "id" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ id ]);
         if (!userData) return null;
@@ -55,7 +55,7 @@ export class UserRepositoryPostgre implements UserRepository {
         const statement = `
             SELECT "id", "name", "email", "password"
             FROM "user"
-            WHERE "name" = ?;
+            WHERE "name" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ name ]);
         if (!userData) return null;
@@ -67,7 +67,7 @@ export class UserRepositoryPostgre implements UserRepository {
         const statement = `
             SELECT "id", "name", "email", "password" 
             FROM "user" 
-            WHERE "email" = ?;
+            WHERE "email" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ email ]);
         if (!userData) return null;

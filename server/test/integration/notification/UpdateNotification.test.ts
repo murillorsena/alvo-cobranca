@@ -29,4 +29,7 @@ describe("UpdateNotification tests", () => {
         notificationRepository = new NotificationRepositoryInMemory();
     });
 
+    test.skip("", async () => {
+
+    });
 });
