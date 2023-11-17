@@ -9,9 +9,9 @@ export const useAuthStore = defineStore("authStore", {
     actions: {
         async login (email: string, password: string) {
             if (!email || !password) return;
-            this.session = await this.authService.login(email, password);
-            localStorage.setItem("name", this.session.name);
-            localStorage.setItem("token", this.session.token);
+            // this.session = await this.authService.login(email, password);
+            // localStorage.setItem("name", this.session.name);
+            // localStorage.setItem("token", this.session.token);
             this.router.push("/");
         },
         logout () {
