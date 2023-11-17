@@ -4,7 +4,6 @@
     import BecomeDueCardComponent from "./cards/BecomeDueCardComponent.vue";
     import DueCardComponent from "./cards/DueCardComponent.vue";
     import DatatableComponent from './DatatableComponent.vue';
-    import { defineProps } from "vue";
 
     defineProps(["data"]);
 </script>

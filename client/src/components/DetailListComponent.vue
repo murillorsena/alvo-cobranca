@@ -3,7 +3,7 @@
     import DebitsComponent from "./DebitsComponent.vue";
     import NotificationsComponent from "./NotificationsComponent.vue";
     // import RepresentativeComponent from "./RepresentativeComponent.vue";
-    import { defineProps, ref } from "vue";
+    import { ref } from "vue";
 
     defineProps(["item"]);
 
@@ -51,7 +51,7 @@
                                 <DebitsComponent v-bind:expenses="item.expenses"></DebitsComponent>
                             </v-window-item>
                             <v-window-item>
-                                <NotificationsComponent v-bind:notifications="item.notifications"></NotificationsComponent>
+                                <NotificationsComponent :notifications="item.notifications"></NotificationsComponent>
                             </v-window-item>
                             <!-- <v-window-item>
                                 <RepresentativeComponent v-bind:representatives="item.representatives"></RepresentativeComponent>

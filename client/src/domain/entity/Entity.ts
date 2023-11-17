@@ -1,7 +1,6 @@
 import { DomainEvent } from "../../events";
 
 export abstract class Entity {
-    readonly id: string;
     private events: Event[];
 
     constructor () {

@@ -74,21 +74,18 @@ export const items = [
         ],
         notifications: [
             {
-                id: 1,
                 userName: "Kane Frost",
                 type: "call",
                 label: "Atendimento realizado",
                 content: "Contato realizado com o lojista",
                 createdAt: "2023-11-16T23:16:18.167Z"
             }, {
-                id: 2,
                 userName: "Kane Frost",
                 type: "email",
                 label: "Email enviado",
                 content: "Notificação enviada por e-mail",
                 createdAt: "2023-01-12T23:16:18.167Z"
             }, {
-                id: 3,
                 userName: "Tim Clarkson",
                 type: "message",
                 label: "Mensagem enviada",
@@ -136,8 +133,23 @@ export const items = [
                 delayedDays: 6
             }
         ],
-        notifications: [],
-        representatives: []
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10003",
         storeName: "Pizza Hut",
@@ -154,7 +166,24 @@ export const items = [
                 dueDate: "10/06/2023",
                 delayedDays: 1
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10004",
         storeName: "Spirito Santo",
@@ -171,7 +200,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10005",
         storeName: "Panvel",
@@ -188,7 +234,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10006",
         storeName: "Bella Gula",
@@ -222,7 +285,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10008",
         storeName: "Vivo",
@@ -239,7 +319,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10009",
         storeName: "Chillibeans",
@@ -256,7 +353,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10010",
         storeName: "Cinemark",
@@ -273,7 +387,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10011",
         storeName: "Paquetá Esportes",
@@ -290,7 +421,24 @@ export const items = [
                 dueDate: "30/05/2023",
                 delayedDays: 10
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }, {
         storeCode: "10012",
         storeName: "Lojas Renner",
@@ -314,6 +462,23 @@ export const items = [
                 delayedDays: 10,
                 status: "Vencido"
             }
-        ]    
+        ],
+        notifications: [
+            {
+                userName: "Tim Clarkson",
+                type: "message",
+                label: "Mensagem enviada",
+                content: "SMS enviado para a caixa de correspondências",
+                createdAt: "2023-11-01T23:16:18.167Z"
+            }
+        ],
+        representatives: [
+            {
+                name: "João",
+                email: "joao@mail.com",
+                phone: "(51) 98765-4321",
+                role: "Representante Legal"
+            }
+        ]
     }
 ];

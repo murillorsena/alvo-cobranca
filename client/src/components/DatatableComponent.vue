@@ -1,5 +1,4 @@
 <script setup lang="ts">
-    // import DatatablePaginationComponent from "../components/DatatablePaginationComponent.vue";
     import DetailListComponent from "./DetailListComponent.vue";
     import { ref } from "vue";
 

@@ -1,24 +1,27 @@
 <script setup lang="ts">
-    import { defineProps, ref } from "vue";
+    import { ref } from "vue";
+ 
+    defineProps(["notifications"]);
 
-    const props = defineProps(["notifications"]);
-    const notifications = props.notifications;
+    // let notifications: any = reactive({ notifications: undefined });
+
+    // const props = defineProps(["notifications"]);
+    // const notifications = props.notifications;
 
     let input = ref("");
     let iconMenu = ref("");
 
     function addNotification (input: string): void {
-        console.log(iconMenu.value);
         if (!input) return;
-        const notification = {
-            content: input
-        };
-        notifications.push(notification)
+        // const notification = {
+        //     content: input
+        // };
+        // notifications.push(notification);
     }
 
-    function formatDate (data: Date): string {
-        return new Date(data).toLocaleDateString("pt-BT")
-    }
+    // function formatDate (data: Date): string {
+    //     return new Date(data).toLocaleDateString("pt-BT")
+    // }
 </script>
 
 <template>
@@ -30,14 +33,15 @@
     <v-card class="bg-surface">
         <v-timeline class="pa-4" align="start" density="comfortable" line-inset="5" side="end" truncate-line="both">
             <v-timeline-item v-for="notification in notifications" dot-color="surface-variant" size="x-small">
+                <!-- {{ notification }} -->
+                {{ notification.createdAt }}
                 <!-- <v-list-item>
                     <v-list-item-title>{{ notification.content }}</v-list-item-title>
                     <v-list-item-subtitle>{{ notification.content }}</v-list-item-subtitle>
                 </v-list-item> -->
-                <div class="d-flex justify-space-between">
+                <!-- <div class="d-flex justify-space-between">
                     <span class="text-subtitle-1">{{ notification.label }}</span>
                     <span class="text-subtitle-1">{{ formatDate(notification.createdAt) }}</span>
-                    <!-- <span class="text-subtitle-1">{{ notification.createdAt }}</span> -->
                 </div>
                 <p class="flex-wrap">{{ notification.content }}</p>
                 <div class="d-flex align-center">
@@ -46,7 +50,7 @@
                         <v-img v-if="notification.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
                     </v-avatar>
                     <span>{{ notification.userName }}</span>
-                </div>
+                </div> -->
             </v-timeline-item>
             <v-timeline-item dot-color="surface-variant" density="compact" size="x-small" width="500">
                 <v-text-field v-model="input" v-on:keydown.enter="addNotification(input)" hide-details placeholder="Mensagem" variant="solo-filled">

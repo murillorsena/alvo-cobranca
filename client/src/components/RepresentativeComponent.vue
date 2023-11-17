@@ -1,6 +1,4 @@
-<script setup lang="ts">
-    import { defineProps } from "vue";
-
+<!-- <script setup lang="ts">
     defineProps(["representatives"]);
 </script>
 
@@ -39,4 +37,4 @@
         </v-list-item>
     </v-list>
     <div v-else>Sem representantes</div>
-</template>
+</template> -->

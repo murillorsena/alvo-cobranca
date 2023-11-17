@@ -1,4 +1,4 @@
-import { AuthServiceHttp, ExpenseServiceHttp, NotificationServiceHttp } from "./services";
+import { AuthServiceHttp, ExpenseServiceHttp } from "./services";
 import { useAuthStore } from "./stores";
 import { AxiosAdapter } from "./infra/http";
 import { router } from "./routes";

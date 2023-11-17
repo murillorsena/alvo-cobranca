@@ -2,7 +2,7 @@
     import { useAuthStore } from '../stores';
     import { ref } from "vue";
 
-    const emit = defineEmits(["changedTheme"]);
+    defineEmits(["changedTheme"]);
 
     const authStore = useAuthStore();
     const name = authStore.session.name;
