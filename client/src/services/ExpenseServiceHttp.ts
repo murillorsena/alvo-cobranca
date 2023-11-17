@@ -1,8 +1,8 @@
-import ExpenseService from "./ExpenseService";
-import HttpClient from "../infra/HttpClient";
-import Expense from "../domain/entity/Expense";
+import { Expense } from "../domain/entity";
+import { ExpenseService } from "../services";
+import { HttpClient } from "../infra/http";
 
-export default class ExpenseServiceHttp implements ExpenseService {
+export class ExpenseServiceHttp implements ExpenseService {
 
     constructor (
         private httpClient: HttpClient, 
@@ -10,7 +10,8 @@ export default class ExpenseServiceHttp implements ExpenseService {
     ) {}
     
     async getExpenses(): Promise<any> {
-        const expensesData = await this.httpClient.get(`${this.baseUrl}/`);
+        const url = `${this.baseUrl}/`;
+        const expensesData = await this.httpClient.get(url);
         const expenses: Expense[] = [];
         for (const expenseData of expensesData) {
             const expense = new Expense(
@@ -20,7 +21,7 @@ export default class ExpenseServiceHttp implements ExpenseService {
                 expenseData.userName,
                 expenseData.description,
                 expenseData.amount,
-                expenseData.delayedDays,
+                expenseData.dueDate
             );
             expenses.push(expense);
         }

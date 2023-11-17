@@ -33,7 +33,7 @@ export class StoreRepositoryPostgre implements StoreRepository {
         const statement = `
             SELECT "id", "code", "name"
             FROM "store"
-            WHERE "id" = ?;
+            WHERE "id" = $1;
         `;
         const [ storeData ] = await this.connection.query(statement, [ id ]);
         if (!storeData) return null;
@@ -45,7 +45,7 @@ export class StoreRepositoryPostgre implements StoreRepository {
         const statement = `
             SELECT "id", "code", "name"
             FROM "store"
-            WHERE "code" = ?;
+            WHERE "code" = $1;
         `;
         const [ storeData ] = await this.connection.query(statement, [ code ]);
         if (!storeData) return null;

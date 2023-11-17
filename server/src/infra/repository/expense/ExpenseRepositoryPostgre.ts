@@ -1,6 +1,6 @@
 import { Expense } from "../../../domain/entity";
 import { ExpenseRepository } from "../../../application/repository";
-import { DatabaseConnection } from "../../database/DatabaseConnection";
+import { DatabaseConnection } from "../../database";
 
 export class ExpenseRepositoryPostgre implements ExpenseRepository {
 
@@ -9,20 +9,19 @@ export class ExpenseRepositoryPostgre implements ExpenseRepository {
     private restore (expenseData: any): Expense {
         const props = {
             id: expenseData.id, 
-            shoppingId: expenseData.shopping_id,
             storeId: expenseData.store_id,
+            shoppingId: expenseData.shopping_id,
             userId: expenseData.user_id,
             description: expenseData.description,
             amount: parseInt(expenseData.amount),
-            dueDate: expenseData.due_date.toLocaleDateString("pt-BR"),
-            delayedDays: expenseData.delayed_days
+            dueDate: expenseData.due_date
         };
         return Expense.restore(props);
     }
 
     async findAll (): Promise<Expense[]> {
         const statement = `
-            SELECT "id", "shopping_id", "store_id", "user_id", "description", "amount", "due_date", (CURRENT_DATE - "due_date") AS "delayed_days"
+            SELECT "id", "store_id", "shopping_id", "user_id", "description", "amount", "due_date"
             FROM "expense"
         `;
         const params: [] = [];
@@ -37,9 +36,9 @@ export class ExpenseRepositoryPostgre implements ExpenseRepository {
 
     async findAllByStoreId (storeId: string): Promise<Expense[]> {
         const statement = `
-            SELECT "id", "shopping_id", "store_id", "user_id", "description", "amount", "due_date", (CURRENT_DATE - "due_date") AS "delayed_days"
+            SELECT "id", "store_id", "shopping_id", "user_id", "description", "amount", "due_date"
             FROM "expense"
-            WHERE "store_id" = ?;
+            WHERE "store_id" = $1;
         `;
         const params = [ storeId ];
         const expensesData = await this.connection.query(statement, params);
@@ -65,7 +64,7 @@ export class ExpenseRepositoryPostgre implements ExpenseRepository {
         const statement = `
             SELECT SUM("amount") AS "amount"
             FROM "expense"
-            WHERE "store_id" = ?;
+            WHERE "store_id" = $1;
         `;
         const [ result ] = await this.connection.query(statement, [ storeId ]);
         return parseInt(result.amount);
@@ -75,7 +74,7 @@ export class ExpenseRepositoryPostgre implements ExpenseRepository {
         const statement = `
             SELECT (CURRENT_DATE - MIN("due_date")) AS "delayed_days"
             FROM "expense"
-            WHERE "store_id" = ?;
+            WHERE "store_id" = $1;
         `;
         const [ result ] = await this.connection.query(statement, [ storeId ]);
         return result.delayed_days;

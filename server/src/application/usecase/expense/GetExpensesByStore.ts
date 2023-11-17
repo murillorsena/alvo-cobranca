@@ -1,7 +1,7 @@
 import { Store } from "../../../domain/entity";
 import { UseCase } from "../../usecase";
 import { StoreRepository, ExpenseRepository } from "../../repository";
-import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { RepositoryFactory } from "../../factory";
 
 export class GetExpensesByStore implements UseCase {
     private storeRepository: StoreRepository;
@@ -29,8 +29,9 @@ export class GetExpensesByStore implements UseCase {
                 expenses.push({
                     description: expenseData.description,
                     amount: expenseData.amount,
-                    dueDate: expenseData.dueDate,
-                    delayedDays: expenseData.delayedDays
+                    dueDate: expenseData.dueDate.toLocaleDateString("pt-br"),
+                    delayedDays: expenseData.getDelayedDays(new Date()),
+                    status: expenseData.getStatus(new Date())
                 });
             }
             output.push({
@@ -53,7 +54,8 @@ export type GetExpensesByStoreOutput = {
     expenses: {
         description: string,
         amount: number,
-        dueDate: Date,
-        delayedDays: number
+        dueDate: string,
+        delayedDays: number,
+        status: string
     }[]
 };

@@ -7,13 +7,13 @@ export class RepositoryFactoryInMemory implements RepositoryFactory {
 
     constructor () {}
 
-    create (repository: string): Repository {
-        if (repository === "UserRepository") return new UserRepositoryInMemory();
-        if (repository === "StoreRepository") return new StoreRepositoryInMemory();
-        if (repository === "RepresentativeRepository") return new RepresentativeRepositoryInMemory();
-        if (repository === "ShoppingRepository") return new ShoppingRepositoryInMemory();
-        if (repository === "ExpenseRepository") return new ExpenseRepositoryInMemory();
-        if (repository === "NotificationRepository") return new NotificationRepositoryInMemory();
+    create (type: string): Repository {
+        if (type === "UserRepository") return new UserRepositoryInMemory();
+        if (type === "StoreRepository") return new StoreRepositoryInMemory();
+        if (type === "RepresentativeRepository") return new RepresentativeRepositoryInMemory();
+        if (type === "ShoppingRepository") return new ShoppingRepositoryInMemory();
+        if (type === "ExpenseRepository") return new ExpenseRepositoryInMemory();
+        if (type === "NotificationRepository") return new NotificationRepositoryInMemory();
         throw new RepositoryNotFoundError();
     }
 }

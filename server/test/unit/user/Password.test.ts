@@ -1,10 +1,10 @@
-import { Password, User } from "../../../src/domain/entity";
+import { BcryptPassword, User } from "../../../src/domain/entity";
 import { InvalidParamError } from "../../../src/application/error";
 
 describe("Password tests", () => {
 
     test("Should create a password", async () => {
-        const password = Password.create("User1p@ssword");
+        const password = BcryptPassword.create("User1p@ssword");
         const user = User.create({
             name: "user",
             email: "user@mail.com",
@@ -15,31 +15,31 @@ describe("Password tests", () => {
     });
 
     test("Should create a password from the database", async () => {
-        const password = Password.restore("87274a69118c5817ac97ce78b2db85b39880d6bca406569e475a916a8eb3b5d5e967f559a442c8295c760bafa2c8eae838ee6a194000919a30ba6748fae6af21");
+        const password = BcryptPassword.restore("87274a69118c5817ac97ce78b2db85b39880d6bca406569e475a916a8eb3b5d5e967f559a442c8295c760bafa2c8eae838ee6a194000919a30ba6748fae6af21");
         expect(password.value).toBe("87274a69118c5817ac97ce78b2db85b39880d6bca406569e475a916a8eb3b5d5e967f559a442c8295c760bafa2c8eae838ee6a194000919a30ba6748fae6af21");
     });
 
     test("Should not accept a password with less than 8 characters", async () => {
-        expect(() => Password.create("User1")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("User1")).toThrow(new InvalidParamError("password"));
     });
 
     test("Should not accept a password longer than 20 characters", () => {
-        expect(() => Password.create("User1p@ssword23456789")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("User1p@ssword23456789")).toThrow(new InvalidParamError("password"));
     });
 
     test("Should not accept a password without lowercase letters", () => {
-        expect(() => Password.create("USER1P@SSWORD")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("USER1P@SSWORD")).toThrow(new InvalidParamError("password"));
     });
 
     test("Should not accept a password without uppercase letters", () => {
-        expect(() => Password.create("user1p@ssword")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("user1p@ssword")).toThrow(new InvalidParamError("password"));
     });
 
     test("Should not accept a password without digits", () => {
-        expect(() => Password.create("Userp@ssword")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("Userp@ssword")).toThrow(new InvalidParamError("password"));
     });
 
     test("Should not accept a password without special characters", () => {
-        expect(() => Password.create("User1password")).toThrow(new InvalidParamError("password"));
+        expect(() => BcryptPassword.create("User1password")).toThrow(new InvalidParamError("password"));
     });
 });

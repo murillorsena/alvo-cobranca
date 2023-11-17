@@ -1,4 +1,4 @@
-import { Notification } from "../../../domain/entity";
+import { Notification, NotificationType } from "../../../domain/entity";
 import { UseCase } from "../../usecase";
 import { UserNotFoundError, StoreNotFoundError, ShoppingNotFoundError } from "../../error";
 import { NotificationRepository, UserRepository, StoreRepository, ShoppingRepository } from "../../repository";
@@ -29,7 +29,8 @@ export class CreateNotification implements UseCase {
             content: input.content,
             userId: user.id,
             storeId: store.id,
-            shoppingId: shopping.id
+            shoppingId: shopping.id,
+            createdAt: new Date()
         };
         const notification = Notification.create(props);
         await this.notificationRepository.save(notification);
@@ -37,9 +38,10 @@ export class CreateNotification implements UseCase {
 }
 
 export type CreateNotificationInput = {
-    type: string,
+    type: NotificationType,
     content: string,
     userId: string,
     storeId: string,
-    shoppingId: string
+    shoppingId: string,
+    createdAt: Date
 };

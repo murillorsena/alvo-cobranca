@@ -1,39 +1,42 @@
 <script setup lang="ts">
-    import ToolbarComponent from "../components/ToolbarComponent.vue";
-    import CardsComponent from "../components/CardsComponent.vue";
-    import DatatableComponent from "../components/DatatableComponent.vue";
-    // import ExpenseService from "../services/ExpenseService";
-    // import { inject, onMounted, reactive } from "vue";
+    // import NavigationComponent from "../components/NavigationComponent.vue";
+    import AppBarComponent from "../components/AppBarComponent.vue";
+    import MainComponent from "../components/MainComponent.vue";
+    import { ExpenseService } from "../services";
+    import { inject, onMounted, reactive } from "vue";
     // import Expense from "../domain/entity/Expense.js";
-    import { onMounted, reactive } from "vue";
-    import { items } from "./data";
+    import { items } from "../data";
+
+
+    // const theme = localStorage.getItem("theme");
 
     // let data: { items: Expense[] | undefined } = reactive({ items: undefined });
     let data: any = reactive({ items: undefined });
+    
+    // let theme = ref(true);
 
-    onMounted(async () => {
-        // const expenseService = inject("expenseService") as ExpenseService;
-        // const output = await expenseService.getExpenses();
-        // console.log(output);
+    onMounted (async () => {
+        const expenseService = inject("expenseService") as ExpenseService;
+        const output = await expenseService.getExpenses();
+        console.log(output);
         // console.log("store name: ", output[0]);
         
         data.items = items;
     });
+
+    // function log (value: boolean) {
+    //     theme.value = value;
+    // }
 </script>
  
 <template>
-    <ToolbarComponent></ToolbarComponent>
-    <v-container>
-        <v-row>
-            <v-col cols="3">
-                <CardsComponent :items="data.items"></CardsComponent>
-            </v-col>
-            <v-col cols="9">
-                <DatatableComponent :items="data.items"></DatatableComponent>
-            </v-col>
-        </v-row>
-    </v-container>
+    <AppBarComponent></AppBarComponent>
+    <MainComponent style="background-color: 145, 85, 253;" v-bind:data="data"></MainComponent>
 </template>
 
-<style scoped>
-</style>
+<!-- <template>
+    <v-app v-bind:theme="theme ? 'light' : 'dark'">
+        <AppBarComponent v-on:changed-theme="log"></AppBarComponent>
+        <MainComponent v-bind:data="data"></MainComponent>
+    </v-app>
+</template> -->../data

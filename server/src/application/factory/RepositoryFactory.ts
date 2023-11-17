@@ -1,5 +1,5 @@
 import { Repository } from "../repository";
 
 export interface RepositoryFactory {
-    create (repository: string): Repository;
+    create (type: string): Repository;
 }

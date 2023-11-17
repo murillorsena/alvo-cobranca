@@ -1,5 +1,5 @@
-import Expense from "../domain/entity/Expense";
+import { Expense } from "../domain/entity";
 
-export default interface ExpenseService {
+export interface ExpenseService {
     getExpenses (): Promise<Expense[]>;
 }

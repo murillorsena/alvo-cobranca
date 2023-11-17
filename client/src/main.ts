@@ -1,7 +1,6 @@
-import AxiosAdapter from "./infra/AxiosAdapter";
-import AuthServiceHttp from "./services/AuthServiceHttp";
-import ExpenseServiceHttp from "./services/ExpenseServiceHttp";
-import { useAuthStore } from "./stores/AuthStore";
+import { AuthServiceHttp, ExpenseServiceHttp, NotificationServiceHttp } from "./services";
+import { useAuthStore } from "./stores";
+import { AxiosAdapter } from "./infra/http";
 import { router } from "./routes";
 import App from "./App.vue";
 
@@ -20,6 +19,7 @@ const baseUrl = "http://localhost:3000";
 const httpClient = new AxiosAdapter(router);
 const authService = new AuthServiceHttp(httpClient, baseUrl);
 const expenseService = new ExpenseServiceHttp(httpClient, baseUrl);
+// const notificationService = new NotificationServiceHttp(httpClient, baseUrl);
 
 const pinia = createPinia();
 
@@ -40,6 +40,9 @@ const vuetify = createVuetify({
         sets: {
             mdi
         }
+    },
+    theme: {
+        defaultTheme: "dark"
     }
 });
 
@@ -50,4 +53,5 @@ app.use(router);
 app.use(vuetify)
 useAuthStore().init();
 app.provide("expenseService", expenseService);
+// app.provide("notificationService", notificationService);
 app.mount('#app');

@@ -1,4 +1,4 @@
-import { Notification } from "../../../domain/entity";
+import { Notification, NotificationType } from "../../../domain/entity";
 import { UseCase } from "../../usecase";
 import { NotificationNotFoundError } from "../../error";
 import { NotificationRepository } from "../../repository";
@@ -34,6 +34,6 @@ export class UpdateNotification implements UseCase {
 
 export type UpdateNotificationInput = {
     notificationId: string,
-    type?: string,
+    type?: NotificationType,
     content?: string
 };

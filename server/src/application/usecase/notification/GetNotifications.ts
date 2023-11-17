@@ -1,4 +1,4 @@
-import { UseCase } from "..";
+import { UseCase } from "../../usecase";
 import { RepositoryFactory } from "../../factory";
 import { NotificationRepository } from "../../repository";
 
@@ -35,6 +35,6 @@ export type GetNotificationOuput = {
     userId: string,
     storeId: string,
     shoppingId: string,
-    createdAt: Date | null | undefined,
+    createdAt: Date,
     updatedAt: Date | null | undefined
 };

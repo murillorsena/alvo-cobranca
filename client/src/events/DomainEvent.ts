@@ -1,4 +1,4 @@
-export default class DomainEvent {
+export class DomainEvent {
 
     constructor (
         readonly name: string,

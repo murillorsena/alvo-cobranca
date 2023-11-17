@@ -34,7 +34,7 @@ export class ShoppingRepositoryPostgre implements ShoppingRepository {
         const statement = `
             SELECT "id", "code", "name", "description"
             FROM "shopping"
-            WHERE "id" = ?;
+            WHERE "id" = $1;
         `;
         const [ shoppingData ] = await this.connection.query(statement, [ id ]);
         if (!shoppingData) return null;

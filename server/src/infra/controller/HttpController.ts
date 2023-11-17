@@ -1,5 +1,5 @@
-import { HttpServer } from "../http";
 import { UseCase } from "../../application/usecase";
+import { HttpServer } from "../http";
 
 export class HttpController {
 
@@ -7,13 +7,14 @@ export class HttpController {
         private httpServer: HttpServer, 
         private login: UseCase, 
         private getExpenses: UseCase,
-        private getNotification: UseCase
+        private getNotifications: UseCase
     ) {
         this.httpServer.on("get", "/", async (params: any, body: any) => {
             const input = {
                 token: body["token"]
             };
             const output = await this.getExpenses.execute(input);
+            console.log("getExpenses: ", output);
             return output;
         });
 
@@ -23,12 +24,14 @@ export class HttpController {
                 password: body["password"]
             };
             const output = await this.login.execute(input);
-            console.log(output);
             return output;
         });
 
-        this.httpServer.on("get", "/store/notification", async (params: any, body: any) => {
-            const output = await this.getNotification.execute();
+        this.httpServer.on("get", "/store/notifications", async (params: any, body: any) => {
+            const input = {
+                token: body["token"]
+            };
+            const output = await this.getNotifications.execute(input);
             return output;
         });
     }

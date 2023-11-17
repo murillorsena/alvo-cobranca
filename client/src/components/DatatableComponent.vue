@@ -1,211 +1,79 @@
 <script setup lang="ts">
     // import DatatablePaginationComponent from "../components/DatatablePaginationComponent.vue";
-    import DetailDatatableComponent from "./DetailDatatableComponent.vue";
+    import DetailListComponent from "./DetailListComponent.vue";
     import { ref } from "vue";
 
     defineProps(["items"]);
 
+    // const headers: any[] = [
+    //     { key: "storeCode", title: "Código", align: "start", width: "100px" },
+    //     { key: "storeName", title: "Lojista", align: "start", width: "200px" },
+    //     { key: "shoppingName", title: "Shopping", align: "start", width: "100px" },
+    //     { key: "userName", title: "Especialista", align: "start", width: "100px" },
+    //     { key: "amount", title: "Montante", align: "start", width: "100px" },
+    //     { key: "delayedDays", title: "Maior Atraso", align: "start", width: "100px" },
+    //     { key: "actions", title: "Ações", align: "start", sortable: false }
+    // ];
+
     const headers: any[] = [
-        { key: "storeCode", title: "Código", align: "start" },
-        { key: "storeName", title: "Lojista", align: "start" },
-        { key: "shoppingName", title: "Shopping", align: "start" },
-        { key: "userName", title: "Especialista", align: "start" },
-        { key: "amount", title: "Montante", align: "start" },
-        { key: "delayedDays", title: "Maior Atraso", align: "start" },
-        { key: "actions", title: "Ações", align: "start", sortable: false },
+        { key: "storeCode", title: "Código", align: "start", width: "1%" },
+        { key: "storeName", title: "Lojista", align: "start", width: "15%" },
+        { key: "shoppingName", title: "Shopping", align: "start", width: "10%" },
+        { key: "userName", title: "Especialista", align: "start", width: "10%" },
+        { key: "amount", title: "Montante", align: "start", width: "10%" },
+        { key: "delayedDays", title: "Maior Atraso", align: "start", width: "10%" },
+        { key: "actions", title: "Ações", align: "start", sortable: false, width: "5%" }
     ];
 
     let search = ref("");
-
-    let page = ref();
-
+    let page = ref(1)
     const itemsPerPage = 8;
-
     const sortBy: any[] = [
         { key: "delayedDays", order: "desc"},
         { key: "amount", order: "desc"},
     ];
-
-    let dialog = false;
-
-    let numberOfPages = (itemsLength: number) => {
+    function numberOfPages (itemsLength: number = 0) {
         return Math.ceil(itemsLength / itemsPerPage);
     }
-
-    // const messages: any = [
-    //     {
-    //         from: "Murillo",
-    //         message: "Oi, tudo bem?",
-    //         time: "2023-06-03"
-    //     }, {
-    //         from: "L",
-    //         message: "tudo certo",
-    //         time: "2023-06-03"
-    //     }
-    // ];
 </script>
 
 <template>
     <v-card>
-        <v-card-title>
-            Débitos em Aberto
-            <!-- <v-spacer></v-spacer> -->
-            <v-responsive max-width="400">
-                <v-text-field v-model="search" label="Pesquisar" type="text" density="compact" prepend-inner-icon="mdi-magnify" variant="filled" clearable single-line hide-details></v-text-field>
+        <v-card-title class="mt-2">
+            <v-responsive max-width="40%">
+                <v-text-field v-model="search" label="Pesquisar" type="text" density="compact" variant="solo-filled" clearable single-line hide-details>
+                    <template v-slot:prepend-inner>
+                        <v-icon icon="mdi-magnify" size="small"></v-icon>
+                    </template>
+                </v-text-field>
             </v-responsive>
         </v-card-title>
         <v-card-text>
-            <v-data-table height="370" v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" no-data-text="Não há dados disponíveis" hide-default-footer hover density="compact">
+            <v-data-table height="400" v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" hide-default-footer hover density="compact">
+                <template v-slot:item.userName="{ item }">
+                    <v-avatar size="x-small">
+                        <v-img v-if="item.columns.userName === 'Tim Clarkson'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-1-aac046b6.png"></v-img>
+                        <v-img v-if="item.columns.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
+                        <v-tooltip activator="parent" location="right" open-delay="500">
+                            <span>{{ item.columns.userName }}</span>
+                        </v-tooltip>
+                    </v-avatar>
+                </template>
                 <template v-slot:item.actions="{ item }">
-                    <v-dialog>
-                        <template v-slot:activator="{ props }">
-                            <v-btn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" v-on:click="dialog = true"></v-btn>
-                        </template>
-                        <v-card>
-                            <!-- <v-card-title>Informações</v-card-title> -->
-                            <v-card-text>
-                                <v-form>
-                                    <v-container>
-                                        <v-row>
-                                            <div class="col-12 col-lg-3">
-                                                <v-card>
-                                                    <v-card-title>
-                                                        Informações
-                                                    </v-card-title>
-                                                    <!-- <hr role="separator"> -->
-                                                    <v-card-text>
-                                                        <DetailDatatableComponent v-model:items="item.raw.expenses"></DetailDatatableComponent>
-                                                    </v-card-text>
-                                                </v-card>
-                                            </div>
-                                            <!-- <div class="col-12 col-lg-9">
-                                                <v-card>
-                                                    <v-card-title>Acionamentos</v-card-title>
-                                                    <v-card-text>
-                                                        <v-timeline density="compact" align="start">
-                                                            <v-timeline-item v-for="message in messages" :key="message.time" size="x-small">
-                                                                <div class="mb-4">
-                                                                    <div class="font-weight-normal">{{ message.from }} @{{ message.time }}</div>
-                                                                    {{ message.message }}
-                                                                </div>
-                                                            </v-timeline-item>
-                                                        </v-timeline>
-                                                    </v-card-text>
-                                                </v-card>
-                                            </div> -->
-                                            <!-- <v-col cols="3">
-                                                <v-text-field :model-value="item.raw.codigo" label="Código" variant="solo" readonly></v-text-field>
-                                            </v-col>
-                                            <v-col cols="3">
-                                                <v-text-field :model-value="item.raw.lojista" label="Lojista" variant="solo" readonly></v-text-field>
-                                            </v-col>
-                                            <v-col cols="3">                                            
-                                                <v-text-field :model-value="item.raw.shopping" label="Shopping" variant="solo" readonly></v-text-field>
-                                            </v-col> -->
-                                            <!-- <v-col cols="3">                                            
-                                                <v-text-field :model-value="item.raw.representatives[0].name" label="Representante" variant="solo" readonly></v-text-field>
-                                            </v-col> -->
-                                            <!-- <v-col cols="6">
-                                                <v-card>
-                                                    <v-card-title>Acionamentos</v-card-title>
-                                                    <v-card-text>
-                                                        <v-timeline density="compact" align="start">
-                                                            <v-timeline-item v-for="message in messages" :key="message.time" size="x-small">
-                                                                <div class="mb-4">
-                                                                    <div class="font-weight-normal">{{ message.from }} @{{ message.time }}</div>
-                                                                    {{ message.message }}
-                                                                </div>
-                                                            </v-timeline-item>
-                                                        </v-timeline>
-                                                    </v-card-text>
-                                                </v-card>
-                                            </v-col> -->
-                                        </v-row>
-                                    </v-container>
-                                </v-form>
-                                <v-spacer></v-spacer>
-                            </v-card-text>
-                            <v-card-actions>
-                                <v-btn v-on:click="dialog = false">Fechar</v-btn>
-                            </v-card-actions>
-                        </v-card>
-                    </v-dialog>
+                    <DetailListComponent v-bind:item="item.selectable"></DetailListComponent>
                 </template>
                 <template v-slot:bottom>
-                    <!-- <DatatablePaginationComponent v-bind:items="items" v-bind:page="page" v-bind:itemsPerPage="itemsPerPage"></DatatablePaginationComponent> -->
                     <div class="text-center pt-2">
-                        <v-pagination v-model="page" :length="numberOfPages(items?.length)" rounded="circle" total-visible="4" density="compact">
-                        </v-pagination>
+                        <v-pagination v-model="page" density="compact" :length="numberOfPages(items?.length)" rounded="circle" total-visible="4"></v-pagination>
                     </div>
+                </template>
+                <template v-slot:no-data>
+                    <span>Nenhum dado encontrado</span>
                 </template>
             </v-data-table>
         </v-card-text>
     </v-card>
 </template>
-
-<!-- <template>
-    <v-container>
-        <v-row>
-            <v-col cols="9">
-                <v-sheet>
-                    <v-card>
-                        <v-card-title>
-                            <v-spacer></v-spacer>
-                            <v-responsive max-width="400">
-                                <v-text-field v-model="search" label="Pesquisar" prepend-inner-icon="mdi-magnify" variant="underlined" single-line hide-details></v-text-field>
-                            </v-responsive>
-                        </v-card-title>
-                        <v-card-text>
-                            <v-data-table v-model:page="page" :headers="headers" :items="items" :sort-by="sortBy" :search="search" :items-per-page="itemsPerPage" no-data-text="Não há dados disponíveis" hide-default-footer hover density="compact">
-                                <template v-slot:item.actions="{ item }">
-                                    <v-dialog>
-                                        <template v-slot:activator="{ props }">
-                                            <v-btn icon="mdi-dots-vertical" variant="text" size="small" v-bind="props" v-on:click="dialog = true"></v-btn>
-                                        </template>
-                                        <v-card>
-                                            <v-card-text>
-                                                <v-form>
-                                                    <v-container>
-                                                        <v-row>
-                                                            <div class="col-12 col-lg-3">
-                                                                <v-card>
-                                                                    <v-card-title>Informações</v-card-title>
-                                                                    <hr role="separator">
-                                                                    <v-card-text>
-                                                                        <DatatableDetailComponent v-model:items="item.raw.expenses"></DatatableDetailComponent>
-                                                                    </v-card-text>
-                                                                </v-card>
-                                                            </div>
-                                                        </v-row>
-                                                    </v-container>
-                                                </v-form>
-                                                <v-spacer></v-spacer>
-                                            </v-card-text>
-                                            <v-card-actions>
-                                                <v-btn v-on:click="dialog = false">Fechar</v-btn>
-                                            </v-card-actions>
-                                        </v-card>
-                                    </v-dialog>
-                                </template>
-                                <template v-slot:bottom>
-                                    <div class="text-center pt-2">
-                                        <v-pagination v-model="page" :length="numberOfPages(items?.length)" rounded="circle" total-visible="4">
-                                        </v-pagination>
-                                    </div>
-                                </template>
-                            </v-data-table>
-                        </v-card-text>
-                    </v-card>
-                </v-sheet>
-            </v-col>
-            <v-col cols="3">
-                <v-card>
-                    <v-card-title>Maiores Devedores</v-card-title>
-                </v-card>
-            </v-col>
-        </v-row>
-    </v-container>
-</template> -->
 
 <style scoped>
 </style>

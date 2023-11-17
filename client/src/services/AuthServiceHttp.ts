@@ -1,24 +1,17 @@
-import HttpClient from "../infra/HttpClient";
-import AuthService from "./AuthService";
+import { AuthService, AuthServiceSession } from "../services";
+import { HttpClient } from "../infra/http";
 
-export default class AuthServiceHttp implements AuthService {
+export class AuthServiceHttp implements AuthService {
 
-    constructor (
-        private httpClient: HttpClient, 
-        private baseUrl: string
-    ) {}
+    constructor (private httpClient: HttpClient, private baseUrl: string) {}
     
-    async login (email: string, password: string): Promise<any> {
+    async login (email: string, password: string): Promise<AuthServiceSession> {
+        const url = `${this.baseUrl}/login`;
         const data = {
             email,
             password
         };
-        const session: Session = await this.httpClient.post(`${this.baseUrl}/login`, data);
+        const session = await this.httpClient.post(url, data);
         return session;
     }
 }
-
-type Session = {
-    name: string,
-    token: string
-};

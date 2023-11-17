@@ -1,4 +1,4 @@
-import AuthServiceHttp from "./services/AuthServiceHttp";
+import { AuthServiceHttp } from "./services";
 import { Router } from "vue-router";
 import "pinia";
 

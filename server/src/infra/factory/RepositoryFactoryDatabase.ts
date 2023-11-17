@@ -8,13 +8,13 @@ export class RepositoryFactoryDatabase implements RepositoryFactory {
 
     constructor (private connection: DatabaseConnection) {}
 
-    create (repository: string): Repository {
-        if (repository === "UserRepository") return new UserRepositoryPostgre(this.connection);
-        if (repository === "StoreRepository") return new StoreRepositoryPostgre(this.connection);
-        if (repository === "RepresentativeRepository") return new RepresentativeRepositoryPostgre(this.connection);
-        if (repository === "ShoppingRepository") return new ShoppingRepositoryPostgre(this.connection);
-        if (repository === "ExpenseRepository") return new ExpenseRepositoryPostgre(this.connection);
-        if (repository === "NotificationRepository") return new NotificationRepositoryPostgre(this.connection);
+    create (type: string): Repository {
+        if (type === "UserRepository") return new UserRepositoryPostgre(this.connection);
+        if (type === "StoreRepository") return new StoreRepositoryPostgre(this.connection);
+        if (type === "RepresentativeRepository") return new RepresentativeRepositoryPostgre(this.connection);
+        if (type === "ShoppingRepository") return new ShoppingRepositoryPostgre(this.connection);
+        if (type === "ExpenseRepository") return new ExpenseRepositoryPostgre(this.connection);
+        if (type === "NotificationRepository") return new NotificationRepositoryPostgre(this.connection);
         throw new RepositoryNotFoundError();
     }
 }

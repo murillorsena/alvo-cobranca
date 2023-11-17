@@ -2,13 +2,13 @@ import { InvalidParamError } from "../../../application/error";
 import { hashSync, compareSync } from "bcrypt";
 
 export class BcryptPassword {
-    private static saltRounds: number = 10;
+    static readonly salt: string | number = 10;
 
     private constructor (readonly value: string) {}
-    
+
     static create (value: string): BcryptPassword {
-        if (!BcryptPassword.validate(value)) throw new InvalidParamError("password");
-        const hashedPassword = hashSync(value, BcryptPassword.saltRounds);
+        if (!BcryptPassword.isValid(value)) throw new InvalidParamError("password");
+        const hashedPassword = hashSync(value, this.salt);
         return new BcryptPassword(hashedPassword);
     }
 
@@ -16,11 +16,12 @@ export class BcryptPassword {
         return new BcryptPassword(value);
     }
 
-    isValid (password: string): boolean {
-        return compareSync(password, this.value);
+    validate (value: string): boolean {
+        const isValidPassword = compareSync(value, this.value);
+        return isValidPassword;
     }
 
-    private static validate (value: string): boolean {
+    private static isValid (value: string): boolean {
         if (!value) return false;
         if (!BcryptPassword.isValidLength(value)) return false;
         if (!BcryptPassword.hasLowerCase(value)) return false;
@@ -48,5 +49,5 @@ export class BcryptPassword {
 
     private static hasDigits (value: string): boolean {
         return /^(?=.*[0-9])/g.test(value);
-    }
+    }    
 }

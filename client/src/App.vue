@@ -2,13 +2,7 @@
 </script>
 
 <template>
-    <div>
+    <v-app>
         <RouterView></RouterView>
-  </div>
+    </v-app>
 </template>
-
-<style scoped>
-    div {
-        background-color: #f2f4f4;
-    }
-</style>

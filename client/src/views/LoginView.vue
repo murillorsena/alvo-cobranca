@@ -4,52 +4,58 @@
 
     const email = ref("");
     const password = ref("");
+    let showPassword = ref(true);   
     const authStore = useAuthStore();
+
+    // function requiredField (field: string) {
+    //     return !!field || "Campo obrigatório"
+    // }
 </script>
 
 <template>
-    <!-- <div class="page-wrap">
-        <div class="session-form-hold">
-            <div class="mx-auto">
-                <v-card class="text-center" width="250">
-                    <h2 class="text-disabled font-weight-medium pa-2">Login</h2>
-                    <v-text-field class="pa-2" type="email" label="E-mail" variant="underlined" required v-model="email"></v-text-field>
-                    <v-text-field class="pa-2" type="password" label="Senha" variant="underlined" required v-model="password"></v-text-field>
-                    <v-btn class="mb-4" size="small" v-on:click="authStore.login(email, password)">Entrar</v-btn>
-                </v-card>
-            </div>
-        </div>
-    </div> -->
-    <container class="pt-6">
-        <v-row>
-            <v-col cols="3">
-                <v-card>
-                    <v-card-title class="text-center">
-                        Login
-                    </v-card-title>
+    <v-container>
+        <v-row class="justify-center">
+            <v-col cols="4">
+                <v-card class="bg-surface">
+                    <v-card-item class="d-flex justify-center pa-5">
+                        <v-card-title>Alvo de Cobrança</v-card-title>
+                    </v-card-item>
+                    <v-card-text class="d-flex justify-center">
+                        <span class="text-h6">Bem vindo!</span>
+                    </v-card-text>
                     <v-card-text>
-                        <v-text-field class="pa-2" type="email" label="E-mail" variant="underlined" required v-model="email"></v-text-field>
-                        <v-text-field class="pa-2" type="password" label="Senha" variant="underlined" required v-model="password"></v-text-field>
-                        <v-btn class="mb-4" size="small" v-on:click="authStore.login(email, password)">Entrar</v-btn>
+                        <v-form>
+                            <v-row>
+                                <v-col cols="12">
+                                    <v-text-field v-model="email" hide-details placeholder="Email" type="email" variant="outlined">
+                                        <template v-slot:prepend-inner>
+                                            <v-icon icon="mdi-email-outline" size="small"></v-icon>
+                                        </template>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col cols="12">
+                                    <v-text-field v-model="password" v-on:keydown.enter="authStore.login(email, password)" hide-details placeholder="Senha" :type="showPassword ? 'password' : 'text'" variant="outlined">
+                                        <template v-slot:prepend-inner>
+                                            <v-icon icon="mdi-lock-outline" size="small"></v-icon>
+                                        </template>
+                                        <template v-slot:append-inner>
+                                            <v-icon v-on:click="showPassword = !showPassword" :icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" size="small"></v-icon>
+                                        </template>
+                                    </v-text-field>
+                                </v-col>
+                                <v-col class="d-flex justify-center" cols="12">
+                                    <v-btn class="bg-surface-variant text-capitalize" v-on:click="authStore.login(email, password)">
+                                        <template v-slot:prepend>
+                                            <v-icon icon="mdi-login"></v-icon>
+                                        </template>
+                                        <span>Entrar</span>
+                                    </v-btn>
+                                </v-col>
+                            </v-row>
+                        </v-form>
                     </v-card-text>
                 </v-card>
             </v-col>
         </v-row>
-    </container>
+    </v-container>
 </template>
-
-<style scoped>
-    .page-wrap {
-        background-color: #242939!important;
-        display: flex;
-        align-items: center;
-        padding: 40px 1rem;
-        height: 100%;
-        min-height: 100vh;
-    }
-    .session-form-hold {
-        width: 100%;
-        max-width: 400px;
-        margin: 0 auto;
-    }
-</style>

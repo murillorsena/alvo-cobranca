@@ -22,7 +22,7 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
         const statement = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
-            WHERE "store_id" = ?;
+            WHERE "store_id" = $1;
         `;
         const representativesData = await this.connection.query(statement, [ storeId ]);
         const representatives: Representative[] = [];
@@ -37,7 +37,7 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
         const statement = `
             SELECT "id", "name", "email", "phone", "address", "store_id"
             FROM "representative"
-            WHERE "store_code" = ?;
+            WHERE "store_code" = $1;
         `;
         const representativesData = await this.connection.query(statement, [ storeCode ]);
         const representatives: Representative[] = [];

@@ -3,7 +3,7 @@ export * from "./EntityId";
 export * from "./user/User";
 export * from "./user/Name";
 export * from "./user/Email";
-export * from "./user/Password";
+export * from "./user/BcryptPassword";
 export * from "./store/Store";
 export * from "./store/Representative";
 export * from "./shopping/Shopping";
