@@ -18,6 +18,7 @@ export class Login implements UseCase {
         if (!isValidPassword) throw new AuthenticationFailureError();
         const token = await this.tokenGenerator.generate(user.email);
         return {
+            id: user.id,
             name: user.name,
             token
         };
@@ -30,6 +31,7 @@ export type LoginInput = {
 };
 
 export type LoginOutput = {
+    id: string,
     name: string,
     token: string
 };

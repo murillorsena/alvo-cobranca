@@ -1,19 +1,19 @@
-import { Expense } from "../../../domain/entity";
-import { ExpenseRepository } from "../../../application/repository";
+import { Debit } from "../../../domain/entity";
+import { DebitRepository } from "../../../application/repository";
 
-export class ExpenseRepositoryInMemory implements ExpenseRepository {
-    public expenses: Expense[];
+export class DebitRepositoryInMemory implements DebitRepository {
+    public debits: Debit[];
 
     constructor () {
-        this.expenses = [];
+        this.debits = [];
     }
     
-    async findAll (): Promise<Expense[]> {
-        const expenses = this.expenses;
-        return expenses;
+    async findAll (): Promise<Debit[]> {
+        const debits = this.debits;
+        return debits;
     }
     
-    async findAllByStoreId (storeId: string): Promise<Expense[]> {
+    async findAllByStoreId (storeId: string): Promise<Debit[]> {
         throw new Error("Method not implemented.");
     }
     

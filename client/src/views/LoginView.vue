@@ -4,8 +4,24 @@
 
     const email = ref("");
     const password = ref("");
-    let showPassword = ref(true);   
+    let showPassword = ref(true);
     const authStore = useAuthStore();
+
+    const valid = ref(true);
+    const loading = ref(false);
+    
+    async function submit (email: string, password: string) {
+        try {
+            loading.value = true;
+            valid.value = true;
+            await authStore.login(email, password);
+            loading.value = false;
+        } catch (error: any) {
+            loading.value = false;
+            valid.value = false;
+            console.log(error);
+        }
+    }
 
     // function requiredField (field: string) {
     //     return !!field || "Campo obrigatório"
@@ -13,18 +29,18 @@
 </script>
 
 <template>
-    <v-container>
-        <v-row class="justify-center">
+    <v-container class="fill-height">
+        <v-row justify="center">
             <v-col cols="4">
-                <v-card class="bg-surface">
+                <v-card max-width="448">
                     <v-card-item class="d-flex justify-center pa-5">
-                        <v-card-title>Alvo de Cobrança</v-card-title>
+                        <v-card-title class="text-h5">Alvo de Cobrança</v-card-title>
                     </v-card-item>
                     <v-card-text class="d-flex justify-center">
                         <span class="text-h6">Bem vindo!</span>
                     </v-card-text>
                     <v-card-text>
-                        <v-form>
+                        <v-form v-model="valid" v-on:submit.prevent="submit(email, password)" ref="form" validate-on="submit lazy">
                             <v-row>
                                 <v-col cols="12">
                                     <v-text-field v-model="email" hide-details placeholder="Email" type="email" variant="outlined">
@@ -34,7 +50,7 @@
                                     </v-text-field>
                                 </v-col>
                                 <v-col cols="12">
-                                    <v-text-field v-model="password" v-on:keydown.enter="authStore.login(email, password)" hide-details placeholder="Senha" :type="showPassword ? 'password' : 'text'" variant="outlined">
+                                    <v-text-field v-model="password" v-on:keydown.enter hide-details placeholder="Senha" :type="showPassword ? 'password' : 'text'" variant="outlined">
                                         <template v-slot:prepend-inner>
                                             <v-icon icon="mdi-lock-outline" size="small"></v-icon>
                                         </template>
@@ -42,9 +58,13 @@
                                             <v-icon v-on:click="showPassword = !showPassword" :icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" size="small"></v-icon>
                                         </template>
                                     </v-text-field>
+                                    <v-alert class="mt-5" v-if="!valid" closable density="comfortable" type="error" variant="tonal">
+                                        <v-alert-title>Credenciais inválidas</v-alert-title>
+                                        <p>Verifique se o email ou a senha foram informados estão corretamente.</p>
+                                    </v-alert>
                                 </v-col>
                                 <v-col class="d-flex justify-center" cols="12">
-                                    <v-btn class="bg-surface-variant text-capitalize" v-on:click="authStore.login(email, password)">
+                                    <v-btn class="bg-surface-variant text-capitalize" :loading="loading" type="submit">
                                         <template v-slot:prepend>
                                             <v-icon icon="mdi-login"></v-icon>
                                         </template>

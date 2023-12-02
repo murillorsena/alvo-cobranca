@@ -4,4 +4,5 @@ import { Repository } from "../repository";
 export interface ShoppingRepository extends Repository {
     findAll (): Promise<Shopping[]>;
     findById (id: string): Promise<Shopping | null>;
+    findByStoreId (storeId: string): Promise<Shopping | null>;
 }

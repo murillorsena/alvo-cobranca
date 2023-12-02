@@ -1,4 +1,4 @@
-import { Entity, EntityId } from "../index";
+import { Entity, EntityId } from "../../entity";
 
 export class Shopping implements Entity {
     

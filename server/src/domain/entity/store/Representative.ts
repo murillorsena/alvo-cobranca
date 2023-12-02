@@ -1,4 +1,4 @@
-import { Entity, EntityId } from "../index";
+import { Entity, EntityId } from "../../entity";
 
 export class Representative implements Entity {
 
@@ -8,18 +8,19 @@ export class Representative implements Entity {
         readonly email: string,
         readonly phone: string,
         readonly address: string,
+        readonly role: string,
         readonly storeId: string
     ) {}
 
     static create (props: Omit<RepresentativeProps, "id">): Representative {
-        const { name, email, phone, address, storeId } = props;
+        const { name, email, phone, address, role, storeId } = props;
         const representativeId = EntityId.generate();
-        return new Representative(representativeId, name, email, phone, address, storeId);
+        return new Representative(representativeId, name, email, phone, address, role, storeId);
     }
 
     static restore (props: RepresentativeProps): Representative {
-        const { id, name, email, phone, address, storeId } = props;
-        return new Representative(id, name, email, phone, address, storeId);
+        const { id, name, email, phone, address, role, storeId } = props;
+        return new Representative(id, name, email, phone, address, role, storeId);
     }
 }
 
@@ -29,5 +30,6 @@ export type RepresentativeProps = {
     email: string,
     phone: string,
     address: string,
+    role: string,
     storeId: string
 };

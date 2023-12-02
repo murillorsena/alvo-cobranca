@@ -7,5 +7,5 @@ export * from "./user/BcryptPassword";
 export * from "./store/Store";
 export * from "./store/Representative";
 export * from "./shopping/Shopping";
-export * from "./expense/Expense";
-export * from "./notification/Notification";
+export * from "./debit/Debit";
+export * from "./action/CollectionAction";

@@ -1,30 +1,25 @@
 <script setup lang="ts">
     import { useAuthStore } from '../stores';
-    import { ref } from "vue";
-
-    defineEmits(["changedTheme"]);
+    import { useTheme } from 'vuetify';
 
     const authStore = useAuthStore();
     const name = authStore.session.name;
-
-    let theme = ref(true);
+    const theme = useTheme();
 
     function toggleTheme () {
-        theme.value = !theme.value;
-        localStorage.setItem("theme", theme.value ? "light" : "dark");
-        // emit("changedTheme", theme.value);
+        theme.global.name.value = theme.global.current.value.dark ? 'light' : 'dark';
     }
 </script>
 
 <template>
     <v-app-bar density="comfortable">
         <v-app-bar-title class="text-center">
-            <span>Alvo de Cobranca</span>
+            <span>Alvo de Cobrança</span>
         </v-app-bar-title>
         <template v-slot:append>
             <v-btn v-on:click="toggleTheme" icon size="small">
-                <v-icon :icon="theme ? 'mdi-weather-sunny' : 'mdi-weather-night'" size="large"></v-icon>
-                <v-tooltip activator="parent" open-delay="500">{{ theme ? 'Claro' : 'Escuro' }}</v-tooltip>
+                <v-icon :icon="!theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'" size="large"></v-icon>
+                <v-tooltip activator="parent" open-delay="500">{{ !theme.global.current.value.dark ? 'Claro' : 'Escuro' }}</v-tooltip>
             </v-btn>
             <v-menu>
                 <template v-slot:activator="{ props }">

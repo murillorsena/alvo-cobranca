@@ -7,4 +7,5 @@ export interface UserRepository extends Repository {
     findById (id: string): Promise<User | null>;
     findByName (name: string): Promise<User | null>;
     findByEmail (email: string): Promise<User | null>;
+    findByStoreId (storeId: string): Promise<User | null>;
 }

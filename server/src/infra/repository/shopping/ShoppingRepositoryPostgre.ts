@@ -41,4 +41,20 @@ export class ShoppingRepositoryPostgre implements ShoppingRepository {
         const shopping = this.restore(shoppingData);
         return shopping;
     }
+
+    async findByStoreId (storeId: string): Promise<Shopping | null> {
+        const statement = `
+            SELECT "id", "code", "name", "description"
+            FROM "shopping"
+            WHERE "shopping"."id" IN (
+                SELECT "shopping_id"
+                FROM "store_shopping"
+                WHERE "store_shopping"."store_id" = $1
+            );
+        `;
+        const [ userData ] = await this.connection.query(statement, [ storeId ]);
+        if (!userData) return null;
+        const user = this.restore(userData);
+        return user;
+    }
 }

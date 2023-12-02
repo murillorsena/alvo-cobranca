@@ -18,4 +18,8 @@ export class ShoppingRepositoryInMemory implements ShoppingRepository {
         if (!shopping) return null;
         return shopping;
     }
+
+    async findByStoreId (storeId: string): Promise<Shopping | null> {
+        throw new Error("Method not implemented.");
+    }
 }

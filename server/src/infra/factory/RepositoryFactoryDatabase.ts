@@ -1,6 +1,6 @@
 import { Repository } from "../../application/repository";
 import { RepositoryFactory } from "../../application/factory";
-import { UserRepositoryPostgre, StoreRepositoryPostgre, RepresentativeRepositoryPostgre, ShoppingRepositoryPostgre, ExpenseRepositoryPostgre, NotificationRepositoryPostgre } from "../repository";
+import { UserRepositoryPostgre, StoreRepositoryPostgre, RepresentativeRepositoryPostgre, ShoppingRepositoryPostgre, DebitRepositoryPostgre, CollectionActionRepositoryPostgre } from "../repository";
 import { RepositoryNotFoundError } from "../../application/error";
 import { DatabaseConnection } from "../database";
 
@@ -13,8 +13,8 @@ export class RepositoryFactoryDatabase implements RepositoryFactory {
         if (type === "StoreRepository") return new StoreRepositoryPostgre(this.connection);
         if (type === "RepresentativeRepository") return new RepresentativeRepositoryPostgre(this.connection);
         if (type === "ShoppingRepository") return new ShoppingRepositoryPostgre(this.connection);
-        if (type === "ExpenseRepository") return new ExpenseRepositoryPostgre(this.connection);
-        if (type === "NotificationRepository") return new NotificationRepositoryPostgre(this.connection);
+        if (type === "DebitRepository") return new DebitRepositoryPostgre(this.connection);
+        if (type === "CollectionActionRepository") return new CollectionActionRepositoryPostgre(this.connection);
         throw new RepositoryNotFoundError();
     }
 }

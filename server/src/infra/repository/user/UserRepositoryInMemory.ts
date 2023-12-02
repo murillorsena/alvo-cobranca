@@ -34,4 +34,8 @@ export class UserRepositoryInMemory implements UserRepository {
         if (!user) return null;
         return user;
     }
+
+    async findByStoreId (storeId: string): Promise<User | null> {
+        throw new Error("Method not implemented.");
+    }
 }

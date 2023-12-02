@@ -65,13 +65,29 @@ export class UserRepositoryPostgre implements UserRepository {
 
     async findByEmail (email: string): Promise<User | null> {
         const statement = `
-            SELECT "id", "name", "email", "password" 
-            FROM "user" 
+            SELECT "id", "name", "email", "password"
+            FROM "user"
             WHERE "email" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ email ]);
         if (!userData) return null;
         const user = this.restore(userData);
         return user;
-    }    
+    }
+
+    async findByStoreId (storeId: string): Promise<User | null> {
+        const statement = `
+            SELECT "id", "name", "email", "password"
+            FROM "user"
+            WHERE "user"."id" IN (
+                SELECT "user_id"
+                FROM "store_user"
+                WHERE "store_user"."store_id" = $1
+            );
+        `;
+        const [ userData ] = await this.connection.query(statement, [ storeId ]);
+        if (!userData) return null;
+        const user = this.restore(userData);
+        return user;
+    }
 }

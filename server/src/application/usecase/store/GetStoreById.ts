@@ -18,12 +18,14 @@ export class GetStoreById implements UseCase {
         const representatives = await this.representativeRepository.findAllByStoreId(input.storeId);
         const data: Representatives[] = [];
         for (const representative of representatives) {
-            const { name, email, phone, address } = representative;
-            data.push({ name, email, phone, address });
+            const { name, email, phone, address, role } = representative;
+            data.push({ name, email, phone, address, role });
         }
         const output: GetStoreByIdOutput = {
             code: store.code,
             name: store.name,
+            email: store.email,
+            phone: store.phone,
             representatives: data
         };
         return output;
@@ -37,6 +39,8 @@ export type GetStoreByIdInput = {
 export type GetStoreByIdOutput = {
     code: string,
     name: string,
+    email: string,
+    phone: string,
     representatives: Representatives[]
 };
 
@@ -44,5 +48,6 @@ type Representatives = {
     name: string,
     email: string,
     phone: string,
-    address: string
+    address: string,
+    role: string
 };

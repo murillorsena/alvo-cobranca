@@ -5,7 +5,7 @@ export * from "./UnauthorizedError";
 export * from "./UserNotFoundError";
 export * from "./StoreNotFoundError";
 export * from "./ShoppingNotFoundError";
-export * from "./NotificationNotFoundError";
+export * from "./CollectionActionNotFoundError";
 export * from "./RepositoryNotFoundError";
 export * from "./UserAlreadyExistsError";
 export * from "./AuthenticationFailureError";

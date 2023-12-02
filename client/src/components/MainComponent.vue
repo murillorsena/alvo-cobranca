@@ -13,12 +13,18 @@
         <v-container>
             <v-row>
                 <v-col cols="3">
-                    <OpenCardComponent class="mb-3" v-bind:items="data.items"></OpenCardComponent>
-                    <OverdueCardComponent class="mb-3" v-bind:items="data.items"></OverdueCardComponent>
-                    <BecomeDueCardComponent class="mb-3" v-bind:items="data.items"></BecomeDueCardComponent>
-                    <DueCardComponent class="mb-3" v-bind:items="data.items"></DueCardComponent>
+                    <OpenCardComponent v-bind:items="data.items"></OpenCardComponent>
                 </v-col>
-                <v-col class="pl-0" cols="9">
+                <v-col cols="3">
+                    <OverdueCardComponent v-bind:items="data.items"></OverdueCardComponent>
+                </v-col>
+                <v-col cols="3">
+                    <BecomeDueCardComponent v-bind:items="data.items"></BecomeDueCardComponent>
+                </v-col>
+                <v-col cols="3">
+                    <DueCardComponent v-bind:items="data.items"></DueCardComponent>
+                </v-col>
+                <v-col class="pt-1" cols="12">
                     <DatatableComponent v-bind:items="data.items"></DatatableComponent>
                 </v-col>
             </v-row>

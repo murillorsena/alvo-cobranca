@@ -2,27 +2,33 @@
     import RegisterComponent from "./RegisterComponent.vue";
     import DebitsComponent from "./DebitsComponent.vue";
     import NotificationsComponent from "./NotificationsComponent.vue";
-    // import RepresentativeComponent from "./RepresentativeComponent.vue";
+    import RepresentativeComponent from "./RepresentativeComponent.vue";
     import { ref } from "vue";
 
     defineProps(["item"]);
 
-    let dialog = ref(false);
+    let isDialogVisible = ref(false);
     let currentTab = ref(0);
+
+    const tabs: any[] = [
+        { text: 'Débitos em Aberto', icon: 'mdi-view-list' },
+        { text: 'Ações de Cobrança', icon: 'mdi-history' },
+        { text: 'Representantes', icon: 'mdi-account-group-outline' }
+    ];
 </script>
 
 <template>
-    <v-dialog v-model="dialog" height="900" max-width="90%">
-        <template v-slot:activator>
-            <v-btn v-on:click="dialog = true" icon size="small" variant="text">
-                <v-icon icon="mdi-clipboard-search-outline"></v-icon>
-                <v-tooltip activator="parent" location="right" open-delay="500">Exibir</v-tooltip>
-            </v-btn>
-        </template>
-        <v-card>
+    <v-btn v-on:click="isDialogVisible = true" icon size="small" variant="text">
+        <v-icon icon="mdi-clipboard-search-outline"></v-icon>
+        <v-tooltip activator="parent" location="right" open-delay="500">Exibir</v-tooltip>
+    </v-btn>
+    <!-- <v-dialog v-model="dialog" max-width="900" persistent> -->
+    <v-dialog class="fill-height" v-model="isDialogVisible" height="85%" width="95%" persistent scrollable>
+        <!-- <v-card color="background" height="100%"> -->
+        <v-card class="overflow-y-hidden" color="background" height="100%">
             <v-card-actions>
                 <v-spacer></v-spacer>
-                <v-btn v-on:click="dialog = false" icon size="small" variant="plain">
+                <v-btn v-on:click="isDialogVisible = false" icon size="small" variant="plain">
                     <v-icon icon="mdi-close"></v-icon>
                 </v-btn>
             </v-card-actions>
@@ -32,34 +38,34 @@
                         <RegisterComponent :register="item"></RegisterComponent>
                     </v-col>
                     <v-col class="pl-0" cols="8">
-                        <v-tabs v-model="currentTab" align-tabs="center" bg-color="surface-variant" density="compact" fixed-tabs>
-                            <v-tab>
-                                <v-icon icon="mdi-view-list" start></v-icon>
-                                <span>Débitos em Aberto</span>
-                            </v-tab>
-                            <v-tab>
-                                <v-icon icon="mdi-chart-timeline-variant" start></v-icon>
-                                <span>Ações de Cobrança</span>
-                            </v-tab>
-                            <!-- <v-tab>
-                                <v-icon icon="mdi-account-group-outline" start></v-icon>
-                                <span class="text-capitalize">Representantes</span>
-                            </v-tab> -->
-                        </v-tabs>
-                        <v-window v-model="currentTab">
-                            <v-window-item>
-                                <DebitsComponent v-bind:expenses="item.expenses"></DebitsComponent>
-                            </v-window-item>
-                            <v-window-item>
-                                <NotificationsComponent :notifications="item.notifications"></NotificationsComponent>
-                            </v-window-item>
-                            <!-- <v-window-item>
-                                <RepresentativeComponent v-bind:representatives="item.representatives"></RepresentativeComponent>
-                            </v-window-item> -->
-                        </v-window>
+                        <v-card class="bg-surface-variant" color="white">
+                            <v-tabs v-model="currentTab" align-tabs="center" density="compact" grow selected-class="v-tabs-pill">
+                                <v-tab v-for="tab in tabs" variant="tonal">
+                                    <v-icon :icon="tab.icon" start></v-icon>
+                                    <span>{{ tab.text }}</span>
+                                </v-tab>
+                            </v-tabs>
+                            <v-window v-model="currentTab">
+                                <v-window-item>
+                                    <DebitsComponent v-bind:debits="item.debits"></DebitsComponent>
+                                </v-window-item>
+                                <v-window-item>
+                                    <NotificationsComponent v-bind:actions="item.actions"></NotificationsComponent>
+                                </v-window-item>
+                                <v-window-item>
+                                    <RepresentativeComponent v-bind:representatives="item.representatives"></RepresentativeComponent>
+                                </v-window-item>
+                            </v-window>
+                        </v-card>
                     </v-col>
                 </v-row>
             </v-card-text>
         </v-card>
     </v-dialog>
 </template>
+
+<style scoped>
+    .v-tabs-pill {
+        background-color: orange;
+    }
+</style>

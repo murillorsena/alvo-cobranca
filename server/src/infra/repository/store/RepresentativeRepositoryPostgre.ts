@@ -13,6 +13,7 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
             email: representativeData.email,
             phone: representativeData.phone,
             address: representativeData.address,
+            role: representativeData.role,
             storeId: representativeData.store_id
         };
         return Representative.restore(props);
@@ -20,7 +21,7 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
         const statement = `
-            SELECT "id", "name", "email", "phone", "address", "store_id"
+            SELECT "id", "name", "email", "phone", "address", "role", "store_id"
             FROM "representative"
             WHERE "store_id" = $1;
         `;
@@ -35,7 +36,7 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
     
     async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
         const statement = `
-            SELECT "id", "name", "email", "phone", "address", "store_id"
+            SELECT "id", "name", "email", "phone", "address", "role", "store_id"
             FROM "representative"
             WHERE "store_code" = $1;
         `;
