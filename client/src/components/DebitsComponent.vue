@@ -63,13 +63,13 @@
         </v-card-title>
         <v-card-text>
             <v-data-table density="compact" fixed-header :headers="tableHeaders" hide-default-footer :items="debits" :items-per-page="itemsPerPage" :page="page" :search="search" :sort-by="sortColumnsBy">
-                <template v-slot:item.dueDate="{ item }">
+                <template v-slot:item.dueDate="{ item }: any">
                     <span>{{ formatDueDate(item.raw.dueDate) }}</span>
                 </template>
-                <template v-slot:item.amount="{ item }">
+                <template v-slot:item.amount="{ item }: any">
                     <span>{{ formatAmount(item.raw.amount) }}</span>
                 </template>
-                <template v-slot:item.status="{ item }">
+                <template v-slot:item.status="{ item }: any">
                     <div v-for="chip in chips">
                         <v-chip v-if="chip.text === item.raw.status" :color="chip.color" :text="chip.text" size="small"></v-chip>
                     </div>

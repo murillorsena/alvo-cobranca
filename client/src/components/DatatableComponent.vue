@@ -1,8 +1,8 @@
-    <script setup lang="ts">
+<script setup lang="ts">
     import DetailListComponent from "./DetailListComponent.vue";
     import { ref } from "vue";
 
-    defineProps(["items"]);
+    defineProps(["items"]) as any;
 
     let search = ref("");
     let page = ref(1);
@@ -51,7 +51,7 @@
         </v-card-title>
         <v-card-text>
             <v-data-table height="100%" v-model:page="page" density="compact" :headers="tableHeaders" :items="items" :sort-by="sortColumnsBy" :search="search" :items-per-page="itemsPerPage" hide-default-footer hover>
-                <template v-slot:item.userName="{ item }">
+                <template v-slot:item.userName="{ item }: any">
                     <v-avatar color="primary" size="x-small">
                         <v-img v-if="item.raw.userName === 'Tim Clarkson'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-1-aac046b6.png"></v-img>
                         <v-img v-if="item.raw.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
@@ -61,10 +61,10 @@
                         <!-- <span>{{ item.raw.userName.slice(0, 2).toUpperCase() }}</span> -->
                     </v-avatar>
                 </template>
-                <template v-slot:item.amount="{ item }">
+                <template v-slot:item.amount="{ item }: any">
                     <div>{{ formatAmount(item.raw.amount) }}</div>
                 </template>
-                <template v-slot:item.actions="{ item }">
+                <template v-slot:item.actions="{ item }: any">
                     <DetailListComponent v-bind:item="item.selectable"></DetailListComponent>
                 </template>
                 <template v-slot:bottom>
