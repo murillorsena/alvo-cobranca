@@ -1,13 +1,5 @@
 <script setup lang="ts">
     defineProps(["register"]);
-
-    const items: any[] = [
-        { text: 'Código', icon: 'mdi-clipboard-text-outline' },
-        { text: 'Loja', icon: 'mdi-home-city-outline' },
-        { text: 'Shopping', icon: 'mdi-office-building-outline' },
-        { text: 'Email', icon: 'mdi-email-outline' },
-        { text: 'Contato', icon: 'mdi-phone-outline' }
-    ];
 </script>
 
 <template>

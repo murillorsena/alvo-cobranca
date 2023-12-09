@@ -4,7 +4,7 @@
 
 <template>
     <v-virtual-scroll height="400" :items="representatives">
-        <template v-slot:default="{ item }">
+        <template v-slot:default="{ item }: any">
             <v-list-item>
                 <v-card variant="tonal">
                     <v-card-item>

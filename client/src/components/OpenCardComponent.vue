@@ -1,27 +1,27 @@
 <script setup lang="ts">
     defineProps(["items"]);
 
-    function teste (data: any[]) {
-        let total = 0;
-        for (const item of data) {
-            for (const value of item.debits) {
-                if (value.status !== "paid") {
-                    total += value.amount;
-                }
-            }
-        }
-        return total;
-    }
+    // function teste (data: any[]) {
+    //     let total = 0;
+    //     for (const item of data) {
+    //         for (const value of item.debits) {
+    //             if (value.status !== "paid") {
+    //                 total += value.amount;
+    //             }
+    //         }
+    //     }
+    //     return total;
+    // }
 
-    function formatAmount (value: any): string {
-        const options = {
-            style: "currency",
-            currency: "BRL",
-            minimumFractionDigits: 2
-        };
-        const amount = Number(value).toLocaleString("pt-BR", options);
-        return amount;
-    }
+    // function formatAmount (value: any): string {
+    //     const options = {
+    //         style: "currency",
+    //         currency: "BRL",
+    //         minimumFractionDigits: 2
+    //     };
+    //     const amount = Number(value).toLocaleString("pt-BR", options);
+    //     return amount;
+    // }
 </script>
 
 <template>

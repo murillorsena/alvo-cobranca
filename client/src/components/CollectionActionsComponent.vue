@@ -49,7 +49,7 @@
         Store: {{ store }}
         User: {{ user }}
         <v-virtual-scroll class="mt-3" v-if="actions.length > 0" height="300" :items="actions">
-            <template v-slot:default="{ item }">
+            <template v-slot:default="{ item }: any">
                 <!-- <v-list-subheader>
                     <span>Today</span>
                 </v-list-subheader> -->
