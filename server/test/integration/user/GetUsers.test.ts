@@ -4,8 +4,9 @@ import { RepositoryNotFoundError } from "../../../src/application/error";
 import { UserRepositoryInMemory } from "../../../src/infra/repository";
 import { RepositoryFactory } from "../../../src/application/factory";
 import { Repository } from "../../../src/application/repository";
+import { userDataMock } from "../../doubles";
 
-describe("GetUsers tests", () => {
+describe("GetUsers tests.", () => {
     let userData: UserProps;
     let userRepository: UserRepositoryInMemory;
 
@@ -17,16 +18,11 @@ describe("GetUsers tests", () => {
     };
 
     beforeEach(() => {
-        userData = {
-            id: "f2b31254-f4bb-48c5-ba64-e6393819ceeb",
-            name: "user1",
-            email: "user1@mail.com",
-            password: "User1p@ssword"
-        };
+        userData = Object.assign({}, userDataMock);
         userRepository = new UserRepositoryInMemory();
     });
     
-    test("Should return a list of users", async () => {
+    test("Should return a list of users.", async () => {
         userRepository.users.push(User.restore(userData));
         const getUsers = new GetUsers(repositoryFactoryMock);
         const users = await getUsers.execute();
@@ -36,13 +32,13 @@ describe("GetUsers tests", () => {
         expect(user.email).toBe(userData.email);
     });
 
-    test("Should return an empty list if there are no registered users", async () => {
+    test("Should return an empty list if there are no registered users.", async () => {
         const getUsers = new GetUsers(repositoryFactoryMock);
         const users = await getUsers.execute();
         expect(users).toHaveLength(0);
     });
 
-    test("Should check if repositoryFactory.create was called", async () => {
+    test("Should check if repositoryFactory.create was called.", async () => {
         userRepository.users.push(User.restore(userData));
         const repositoryFactorySpy = jest.spyOn(repositoryFactoryMock, "create");
         const getUsers = new GetUsers(repositoryFactoryMock);
@@ -51,7 +47,7 @@ describe("GetUsers tests", () => {
         expect(repositoryFactorySpy).toHaveBeenCalledWith("UserRepository");
     });
 
-    test("Should check if userRepository.findAll was called", async function () {
+    test("Should check if userRepository.findAll was called.", async () => {
         userRepository.users.push(User.restore(userData));
         const userRepositorySpy = jest.spyOn(userRepository, "findAll");
         const getUsers = new GetUsers(repositoryFactoryMock);

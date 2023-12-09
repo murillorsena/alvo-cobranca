@@ -1,4 +1,4 @@
-import { Login, GetDebitsByStore } from "./application/usecase";
+import { Login, GetDebitsByStore, CreateCollectionAction } from "./application/usecase";
 import { AuthDecorator } from "./application/decorator";
 import { ExpressAdapter } from "./infra/http";
 import { PgPromiseAdapter } from "./infra/database";
@@ -16,11 +16,13 @@ const tokenGenerator = new JwtAdapter(config.auth.secret);
 
 const login = new Login(repositoryFactory, tokenGenerator);
 const getDebitsByStore = new GetDebitsByStore(repositoryFactory);
+const createCollectionAction = new CreateCollectionAction(repositoryFactory);
 
 new HttpController(
     httpServer, 
     login, 
-    new AuthDecorator(getDebitsByStore, tokenGenerator)
+    new AuthDecorator(getDebitsByStore, tokenGenerator),
+    new AuthDecorator(createCollectionAction, tokenGenerator)
 );
 
 httpServer.listen(config.server.port);

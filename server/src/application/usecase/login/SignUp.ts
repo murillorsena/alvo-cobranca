@@ -21,9 +21,12 @@ export class SignUp implements UseCase {
         };
         const user = User.create(props);
         await this.userRepository.save(user);
-        return {
-            name: user.name
+        const output: SignUpOutput = {
+            id: user.id,
+            name: user.name,
+            email: user.email,
         };
+        return output;
     }
 }
 
@@ -34,5 +37,7 @@ export type SignUpInput = {
 };
 
 export type SignUpOutput = {
-    name: string
+    id: string,
+    name: string,
+    email: string
 };

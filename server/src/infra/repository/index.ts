@@ -8,5 +8,5 @@ export * from "./shopping/ShoppingRepositoryPostgre";
 export * from "./shopping/ShoppingRepositoryInMemory";
 export * from "./debit/DebitRepositoryPostgre";
 export * from "./debit/DebitRepositoryInMemory";
-export * from "./action/CollectionActionRepositoryPostgre";
-export * from "./action/CollectionActionRepositoryInMemory";
+export * from "./collection-action/CollectionActionRepositoryPostgre";
+export * from "./collection-action/CollectionActionRepositoryInMemory";

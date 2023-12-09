@@ -14,18 +14,7 @@ export class DebitRepositoryInMemory implements DebitRepository {
     }
     
     async findAllByStoreId (storeId: string): Promise<Debit[]> {
-        throw new Error("Method not implemented.");
-    }
-    
-    async findStoreId (): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-    
-    async sumAmount (storeId: string): Promise<any> {
-        throw new Error("Method not implemented.");
-    }
-
-    async minDueDate (storeId: string): Promise<any> {
-        throw new Error("Method not implemented.");
+        const debits = this.debits.filter(debit => debit.storeId === storeId);
+        return debits;
     }
 }

@@ -2,10 +2,10 @@
     import { useAuthStore } from "../stores/AuthStore";
     import { ref } from 'vue';
 
+    const authStore = useAuthStore();
     const email = ref("");
     const password = ref("");
     let showPassword = ref(true);
-    const authStore = useAuthStore();
 
     const valid = ref(true);
     const loading = ref(false);

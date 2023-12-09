@@ -1,7 +1,7 @@
 <script setup lang="ts">
     import RegisterComponent from "./RegisterComponent.vue";
     import DebitsComponent from "./DebitsComponent.vue";
-    import NotificationsComponent from "./NotificationsComponent.vue";
+    import CollectionActionsComponent from "./CollectionActionsComponent.vue";
     import RepresentativeComponent from "./RepresentativeComponent.vue";
     import { ref } from "vue";
 
@@ -37,23 +37,23 @@
                     <v-col cols="4">
                         <RegisterComponent :register="item"></RegisterComponent>
                     </v-col>
-                    <v-col class="pl-0" cols="8">
+                    <v-col cols="8">
                         <v-card class="bg-surface-variant" color="white">
                             <v-tabs v-model="currentTab" align-tabs="center" density="compact" grow selected-class="v-tabs-pill">
-                                <v-tab v-for="tab in tabs" variant="tonal">
+                                <v-tab v-for="tab in tabs">
                                     <v-icon :icon="tab.icon" start></v-icon>
                                     <span>{{ tab.text }}</span>
                                 </v-tab>
                             </v-tabs>
                             <v-window v-model="currentTab">
                                 <v-window-item>
-                                    <DebitsComponent v-bind:debits="item.debits"></DebitsComponent>
+                                    <DebitsComponent :debits="item.debits"></DebitsComponent>
                                 </v-window-item>
                                 <v-window-item>
-                                    <NotificationsComponent v-bind:actions="item.actions"></NotificationsComponent>
+                                    <CollectionActionsComponent :store="item.storeId" :user="item.userId" :actions="item.actions"></CollectionActionsComponent>
                                 </v-window-item>
                                 <v-window-item>
-                                    <RepresentativeComponent v-bind:representatives="item.representatives"></RepresentativeComponent>
+                                    <RepresentativeComponent :representatives="item.representatives"></RepresentativeComponent>
                                 </v-window-item>
                             </v-window>
                         </v-card>

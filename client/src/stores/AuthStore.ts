@@ -10,24 +10,24 @@ export const useAuthStore = defineStore("authStore", {
         async login (email: string, password: string) {
             if (!email || !password) return;
             this.session = await this.authService.login(email, password);
-            localStorage.setItem("id", this.session.id);
-            localStorage.setItem("name", this.session.name);
+            localStorage.setItem("userId", this.session.userId);
+            localStorage.setItem("username", this.session.username);
             localStorage.setItem("token", this.session.token);
             this.router.push("/");
         },
         logout () {
             this.session = {};
-            localStorage.removeItem("id");
-            localStorage.removeItem("name");
+            localStorage.removeItem("userId");
+            localStorage.removeItem("username");
             localStorage.removeItem("token");
             this.router.push("/login");
         },
         init () {
-            const userId = localStorage.getItem("id");
-            const name = localStorage.getItem("name");
+            const userId = localStorage.getItem("userId");
+            const username = localStorage.getItem("username");
             const token = localStorage.getItem("token");
             if (userId) this.session.userId = userId;
-            if (name) this.session.name = name;
+            if (username) this.session.username = username;
             if (token) this.session.token = token;
         }
     }

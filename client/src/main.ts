@@ -1,6 +1,6 @@
-import { AuthServiceHttp, ExpenseServiceHttp } from "./services";
-import { useAuthStore } from "./stores";
+import { AuthServiceHttp, DebitServiceHttp, CollectionActionServiceHttp } from "./services";
 import { AxiosAdapter } from "./infra/http";
+import { useAuthStore } from "./stores";
 import { router } from "./routes";
 import App from "./App.vue";
 
@@ -11,8 +11,8 @@ import vuetify from './plugins/vuetify';
 const baseUrl = "http://localhost:3000";
 const httpClient = new AxiosAdapter(router);
 const authService = new AuthServiceHttp(httpClient, baseUrl);
-const expenseService = new ExpenseServiceHttp(httpClient, baseUrl);
-// const notificationService = new NotificationServiceHttp(httpClient, baseUrl);
+const debitService = new DebitServiceHttp(httpClient, baseUrl);
+const collectionActionService = new CollectionActionServiceHttp(httpClient, baseUrl);
 
 const pinia = createPinia();
 
@@ -27,6 +27,6 @@ app.use(pinia);
 app.use(router);
 app.use(vuetify)
 useAuthStore().init();
-app.provide("expenseService", expenseService);
-// app.provide("notificationService", notificationService);
+app.provide("debitService", debitService);
+app.provide("collectionActionService", collectionActionService);
 app.mount('#app');

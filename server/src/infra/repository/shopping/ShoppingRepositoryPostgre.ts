@@ -18,8 +18,13 @@ export class ShoppingRepositoryPostgre implements ShoppingRepository {
 
     async findAll (): Promise<Shopping[]> {
         const statement = `
-            SELECT "id", "code", "name", "description"
-            FROM "shopping";
+            SELECT
+                "id",
+                "code",
+                "name",
+                "description"
+            FROM
+                "shopping";
         `;
         const shoppingsData = await this.connection.query(statement, []);
         const shoppings: Shopping[] = [];
@@ -32,9 +37,15 @@ export class ShoppingRepositoryPostgre implements ShoppingRepository {
 
     async findById (id: string): Promise<Shopping | null> {
         const statement = `
-            SELECT "id", "code", "name", "description"
-            FROM "shopping"
-            WHERE "id" = $1;
+            SELECT
+                "id",
+                "code",
+                "name",
+                "description"
+            FROM
+                "shopping"
+            WHERE
+                "id" = $1;
         `;
         const [ shoppingData ] = await this.connection.query(statement, [ id ]);
         if (!shoppingData) return null;
@@ -44,13 +55,22 @@ export class ShoppingRepositoryPostgre implements ShoppingRepository {
 
     async findByStoreId (storeId: string): Promise<Shopping | null> {
         const statement = `
-            SELECT "id", "code", "name", "description"
-            FROM "shopping"
-            WHERE "shopping"."id" IN (
-                SELECT "shopping_id"
-                FROM "store_shopping"
-                WHERE "store_shopping"."store_id" = $1
-            );
+            SELECT
+                "id",
+                "code",
+                "name",
+                "description"
+            FROM
+                "shopping"
+            WHERE
+                "shopping"."id" IN (
+                    SELECT
+                        "shopping_id"
+                    FROM
+                        "store_shopping"
+                    WHERE
+                        "store_shopping"."store_id" = $1
+                );
         `;
         const [ userData ] = await this.connection.query(statement, [ storeId ]);
         if (!userData) return null;

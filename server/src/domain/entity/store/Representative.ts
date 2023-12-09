@@ -8,7 +8,7 @@ export class Representative implements Entity {
         readonly email: string,
         readonly phone: string,
         readonly address: string,
-        readonly role: string,
+        readonly role: RepresentativeRole,
         readonly storeId: string
     ) {}
 
@@ -30,6 +30,8 @@ export type RepresentativeProps = {
     email: string,
     phone: string,
     address: string,
-    role: string,
+    role: RepresentativeRole,
     storeId: string
 };
+
+type RepresentativeRole = "Representante Legal" | "Fiador";

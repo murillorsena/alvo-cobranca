@@ -21,26 +21,20 @@ export class RepresentativeRepositoryPostgre implements RepresentativeRepository
 
     async findAllByStoreId (storeId: string): Promise<Representative[]> {
         const statement = `
-            SELECT "id", "name", "email", "phone", "address", "role", "store_id"
-            FROM "representative"
-            WHERE "store_id" = $1;
+            SELECT
+                "id",
+                "name",
+                "email",
+                "phone",
+                "address",
+                "role",
+                "store_id"
+            FROM
+                "representative"
+            WHERE
+                "store_id" = $1;
         `;
         const representativesData = await this.connection.query(statement, [ storeId ]);
-        const representatives: Representative[] = [];
-        for (const representativeData of representativesData) {
-            const representative = this.restore(representativeData);
-            representatives.push(representative);
-        }
-        return representatives;
-    }
-    
-    async findAllByStoreCode (storeCode: string): Promise<Representative[]> {
-        const statement = `
-            SELECT "id", "name", "email", "phone", "address", "role", "store_id"
-            FROM "representative"
-            WHERE "store_code" = $1;
-        `;
-        const representativesData = await this.connection.query(statement, [ storeCode ]);
         const representatives: Representative[] = [];
         for (const representativeData of representativesData) {
             const representative = this.restore(representativeData);

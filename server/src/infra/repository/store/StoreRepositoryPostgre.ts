@@ -19,8 +19,14 @@ export class StoreRepositoryPostgre implements StoreRepository {
     
     async findAll (): Promise<Store[]> {
         const statement = `
-            SELECT "id", "code", "name", "email", "phone"
-            FROM "store";
+            SELECT
+                "id",
+                "code",
+                "name",
+                "email",
+                "phone"
+            FROM
+                "store";
         `;
         const storesData = await this.connection.query(statement, []);
         const stores: Store[] = [];
@@ -33,9 +39,16 @@ export class StoreRepositoryPostgre implements StoreRepository {
     
     async findById (id: string): Promise<Store | null> {
         const statement = `
-            SELECT "id", "code", "name", "email", "phone"
-            FROM "store"
-            WHERE "id" = $1;
+            SELECT
+                "id",
+                "code",
+                "name",
+                "email",
+                "phone"
+            FROM
+                "store"
+            WHERE
+                "id" = $1;
         `;
         const [ storeData ] = await this.connection.query(statement, [ id ]);
         if (!storeData) return null;
@@ -45,9 +58,16 @@ export class StoreRepositoryPostgre implements StoreRepository {
     
     async findByCode (code: string): Promise<Store | null> {
         const statement = `
-            SELECT "id", "code", "name", "email", "phone"
-            FROM "store"
-            WHERE "code" = $1;
+            SELECT
+                "id",
+                "code",
+                "name",
+                "email",
+                "phone"
+            FROM
+                "store"
+            WHERE
+                "code" = $1;
         `;
         const [ storeData ] = await this.connection.query(statement, [ code ]);
         if (!storeData) return null;

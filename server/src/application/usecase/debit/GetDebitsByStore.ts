@@ -22,7 +22,7 @@ export class GetDebitsByStore implements UseCase {
 
     async execute (): Promise<GetDebitsByStoreOutput[]> {
         const stores = await this.storeRepository.findAll();
-        const output: any[] = [];
+        const output: GetDebitsByStoreOutput[] = [];
         for (const store of stores) {
             const shopping = await this.getShopping(store.id);
             const user = await this.getUser(store.id);
@@ -36,7 +36,7 @@ export class GetDebitsByStore implements UseCase {
 
     private async getShopping (storeId: string): Promise<ShoppingData> {
         const shopping = await this.shoppingRepository.findByStoreId(storeId);
-        const output = {
+        const output: ShoppingData = {
             id: shopping?.id,
             code: shopping?.code,
             name: shopping?.name,
@@ -47,7 +47,7 @@ export class GetDebitsByStore implements UseCase {
 
     private async getUser (storeId: string): Promise<UserData> {
         const user = await this.userRepository.findByStoreId(storeId);
-        const output = {
+        const output: UserData = {
             id: user?.id,
             name: user?.name,
             email: user?.email
@@ -57,13 +57,14 @@ export class GetDebitsByStore implements UseCase {
 
     private async getDebits (storeId: string): Promise<DebitsData[]> {
         const debits = await this.debitRepository.findAllByStoreId(storeId);
-        const output: any[] = [];
+        const output: DebitsData[] = [];
         for (const debit of debits) {
             output.push({
                 id: debit.id,
                 description: debit.description,
                 amount: debit.amount,
                 dueDate: debit.dueDate,
+                compensationDate: debit.compensationDate,
                 delayedDays: debit.getDelayedDays(),
                 status: debit.getStatus()
             });
@@ -71,15 +72,14 @@ export class GetDebitsByStore implements UseCase {
         return output;
     }
 
-    private async getActions (storeId: string): Promise<ActionsData[]> {
+    private async getActions (storeId: string): Promise<CollectionActionsData[]> {
         const actions = await this.collectionActionRepository.findAllByStoreId(storeId);
-        const output: any[] = [];
+        const output: CollectionActionsData[] = [];
         for (const action of actions) {
             const user = await this.userRepository.findById(action.userId);
             output.push({
                 id: action.id,
                 type: action.type,
-                title: action.title,
                 content: action.content,
                 username: user?.name,
                 createdAt: action.createdAt,
@@ -91,7 +91,7 @@ export class GetDebitsByStore implements UseCase {
 
     private async getRepresentatives (storeId: string): Promise<RepresentativesData[]> {
         const representatives = await this.representativeRepository.findAllByStoreId(storeId);
-        const output: any[] = [];
+        const output: RepresentativesData[] = [];
         for (const representative of representatives) {
             output.push({
                 id: representative.id,
@@ -106,17 +106,24 @@ export class GetDebitsByStore implements UseCase {
     }
 }
 
+type StoreData = {
+    id: string | null | undefined,
+    name: string | null | undefined,
+    email: string | null | undefined,
+    phone: string | null | undefined
+};
+
 type ShoppingData = {
-    id?: string,
-    code?: string,
-    name?: string,
-    description?: string
+    id: string | null | undefined,
+    code: string | null | undefined,
+    name: string | null | undefined,
+    description: string | null | undefined
 };
 
 type UserData = {
-    id?: string,
-    name?: string,
-    email?: string
+    id: string | null | undefined,
+    name: string | null | undefined,
+    email: string | null | undefined
 };
 
 type DebitsData = {
@@ -124,16 +131,16 @@ type DebitsData = {
     description: string,
     amount: number,
     dueDate: Date,
+    compensationDate: Date | null,
     delayedDays: number,
     status: string
 };
 
-type ActionsData = {
+type CollectionActionsData = {
     id: string,
     type: string,
-    title: string,
     content: string,
-    username: string,
+    username: string | null | undefined,
     createdAt: Date,
     updatedAt: Date | null
 };
@@ -148,9 +155,10 @@ type RepresentativesData = {
 };
 
 export type GetDebitsByStoreOutput = {
+    store: StoreData,
     shopping: ShoppingData,
     user: UserData,
-    debits: DebitsData,
-    action: ActionsData,
-    representatives: RepresentativesData
+    debits: DebitsData[],
+    actions: CollectionActionsData[],
+    representatives: RepresentativesData[]
 };

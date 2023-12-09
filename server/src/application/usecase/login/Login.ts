@@ -1,7 +1,7 @@
 import { UseCase } from "../../usecase";
-import { UserNotFoundError, AuthenticationFailureError } from "../../error";
+import { AuthenticationFailureError } from "../../error";
 import { UserRepository } from "../../repository";
-import { RepositoryFactory } from "../../factory/RepositoryFactory";
+import { RepositoryFactory } from "../../factory";
 import { TokenGenerator } from "../../../infra/token-generator";
 
 export class Login implements UseCase {
@@ -13,15 +13,16 @@ export class Login implements UseCase {
 
     async execute (input: LoginInput): Promise<LoginOutput> {
         const user = await this.userRepository.findByEmail(input.email);
-        if (!user) throw new UserNotFoundError();
+        if (!user) throw new AuthenticationFailureError();
         const isValidPassword = user.validadePassword(input.password);
         if (!isValidPassword) throw new AuthenticationFailureError();
         const token = await this.tokenGenerator.generate(user.email);
-        return {
-            id: user.id,
-            name: user.name,
+        const output: LoginOutput = {
+            userId: user.id,
+            userName: user.name,
             token
         };
+        return output;
     }
 }
 
@@ -31,7 +32,7 @@ export type LoginInput = {
 };
 
 export type LoginOutput = {
-    id: string,
-    name: string,
+    userId: string,
+    userName: string,
     token: string
 };

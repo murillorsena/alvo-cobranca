@@ -19,16 +19,23 @@ export class UserRepositoryPostgre implements UserRepository {
     async save (user: User): Promise<void> {
         const { id, name, email, password } = user;
         const statement = `
-            INSERT INTO "user" ("id", "name", "email", "password")
-            VALUES ($1, $2, $3, $4);
+            INSERT INTO "user"
+                ("id", "name", "email", "password")
+            VALUES
+                ($1, $2, $3, $4);
         `;
         await this.connection.query(statement, [ id, name, email, password ]);
     }
     
     async findAll (): Promise<User[]> {
         const statement = `
-            SELECT "id", "name", "email", "password"
-            FROM "user";
+            SELECT
+                "id",
+                "name",
+                "email",
+                "password"
+            FROM
+                "user";
         `;
         const usersData = await this.connection.query(statement, []);
         const users: User[] = [];
@@ -41,9 +48,15 @@ export class UserRepositoryPostgre implements UserRepository {
     
     async findById (id: string): Promise<User | null> {
         const statement = `
-            SELECT "id", "name", "email", "password"
-            FROM "user"
-            WHERE "id" = $1;
+            SELECT
+                "id",
+                "name",
+                "email",
+                "password"
+            FROM
+                "user"
+            WHERE
+                "id" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ id ]);
         if (!userData) return null;
@@ -53,9 +66,15 @@ export class UserRepositoryPostgre implements UserRepository {
     
     async findByName (name: string): Promise<User | null> {
         const statement = `
-            SELECT "id", "name", "email", "password"
-            FROM "user"
-            WHERE "name" = $1;
+            SELECT
+                "id",
+                "name",
+                "email",
+                "password"
+            FROM
+                "user"
+            WHERE
+                "name" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ name ]);
         if (!userData) return null;
@@ -65,9 +84,15 @@ export class UserRepositoryPostgre implements UserRepository {
 
     async findByEmail (email: string): Promise<User | null> {
         const statement = `
-            SELECT "id", "name", "email", "password"
-            FROM "user"
-            WHERE "email" = $1;
+            SELECT
+                "id",
+                "name",
+                "email",
+                "password"
+            FROM
+                "user"
+            WHERE
+                "email" = $1;
         `;
         const [ userData ] = await this.connection.query(statement, [ email ]);
         if (!userData) return null;
@@ -77,13 +102,26 @@ export class UserRepositoryPostgre implements UserRepository {
 
     async findByStoreId (storeId: string): Promise<User | null> {
         const statement = `
-            SELECT "id", "name", "email", "password"
-            FROM "user"
-            WHERE "user"."id" IN (
-                SELECT "user_id"
-                FROM "store_user"
-                WHERE "store_user"."store_id" = $1
-            );
+            SELECT
+                "id",
+                "name",
+                "email",
+                "password"
+            FROM
+                "user"
+            WHERE
+                "user"."id" IN (
+                    SELECT
+                        "shopping_user"."user_id"
+                    FROM
+                        "shopping_user"
+                    JOIN
+                        "store_shopping"
+                    ON
+                        "shopping_user"."shopping_id" = "store_shopping"."shopping_id"
+                    WHERE
+                        "store_shopping"."store_id" = $1
+                );
         `;
         const [ userData ] = await this.connection.query(statement, [ storeId ]);
         if (!userData) return null;

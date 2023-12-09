@@ -1,13 +1,14 @@
-    import { Entity, EntityId } from "../../entity";
+import { Entity, EntityId } from "../../entity";
 import { Period } from "../debit";
 
 export class Debit implements Entity {
-    
+ 
     private constructor (
         readonly id: string,
         readonly description: string,
         readonly amount: number,
         readonly dueDate: Date,
+        readonly compensationDate: Date | null,
         readonly storeId: string,
         readonly shoppingId: string,
         readonly userId: string
@@ -16,24 +17,32 @@ export class Debit implements Entity {
     static create (props: Omit<DebitProps, "id">): Debit {
         const { description, amount, dueDate, storeId, shoppingId, userId } = props;
         const debitId = EntityId.generate();
-        return new Debit(debitId, description, amount, dueDate, storeId, shoppingId, userId);
+        const compensatioDate = null;
+        return new Debit(debitId, description, amount, dueDate, compensatioDate, storeId, shoppingId, userId);
     }
 
     static restore (props: DebitProps): Debit {
-        const { id, description, amount, dueDate, storeId, shoppingId, userId } = props;
-        return new Debit(id, description, amount, dueDate, storeId, shoppingId, userId);
+        const { id, description, amount, dueDate, compensatioDate, storeId, shoppingId, userId } = props;
+        const compensatioDateOrNull = compensatioDate ? new Date(compensatioDate) : compensatioDate;
+        return new Debit(id, description, Number(amount), new Date(dueDate), compensatioDateOrNull, storeId, shoppingId, userId);
     }
 
     getDelayedDays (): number {
-        const today = new Date();
-        const period = new Period(this.dueDate, today);
+        const startDate = this.dueDate;
+        const endDate = this.compensationDate ? new Date(this.compensationDate) : new Date();
+        const period = new Period(startDate, endDate);
         return period.getDiffInDays();
     }
 
     getStatus (): string {
-        if (this.isOverdue()) return "overdue";
-        if (this.isBecomingDue()) return "becoming due";
-        return "open"; 
+        if (this.wasPaid()) return "Pago";
+        if (this.isOverdue()) return "Vencido";
+        if (this.isBecomingDue()) return "Vencendo";
+        return "À Vencer"; 
+    }
+
+    private wasPaid () {
+        return this.compensationDate != null;
     }
 
     private isOverdue (): boolean {
@@ -41,7 +50,7 @@ export class Debit implements Entity {
     }
 
     private isBecomingDue (): boolean {
-        return this.getDelayedDays() >= -5 && this.getDelayedDays() <= 0;
+        return this.getDelayedDays() >= -10 && this.getDelayedDays() <= 0;
     }
 }
 
@@ -50,6 +59,7 @@ export type DebitProps = {
     description: string,
     amount: number,
     dueDate: Date,
+    compensatioDate: Date | null,
     storeId: string,
     shoppingId: string,
     userId: string

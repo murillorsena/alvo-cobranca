@@ -4,8 +4,9 @@ import { UserNotFoundError, RepositoryNotFoundError } from "../../../src/applica
 import { UserRepositoryInMemory } from "../../../src/infra/repository";
 import { RepositoryFactory } from "../../../src/application/factory";
 import { Repository } from "../../../src/application/repository";
+import { userDataMock } from "../../doubles";
 
-describe("GetUserByEmail tests", () => {
+describe("GetUserByEmail tests.", () => {
     let userData: UserProps;
     let userRepository: UserRepositoryInMemory;
 
@@ -17,16 +18,11 @@ describe("GetUserByEmail tests", () => {
     };
 
     beforeEach(() => {
-        userData = {
-            id: "f2b31254-f4bb-48c5-ba64-e6393819ceeb",
-            name: "user1",
-            email: "user1@mail.com",
-            password: "User1p@ssword"
-        };
+        userData = Object.assign({}, userDataMock);
         userRepository = new UserRepositoryInMemory();
     });
 
-    test("Should return a user by email", async () => {
+    test("Should return a user by email.", async () => {
         userRepository.users.push(User.restore(userData));
         const getUserByEmail = new GetUserByEmail(repositoryFactoryMock);
         const getUserByEmailInput = {
@@ -38,7 +34,7 @@ describe("GetUserByEmail tests", () => {
         expect(user.email).toBe(userData.email);
     });
 
-    test("Should return an error if user is not found by email", async () => {
+    test("Should return an error if user is not found by email.", async () => {
         const getUserByEmail = new GetUserByEmail(repositoryFactoryMock);
         const getUserByEmailInput = {
             email: "user@mail.com"
@@ -46,7 +42,7 @@ describe("GetUserByEmail tests", () => {
         expect(() => getUserByEmail.execute(getUserByEmailInput)).rejects.toThrow(new UserNotFoundError());
     });
 
-    test("Should check if repositoryFactory.create waas called", async () => {
+    test("Should check if repositoryFactory.create waas called.", async () => {
         userRepository.users.push(User.restore(userData));
         const repositoryFactorySpy = jest.spyOn(repositoryFactoryMock, "create");
         const getUserByEmail = new GetUserByEmail(repositoryFactoryMock);
@@ -58,7 +54,7 @@ describe("GetUserByEmail tests", () => {
         expect(repositoryFactorySpy).toHaveBeenCalledWith("UserRepository");
     });
 
-    test("Should check if userRepository.findByEmail was called", async () => {
+    test("Should check if userRepository.findByEmail was called.", async () => {
         userRepository.users.push(User.restore(userData));
         const userRepositorySpy = jest.spyOn(userRepository, "findByEmail");
         const getUserByEmail = new GetUserByEmail(repositoryFactoryMock);

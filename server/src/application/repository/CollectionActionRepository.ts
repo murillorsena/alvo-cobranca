@@ -1,5 +1,5 @@
 import { CollectionAction } from "../../domain/entity";
-import { Repository } from ".";
+import { Repository } from "../repository";
 
 export interface CollectionActionRepository extends Repository {
     save (notification: CollectionAction): Promise<void>;

@@ -3,6 +3,7 @@ export interface AuthService {
 }
 
 export type AuthServiceSession = {
-    name: string,
+    userId: string,
+    username: string,
     token: string
 };

@@ -3,7 +3,7 @@
     import { useTheme } from 'vuetify';
 
     const authStore = useAuthStore();
-    const name = authStore.session.name;
+    const username = authStore.session.username;
     const theme = useTheme();
 
     function toggleTheme () {
@@ -17,11 +17,11 @@
             <span>Alvo de Cobrança</span>
         </v-app-bar-title>
         <template v-slot:append>
-            <v-btn v-on:click="toggleTheme" icon size="small">
+            <v-btn class="mx-1" v-on:click="toggleTheme" icon size="small">
                 <v-icon :icon="!theme.global.current.value.dark ? 'mdi-weather-sunny' : 'mdi-weather-night'" size="large"></v-icon>
                 <v-tooltip activator="parent" open-delay="500">{{ !theme.global.current.value.dark ? 'Claro' : 'Escuro' }}</v-tooltip>
             </v-btn>
-            <v-menu>
+        <v-menu width="15%">
                 <template v-slot:activator="{ props }">
                     <v-avatar class="cursor-pointer" v-bind="props" size="small">
                         <v-img src="../../public/img-user.jpg"></v-img>
@@ -34,7 +34,7 @@
                                 <v-img src="../../public/img-user.jpg"></v-img>
                             </v-avatar>
                         </template>
-                        <v-list-item-title>{{ name }}</v-list-item-title>
+                        <v-list-item-title>{{ username }}</v-list-item-title>
                     </v-list-item>
                     <v-divider></v-divider>
                     <v-list-item link>

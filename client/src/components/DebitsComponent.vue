@@ -1,29 +1,14 @@
 <script setup lang="ts">
+    import { Debit } from "../domain/entity";
     import { ref } from "vue";
 
-    defineProps(["debits"]);
+    const props = defineProps(["debits"]);
+    const debits: Debit[] = props.debits;
 
     let page = ref(1);
-    // const itemsPerPage = 5;
-    const itemsPerPage = 6;
     let search = ref("");
-
-    function numberOfPages (itemsLength: number) {
-        return Math.ceil(itemsLength / itemsPerPage);
-    }
-
-    function formatAmount (amount: number) {
-        return (amount / 100).toFixed(2);
-    }
-
-    function resolveStatusVariant (status: string) {
-        switch (status) {
-            case 'due': return { color: 'primary', text: 'À Vencer' };
-            case 'becomeDue': return { color: 'primary', text: 'Vencendo' };
-            case 'overdue': return { color: 'primary', text: 'Vencido' };
-        }
-    }
-
+    const itemsPerPage = 6;
+    
     const tableHeaders: any[] = [
         { key: "description", title: "Descrição", align: "start", width: "30%" },
         { key: "dueDate", title: "Vencimento", align: "start", width: "15%" },
@@ -33,14 +18,40 @@
     ];
 
     const sortColumnsBy: any[] = [
+        { key: "dueDate", order: "asc"},
         { key: "delayedDays", order: "desc"},
         { key: "amount", order: "desc"},
     ];
+
+    const chips: any[] = [
+        { key: "paid", text: "Pago", color: "info" },
+        { key: "open", text: "À Vencer", color: "success" },
+        { key: "becoming due", text: "Vencendo", color: "warning" },
+        { key: "overdue", text: "Vencido", color: "error" },
+    ];
+
+    function numberOfPages (itemsLength: number = 0): number {
+        return Math.ceil(itemsLength / itemsPerPage);
+    }
+
+    function formatAmount (value: any): string {
+        const options = {
+            style: "currency",
+            currency: "BRL",
+            minimumFractionDigits: 2
+        };
+        const amount = Number(value).toLocaleString("pt-BR", options);
+        return amount;
+    }
+
+    function formatDueDate (value: any): string {
+        const date = new Date(value);
+        return date.toLocaleDateString("pt-BR");
+    }
 </script>
 
 <template>
     <v-card rounded="0" height="100%">
-    <!-- <v-card color="white" height="450" rounded="0"> -->
         <v-card-title class="mt-2">
             <v-responsive max-width="30%">
                 <v-text-field v-model="search" clearable density="compact" hide-details label="Pesquisar" variant="solo-filled" single-line type="text">
@@ -52,26 +63,22 @@
         </v-card-title>
         <v-card-text>
             <v-data-table density="compact" fixed-header :headers="tableHeaders" hide-default-footer :items="debits" :items-per-page="itemsPerPage" :page="page" :search="search" :sort-by="sortColumnsBy">
-            <!-- <v-data-table density="compact" fixed-header :headers="tableHeaders" height="500" max-height="100%" hide-default-footer :items="expenses" :items-per-page="itemsPerPage" :page="page" :search="search" :sort-by="sortColumnsBy"> -->
-            <!-- <v-data-table density="compact" height="330" :fixed-header="true" :headers="tableHeaders" hide-default-footer :items="expenses" :items-per-page="itemsPerPage" :page="page" :search="search" :sort-by="sortColumnsBy"> -->
-                <template v-slot:item.amount="{ item }">
-                    <span>{{ item.columns.amount.toLocaleString("pt-br", { style: "currency", currency: "BRL", minimumFractionDigits: 2 }) }}</span>
-                </template>
                 <template v-slot:item.dueDate="{ item }">
-                    <span>{{ new Date(item.columns.dueDate).toLocaleDateString("pt-br") }}</span>
+                    <span>{{ formatDueDate(item.raw.dueDate) }}</span>
+                </template>
+                <template v-slot:item.amount="{ item }">
+                    <span>{{ formatAmount(item.raw.amount) }}</span>
                 </template>
                 <template v-slot:item.status="{ item }">
-                    <v-chip v-if="item.columns.status === 'open'" color="success" size="small">À Vencer</v-chip>
-                    <v-chip v-if="item.columns.status === 'becoming due'" color="warning" size="small">Vencendo</v-chip>
-                    <v-chip v-if="item.columns.status === 'overdue'" color="error" size="small">Vencido</v-chip>
-                </template>
-                <template v-slot:bottom>
-                    <div class="text-center pt-2">
-                        <v-pagination v-model="page" density="compact" :length="numberOfPages(debits?.length)" rounded="circle" total-visible="4"></v-pagination>
+                    <div v-for="chip in chips">
+                        <v-chip v-if="chip.text === item.raw.status" :color="chip.color" :text="chip.text" size="small"></v-chip>
                     </div>
                 </template>
+                <template v-slot:bottom>
+                    <v-pagination v-model="page" density="compact" :length="numberOfPages(debits?.length)" total-visible="4"></v-pagination>
+                </template>
                 <template v-slot:no-data>
-                    <span>Nenhum dado foi encontrado</span>
+                    <span>Nenhum registro foi encontrado</span>
                 </template>
             </v-data-table>
         </v-card-text>

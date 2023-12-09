@@ -55,7 +55,8 @@ export class AxiosAdapter implements HttpClient {
             return response;
         }, (error) => {
             if (error.response.status === 401) {
-                localStorage.removeItem("name");
+                localStorage.removeItem("userId");
+                localStorage.removeItem("username");
                 localStorage.removeItem("token");
                 router.push("/login");
             }
