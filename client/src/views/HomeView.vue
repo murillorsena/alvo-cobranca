@@ -4,7 +4,7 @@
     import { DebitService } from "../services";
     import { inject, onMounted, reactive } from "vue";
 
-    let data: any = reactive({ items: undefined });
+    let data: any = reactive({ items: [] });
 
     onMounted (async () => {
         const debitService = inject("debitService") as DebitService;

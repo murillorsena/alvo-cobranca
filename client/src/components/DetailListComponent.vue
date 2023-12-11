@@ -5,7 +5,7 @@
     import RepresentativeComponent from "./RepresentativeComponent.vue";
     import { ref } from "vue";
 
-    defineProps(["item"]) as any;
+    defineProps(["item"]);
 
     let isDialogVisible = ref(false);
     let currentTab = ref(0);

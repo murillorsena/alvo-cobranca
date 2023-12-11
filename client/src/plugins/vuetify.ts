@@ -11,11 +11,15 @@ import "vuetify/styles";
 const myCustomLightTheme: ThemeDefinition = {
     dark: false,
     colors: {
+        background: '#ffffff',
+        surface: '#f6f6f7',
+        primary: '#6AA84F',
+        secondary: '#363f43'
         // background: '#d2d4d9',
-        background: '#eeeeee',
+        // background: '#eeeeee',
         // surface: '#9fa1a6',
         // surface: '#e1e5e6',
-        surface: '#cdcdcd',
+        // surface: '#cdcdcd',
         // primary: '#d3d8da',
         // primary: '#15191a',
         // primary: '#15191a',
@@ -27,8 +31,11 @@ const myCustomLightTheme: ThemeDefinition = {
 const myCustomDarkTheme: ThemeDefinition = {
     dark: true,
     colors: {
-        background: '#363636',
-        surface: '#2d2d2d',
+        // background: '#363636',
+        background: '#1b1b1f',
+        // surface: '#2d2d2d',
+        // surface: '#161618',
+        surface: '#202127',
         primary: '#6AA84F',
         secondary: '#363f43'
     }

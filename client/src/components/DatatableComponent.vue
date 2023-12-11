@@ -51,21 +51,20 @@
         </v-card-title>
         <v-card-text>
             <v-data-table height="100%" v-model:page="page" density="compact" :headers="tableHeaders" :items="items" :sort-by="sortColumnsBy" :search="search" :items-per-page="itemsPerPage" hide-default-footer hover>
-                <template v-slot:item.userName="{ item }: any">
+                <template i v-slot:item.userName="{ item }: any">
                     <v-avatar color="primary" size="x-small">
-                        <v-img v-if="item.raw.userName === 'Tim Clarkson'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-1-aac046b6.png"></v-img>
-                        <v-img v-if="item.raw.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
+                        <v-img v-if="item.userName === 'Tim Clarkson'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-1-aac046b6.png"></v-img>
+                        <v-img v-if="item.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
                         <v-tooltip activator="parent" location="right" open-delay="500">
-                            <span>{{ item.raw.userName }}</span>
+                            <span>{{ item.userName }}</span>
                         </v-tooltip>
-                        <!-- <span>{{ item.raw.userName.slice(0, 2).toUpperCase() }}</span> -->
                     </v-avatar>
                 </template>
                 <template v-slot:item.amount="{ item }: any">
-                    <div>{{ formatAmount(item.raw.amount) }}</div>
+                    <div>{{ formatAmount(item.amount) }}</div>
                 </template>
                 <template v-slot:item.actions="{ item }: any">
-                    <DetailListComponent v-bind:item="item.selectable"></DetailListComponent>
+                    <DetailListComponent v-bind:item="item"></DetailListComponent>
                 </template>
                 <template v-slot:bottom>
                     <v-pagination v-model="page" density="compact" :length="numberOfPages(items?.length)" total-visible="4"></v-pagination>
