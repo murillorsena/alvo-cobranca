@@ -52,6 +52,7 @@ export class DebitServiceHttp implements DebitService {
                 delayedDays.push(debit.delayedDays);
             }
         }
-        return Math.max(...delayedDays);
+        let totalDelayedDays = Math.max(...delayedDays);
+        return totalDelayedDays === -Infinity ? 0 : totalDelayedDays;
     }
 }

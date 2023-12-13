@@ -4,28 +4,34 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'store',
+      'collection_action', 
       {
         id: {
           type: Sequelize.UUID,
           allowNull: false,
           primaryKey: true
         },
-        code: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-          unique: true
-        },
-        name: {
+        type: {
           type: Sequelize.TEXT,
           allowNull: false
         },
-        email: {
+        content: {
           type: Sequelize.TEXT,
           allowNull: false
         },
-        phone: {
-          type: Sequelize.TEXT,
+        created_at: {
+          type: Sequelize.DATE,
+          allowNull: false
+        },
+        updated_at: {
+          type: Sequelize.DATE
+        },
+        store_id: {
+          type: Sequelize.UUID,
+          allowNull: false
+        },
+        user_id: {
+          type: Sequelize.UUID,
           allowNull: false
         }
       }
@@ -33,6 +39,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('store');
+    await queryInterface.dropTable('collection_action');
   }
 };

@@ -4,35 +4,37 @@
 module.exports = {
   async up (queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'representative',
+      'debit',
       {
         id: {
           type: Sequelize.UUID,
           allowNull: false,
           primaryKey: true
         },
-        name: {
+        description: {
           type: Sequelize.TEXT,
           allowNull: false
         },
-        email: {
-          type: Sequelize.TEXT,
-          allowNull: false,
-          unique: true
-        },
-        phone: {
-          type: Sequelize.TEXT,
+        amount: {
+          type: Sequelize.NUMERIC,
           allowNull: false
         },
-        address: {
-          type: Sequelize.TEXT,
+        due_date: {
+          type: Sequelize.DATE,
           allowNull: false
         },
-        role: {
-          type: Sequelize.TEXT,
-          allowNull: false
+        compensation_date: {
+          type: Sequelize.DATE
         },
         store_id: {
+          type: Sequelize.UUID,
+          allowNull: false
+        },
+        shopping_id: {
+          type: Sequelize.UUID,
+          allowNull: false
+        },
+        user_id: {
           type: Sequelize.UUID,
           allowNull: false
         }
@@ -41,6 +43,6 @@ module.exports = {
   },
 
   async down (queryInterface, Sequelize) {
-    await queryInterface.dropTable('representative');
+    await queryInterface.dropTable('debit');
   }
 };

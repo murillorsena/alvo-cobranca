@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 const collectionAction = sequelize.define(
-    'collection_action2', 
+    'collection_action', 
     {
         id: {
             type: DataTypes.UUID,
@@ -19,19 +19,18 @@ const collectionAction = sequelize.define(
             allowNull: false
         },
         created_at: {
-            type: DataTypes.TIMESTAMP,
+            type: DataTypes.DATE,
             allowNull: false
         },
         updated_at: {
-            type: DataTypes.TIMESTAMP,
-            allowNull: false
+            type: DataTypes.DATE
         },
         store_id: {
-            type: DataTypes.TIMESTAMP,
+            type: DataTypes.UUID,
             allowNull: false
         },
         user_id: {
-            type: DataTypes.TIMESTAMP,
+            type: DataTypes.UUID,
             allowNull: false
         }
     }, 

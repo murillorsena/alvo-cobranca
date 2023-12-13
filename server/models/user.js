@@ -3,7 +3,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 const sequelize = new Sequelize(process.env.DATABASE_URL);
 
 const user = sequelize.define(
-    'user2',
+    'user',
     {
         id: {
             type: DataTypes.UUID,
