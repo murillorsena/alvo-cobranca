@@ -46,8 +46,6 @@
 
 <template>
     <v-card rounded="0">
-        Store: {{ store }}
-        User: {{ user }}
         <v-virtual-scroll class="mt-3" v-if="actions.length > 0" height="300" :items="actions">
             <template v-slot:default="{ item }: any">
                 <!-- <v-list-subheader>
@@ -61,11 +59,6 @@
                             </div>
                         </v-avatar>
                     </template>
-                    <!-- <v-list-item-title>
-                        <div v-for="prop in listProps">
-                            <span v-if="item.type === prop.type">{{ prop.title }}</span>
-                        </div>
-                    </v-list-item-title> -->
                     <v-list-item-subtitle>
                         <div class="font-weight-medium">
                             <span class="text-primary">{{ item.username }}, {{ formatLocaleTime(item.createdAt) }}h</span>
@@ -78,7 +71,7 @@
         <div v-else class="d-flex justify-center">Sem ações de cobrança</div>
         <v-card-text>
             <v-responsive>
-                <v-text-field v-model="content" v-on:keydown.enter="history.addCollectionAction({ type: getTypeOfSelectedItem(selectedItem[0]), content, storeId: store, userId: user })" density="comfortable" hide-details placeholder="Mensagem" type="text" variant="solo-filled">
+                <v-text-field v-model="content" v-on:keydown.enter="history.addCollectionAction({ type: getTypeOfSelectedItem(selectedItem[0]), content, storeId: store, userId: user })" density="comfortable" hide-details placeholder="Digite sua mensagem..." type="text" variant="solo-filled">
                     <template v-slot:append-inner>
                         <v-btn id="menu" icon size="small" variant="text">
                             <v-icon :icon="iconMenu ? iconMenu : 'mdi-menu-down'"></v-icon>

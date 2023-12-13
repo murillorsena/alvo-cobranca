@@ -14,7 +14,7 @@
 <template>
     <v-app-bar density="comfortable">
         <v-app-bar-title class="text-center">
-            <span>Alvo de Cobrança</span>
+            <span>SisCobaz</span>
         </v-app-bar-title>
         <template v-slot:append>
             <v-btn class="mx-1" v-on:click="toggleTheme" icon size="small">

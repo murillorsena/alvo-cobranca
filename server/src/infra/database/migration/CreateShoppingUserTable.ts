@@ -1,7 +1,7 @@
 import { DatabaseMigration } from ".";
 import { DatabaseConnection } from "..";
 
-export class CreateShoppingUser implements DatabaseMigration {
+export class CreateShoppingUserTable implements DatabaseMigration {
 
     constructor (private connection: DatabaseConnection) {}
 

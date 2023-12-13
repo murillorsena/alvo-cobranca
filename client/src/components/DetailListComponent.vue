@@ -38,13 +38,14 @@
                         <RegisterComponent :register="item"></RegisterComponent>
                     </v-col>
                     <v-col cols="8">
-                        <v-card class="bg-surface-variant" color="white">
+                        <v-card>
                             <v-tabs v-model="currentTab" align-tabs="center" density="compact" grow selected-class="v-tabs-pill">
                                 <v-tab v-for="tab in tabs">
                                     <v-icon :icon="tab.icon" start></v-icon>
                                     <span>{{ tab.text }}</span>
                                 </v-tab>
                             </v-tabs>
+                            <v-divider></v-divider>
                             <v-window v-model="currentTab">
                                 <v-window-item>
                                     <DebitsComponent :debits="item.debits"></DebitsComponent>

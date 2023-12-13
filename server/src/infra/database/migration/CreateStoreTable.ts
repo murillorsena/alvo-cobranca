@@ -11,7 +11,7 @@ export class CreateStoreTable implements DatabaseMigration {
 
             CREATE TABLE IF NOT EXISTS "store" (
                 "id" UUID NOT NULL,
-                "code" TEXT NOT NULL,
+                "code" TEXT NOT NULL UNIQUE,
                 "name" TEXT NOT NULL,
                 "email" TEXT NOT NULL,
                 "phone" TEXT NOT NULL,

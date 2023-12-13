@@ -22,10 +22,6 @@
             console.log(error);
         }
     }
-
-    // function requiredField (field: string) {
-    //     return !!field || "Campo obrigatório"
-    // }
 </script>
 
 <template>
@@ -34,7 +30,7 @@
             <v-col cols="4">
                 <v-card max-width="448">
                     <v-card-item class="d-flex justify-center pa-5">
-                        <v-card-title class="text-h5">Alvo de Cobrança</v-card-title>
+                        <v-card-title class="text-h5">SisCobaz</v-card-title>
                     </v-card-item>
                     <v-card-text class="d-flex justify-center">
                         <span class="text-h6">Bem vindo!</span>
@@ -58,9 +54,9 @@
                                             <v-icon v-on:click="showPassword = !showPassword" :icon="showPassword ? 'mdi-eye-outline' : 'mdi-eye-off-outline'" size="small"></v-icon>
                                         </template>
                                     </v-text-field>
-                                    <v-alert class="mt-5" v-if="!valid" closable density="comfortable" type="error" variant="tonal">
+                                    <v-alert class="mt-5" v-if="!valid" closable density="comfortable" type="error" variant="outlined">
                                         <v-alert-title>Credenciais inválidas</v-alert-title>
-                                        <p>Verifique se o email ou a senha foram informados estão corretamente.</p>
+                                        <p>Verifique se o email ou a senha foram digitados corretamente.</p>
                                     </v-alert>
                                 </v-col>
                                 <v-col class="d-flex justify-center" cols="12">
