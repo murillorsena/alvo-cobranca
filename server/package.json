@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node ./dist/src/main.js",
-    "build": "rimraf ./dist && tsc",
+    "build": "rimraf ./dist && npx tsc",
     "dev": "nodemon --exec ts-node ./src/main.ts",
     "test": "npx jest --runInBand",
     "test:coverage": "npx jest --coverage",
