@@ -3,7 +3,7 @@
     import { useTheme } from 'vuetify';
 
     const authStore = useAuthStore();
-    const username = authStore.session.username;
+    const userName = authStore.session.userName;
     const theme = useTheme();
 
     function toggleTheme () {
@@ -30,29 +30,29 @@
                 <v-list density="comfortable">
                     <v-list-item>
                         <template v-slot:prepend>
-                            <v-avatar class="mr-3" size="small">
+                            <v-avatar size="small">
                                 <v-img src="../../public/img-user.jpg"></v-img>
                             </v-avatar>
                         </template>
-                        <v-list-item-title>{{ username }}</v-list-item-title>
+                        <v-list-item-title>{{ userName }}</v-list-item-title>
                     </v-list-item>
                     <v-divider></v-divider>
                     <v-list-item link>
                         <template v-slot:prepend>
-                            <v-icon class="mr-3" icon="mdi-account-outline" size="small"></v-icon>
+                            <v-icon icon="mdi-account-outline" size="small"></v-icon>
                         </template>
                         <v-list-item-title>Perfil</v-list-item-title>
                     </v-list-item>
                     <v-list-item link>
                         <template v-slot:prepend>
-                            <v-icon class="mr-3" icon="mdi-cog-outline" size="small"></v-icon>
+                            <v-icon icon="mdi-cog-outline" size="small"></v-icon>
                         </template>
                         <v-list-item-title>Configurações</v-list-item-title>
                     </v-list-item>
                     <v-divider></v-divider>
                     <v-list-item v-on:click="authStore.logout()" link>
                         <template v-slot:prepend>
-                            <v-icon class="mr-3" icon="mdi-logout" size="small"></v-icon>
+                            <v-icon icon="mdi-logout" size="small"></v-icon>
                         </template>
                         <v-list-item-title>Logout</v-list-item-title>
                     </v-list-item>
