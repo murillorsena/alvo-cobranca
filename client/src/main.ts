@@ -3,14 +3,13 @@ import { AxiosAdapter } from "./infra/http";
 import { useAuthStore } from "./stores";
 import { router } from "./routes";
 import App from "./App.vue";
-import "dotenv/config";
 
 import { createApp } from "vue";
 import { createPinia } from "pinia";
 import vuetify from './plugins/vuetify';
 
 
-const baseUrl = String(process.env.BASE_URL);
+const baseUrl = import.meta.env.VITE_API_ENDPOINT;
 const httpClient = new AxiosAdapter(router);
 const authService = new AuthServiceHttp(httpClient, baseUrl);
 const debitService = new DebitServiceHttp(httpClient, baseUrl);
