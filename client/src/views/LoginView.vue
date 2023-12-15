@@ -20,6 +20,7 @@
             loading.value = false;
             valid.value = false;
             console.log(error);
+            console.log("que merda, porra!");
         }
     }
 </script>
