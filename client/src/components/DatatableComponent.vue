@@ -41,7 +41,7 @@
 <template>
     <v-card>
         <v-card-title class="mt-2">
-            <v-responsive max-width="40%">
+            <v-responsive max-width="30%">
                 <v-text-field v-model="search" label="Pesquisar" type="text" density="compact" variant="solo-filled" clearable single-line hide-details>
                     <template v-slot:prepend-inner>
                         <v-icon icon="mdi-magnify" size="small"></v-icon>
@@ -52,7 +52,7 @@
         <v-card-text>
             <v-data-table height="100%" v-model:page="page" density="compact" :headers="tableHeaders" :items="items" :sort-by="sortColumnsBy" :search="search" :items-per-page="itemsPerPage" hide-default-footer hover>
                 <template i v-slot:item.userName="{ item }: any">
-                    <v-avatar color="primary" size="x-small">
+                    <v-avatar size="x-small">
                         <v-img v-if="item.userName === 'Tim Clarkson'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-1-aac046b6.png"></v-img>
                         <v-img v-if="item.userName === 'Kane Frost'" src="https://demos.themeselection.com/materio-vuetify-vuejs-admin-template/demo-1/assets/avatar-2-0ae005f8.png"></v-img>
                         <v-tooltip activator="parent" location="right" open-delay="500">

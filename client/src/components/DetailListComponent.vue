@@ -22,9 +22,7 @@
         <v-icon icon="mdi-clipboard-search-outline"></v-icon>
         <v-tooltip activator="parent" location="right" open-delay="500">Exibir</v-tooltip>
     </v-btn>
-    <!-- <v-dialog v-model="dialog" max-width="900" persistent> -->
     <v-dialog class="fill-height" v-model="isDialogVisible" height="85%" width="95%" persistent scrollable>
-        <!-- <v-card color="background" height="100%"> -->
         <v-card class="overflow-y-hidden" color="background" height="100%">
             <v-card-actions>
                 <v-spacer></v-spacer>
@@ -39,7 +37,7 @@
                     </v-col>
                     <v-col cols="8">
                         <v-card>
-                            <v-tabs v-model="currentTab" align-tabs="center" density="compact" grow selected-class="v-tabs-pill">
+                            <v-tabs v-model="currentTab" align-tabs="center" bg-color="bg-red" density="compact" grow selected-class="v-tabs-pill">
                                 <v-tab v-for="tab in tabs">
                                     <v-icon :icon="tab.icon" start></v-icon>
                                     <span>{{ tab.text }}</span>

@@ -3,10 +3,10 @@
 </script>
 
 <template>
-    <v-virtual-scroll height="400" :items="representatives">
+    <v-virtual-scroll height="600" :items="representatives">
         <template v-slot:default="{ item }: any">
             <v-list-item>
-                <v-card variant="tonal">
+                <v-card>
                     <v-card-item>
                         <v-card-title>
                             <div>{{ item.name }}</div>
