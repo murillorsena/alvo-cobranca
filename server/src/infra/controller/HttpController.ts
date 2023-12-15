@@ -24,7 +24,6 @@ export class HttpController {
             };
             console.log("controller -> input: ", input);
             const output = await this.login.execute(input);
-            console.log("controller -> output: ", output);
             return output;
         });
 
