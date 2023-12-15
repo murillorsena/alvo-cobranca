@@ -8,12 +8,12 @@ export class AuthServiceHttp implements AuthService {
     async login (email: string, password: string): Promise<AuthServiceSession> {
         const url = `${this.baseUrl}/login`;
         console.log("url: ", url);
-        console.log("url2: ", `${this.baseUrl}login`);
         const data = {
             email,
             password
         };
         const session = await this.httpClient.post(url, data);
+        console.log("session: ", session);
         return session;
     }
 }

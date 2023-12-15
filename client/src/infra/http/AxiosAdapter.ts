@@ -17,11 +17,14 @@ export class AxiosAdapter implements HttpClient {
     }
 
     async post (url: string, data: any): Promise<any> {
+        console.log("axios -> url: ", url);
+        console.log("axios -> data: ", data);
         const response = await axios({
             url,
             method: "post",
             data
         });
+        console.log("axios -> response: ", response);
         return response.data;
     }
 
@@ -56,7 +59,7 @@ export class AxiosAdapter implements HttpClient {
         }, (error) => {
             if (error.response.status === 401) {
                 localStorage.removeItem("userId");
-                localStorage.removeItem("username");
+                localStorage.removeItem("userName");
                 localStorage.removeItem("token");
                 router.push("/login");
             }
