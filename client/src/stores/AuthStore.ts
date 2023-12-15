@@ -8,8 +8,11 @@ export const useAuthStore = defineStore("authStore", {
     },
     actions: {
         async login (email: string, password: string) {
+            console.log("email: ", email);
+            console.log("password: ", password);
             if (!email || !password) return;
             this.session = await this.authService.login(email, password);
+            console.log("session: ", this.session);
             localStorage.setItem("userId", this.session.userId);
             localStorage.setItem("userName", this.session.userName);
             localStorage.setItem("token", this.session.token);
