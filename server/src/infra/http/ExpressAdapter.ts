@@ -23,7 +23,8 @@ export class ExpressAdapter implements HttpServer {
                 const statusCode = error.statusCode ?? 500;
                 const message = error.message ?? "Internal server error";
                 res.status(statusCode).json({
-                    message
+                    message: message,
+                    stack: error.stack
                 });
             }
         })
