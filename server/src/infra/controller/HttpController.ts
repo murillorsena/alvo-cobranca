@@ -22,7 +22,9 @@ export class HttpController {
                 email: body.email,
                 password: body.password
             };
+            console.log("controller -> input: ", input);
             const output = await this.login.execute(input);
+            console.log("controller -> output: ", output);
             return output;
         });
 

@@ -96,7 +96,9 @@ export class UserRepositoryPostgre implements UserRepository {
         `;
         const [ userData ] = await this.connection.query(statement, [ email ]);
         if (!userData) return null;
+        console.log("repository -> userData: ", userData);
         const user = this.restore(userData);
+        console.log("repository -> user: ", user);
         return user;
     }
 
