@@ -1,8 +1,8 @@
 export class AuthenticationFailureError extends Error {
     readonly statusCode: number;
 
-    constructor (data: any) {
-        super("Authentication failure: " + data);
+    constructor () {
+        super("Authentication failure.");
         this.statusCode = 400;
     }
 }

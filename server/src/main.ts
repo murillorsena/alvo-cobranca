@@ -11,6 +11,8 @@ const httpServer = new ExpressAdapter();
 const connection = new PgPromiseAdapter(config.database.url);
 connection.connect();
 
+console.log(config);
+
 const repositoryFactory = new RepositoryFactoryDatabase(connection);
 const tokenGenerator = new JwtAdapter(config.auth.secret);
 

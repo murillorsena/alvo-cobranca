@@ -13,7 +13,8 @@ export class AuthMiddleware {
             }
         }
         return res.status(401).json({
-            message: "Authentication failure"
+            message: "Authentication failure.",
+            url: req.url
         });
     }
 }

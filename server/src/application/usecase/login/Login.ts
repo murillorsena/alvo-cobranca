@@ -15,10 +15,10 @@ export class Login implements UseCase {
         console.log("login -> input: ", input);
         const user = await this.userRepository.findByEmail(input.email);
         console.log("login -> user: ", user);
-        if (!user) throw new AuthenticationFailureError("user: " + user);
+        if (!user) throw new AuthenticationFailureError();
         const isValidPassword = user.validadePassword(input.password);
         console.log("login -> isValidPassword: ", isValidPassword);
-        if (!isValidPassword) throw new AuthenticationFailureError("isValidPasssword: " + isValidPassword);
+        if (!isValidPassword) throw new AuthenticationFailureError();
         const token = await this.tokenGenerator.generate(user.email);
         const output: LoginOutput = {
             userId: user.id,
