@@ -12,7 +12,7 @@ export class AuthDecorator implements UseCase {
                 const payload = await this.tokenGenerator.verify(input.token);
                 return this.useCase.execute(input);
             } catch (error: any) {
-                throw new UnauthorizedError("error: ", error);
+                throw new UnauthorizedError("error: " + error);
             }
         }
         return this.useCase.execute(input);

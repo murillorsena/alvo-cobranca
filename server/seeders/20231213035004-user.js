@@ -10,7 +10,8 @@ module.exports = {
           id: "4ab1088d-33b6-46fd-8e88-f0924de23c00",
           name: "Murillo",
           email: "murillo@mail.com",
-          password: "$2b$10$3ViNimPsLW52u1E96YQfLe1qc.L7pwmmkwAoLNPPnK3e30K51xeka"
+          password: "$2b$10$AcBrxdEvw8YWxSz0LdFQCe6TnN5jchbrZNu6.YaMXfEBxny.Vgvmm"
+          // password: "$2b$10$3ViNimPsLW52u1E96YQfLe1qc.L7pwmmkwAoLNPPnK3e30K51xeka"
         }
       ]
     );
