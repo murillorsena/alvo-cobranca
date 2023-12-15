@@ -55,7 +55,7 @@ describe("Login tests.", function () {
             email: userData.email,
             password: userData.password
         };
-        expect(() => login.execute(input)).rejects.toThrow(new AuthenticationFailureError(""));
+        expect(() => login.execute(input)).rejects.toThrow(new AuthenticationFailureError());
     });
     
     test("Should return an error if the password is invalid.", async () => {
@@ -66,7 +66,7 @@ describe("Login tests.", function () {
             email: userData.email,
             password: ""
         };
-        expect(() => login.execute(input)).rejects.toThrow(new AuthenticationFailureError(""));
+        expect(() => login.execute(input)).rejects.toThrow(new AuthenticationFailureError());
     });
 
     test("Should check if userRepository.findByEmail is called.", async () => {
